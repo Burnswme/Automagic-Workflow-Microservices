@@ -3,8 +3,13 @@ package com.revature.aw;
 import static org.junit.Assert.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +37,19 @@ public class AwBoardsApplicationTests
 	private BoardCtrl bc;
 	
 	private Board bd;
+	private LocalDateTime date = LocalDateTime.of(2017, Month.NOVEMBER, 17, 12, 27, 28);
 	
+	@Before
+	public void setUp()
+	{
+		bd = new Board(999,"test",Timestamp.valueOf(date),2);
+		dao.save(bd);
+	}
+	@After
+	public void tearDown()
+	{
+		dao.delete(bd);
+	}
 	@Test
 	public void contextLoads() 
 	{
@@ -43,13 +60,12 @@ public class AwBoardsApplicationTests
 	@Test
 	public void testDaoFindOne()
 	{
-		String time = "17-NOV-17 12.27.28[.084808000] PM";
-		bd = new Board(999,"test", Timestamp.valueOf(time),2);
-		
+		//Create a new board to test against the database
 		Board test = new Board();
 		int id = bd.getId();
+		System.out.println("Id number: " + id);
 		test = dao.findOne(id);
-		
+		System.out.println("Test value: " + test);
 		assertEquals(bd, test);
 	}
 	
@@ -57,8 +73,6 @@ public class AwBoardsApplicationTests
 	@Test
 	public void testDaoSave()
 	{
-		String time = "17-NOV-17 12.27.28[.084808000] PM";
-		bd = new Board(100,"test board",Timestamp.valueOf(time),3);
 		Board test = new Board();
 		test = dao.save(bd);
 		
@@ -72,20 +86,15 @@ public class AwBoardsApplicationTests
 	@Test
 	public void testDaoFindById()
 	{
-		int [] boards = {900,901,902};
-		String time = "17-NOV-17 12.27.28[.084808000] PM";
+		int [] boards = new int[3];
 		ArrayList<Board> list = new ArrayList<>();
 		ArrayList<Board> result = new ArrayList<>();
 		
-		for(int i = 900; i < 903; i++)
+		for(int i = 0; i < boards.length; i++)
 		{
-			//Delete any previous instances of the boards from previous tests
-			Board d = new Board();
-			d.setId(i);
-			dao.delete(d);
-			
+	
 			//Create a new board and save it to the database as well as list
-			Board b = new Board(i,"test",Timestamp.valueOf(time),2);
+			Board b = new Board(i,"test",Timestamp.valueOf(date),2);
 			dao.save(b);
 			list.add(b);
 		}
@@ -97,9 +106,6 @@ public class AwBoardsApplicationTests
 	@Test
 	public void testDaoDelete()
 	{
-		//Create a new board and persist it to the database
-		String time = "17-NOV-17 12.27.28[.084808000] PM";
-		bd = new Board(998,"test",Timestamp.valueOf(time),2);
 		dao.save(bd);
 		
 		//Delete the board
