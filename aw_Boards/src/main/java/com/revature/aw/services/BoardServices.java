@@ -26,13 +26,18 @@ public class BoardServices
 	public List<Board> getBoardsByUserId(int[] boardIds)
 	{
 		List<Board> boards = new ArrayList();
-		boards = dao.findById(boardIds);
+		for(int i = 0; i < boardIds.length; i++)
+		{
+			Board b = new Board();
+			b = dao.findOne(boardIds[i]);
+			boards.add(b);
+		}
 		return boards;
 	}
-	public Board getBoardByBoardId(int boardId)
+	public Board getBoardByBoardId(int id)
 	{
 		Board board = new Board();
-		board = dao.findOne(boardId);
+		board = dao.findOne(id);
 		return board;
 	}
 	public Board updateBoard(Board board)

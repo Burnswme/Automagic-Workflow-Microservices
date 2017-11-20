@@ -44,6 +44,21 @@ public class Board
 		this.startDate = startDate;
 		this.numDays = numDays;
 	}
+	public Board(String name, Timestamp startDate, int numDays)
+	{
+		super();
+		this.name = name;
+		this.startDate = startDate;
+		this.numDays = numDays;
+	}
+	public Board(Board bd)
+	{
+		super();
+		this.id = bd.getId();
+		this.name = bd.getName();
+		this.startDate = bd.getStartDate();
+		this.numDays = bd.getNumDays();
+	}
 
 
 	public int getId()

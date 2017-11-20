@@ -8,8 +8,11 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
 
+import javax.transaction.Transactional;
+
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,13 +40,15 @@ public class AwBoardsApplicationTests
 	private BoardCtrl bc;
 	
 	private Board bd;
+	private Board bd2;
 	private LocalDateTime date = LocalDateTime.of(2017, Month.NOVEMBER, 17, 12, 27, 28);
 	
 	@Before
 	public void setUp()
 	{
-		bd = new Board(999,"test",Timestamp.valueOf(date),2);
-		dao.save(bd);
+		bd = new Board("test",Timestamp.valueOf(date),2);
+		bd2 = new Board(dao.save(bd));
+		
 	}
 	@After
 	public void tearDown()
@@ -62,21 +67,18 @@ public class AwBoardsApplicationTests
 	{
 		//Create a new board to test against the database
 		Board test = new Board();
-		int id = bd.getId();
+		int id = bd2.getId();
 		System.out.println("Id number: " + id);
 		test = dao.findOne(id);
 		System.out.println("Test value: " + test);
-		assertEquals(bd, test);
+		assertEquals(bd.getName(), test.getName());
 	}
 	
 	//This test should cover both create and update operations
 	@Test
 	public void testDaoSave()
 	{
-		Board test = new Board();
-		test = dao.save(bd);
-		
-		assertEquals(bd,test);
+		assertEquals(bd.getName(),bd2.getName());
 	}
 	
 	/*
@@ -84,24 +86,25 @@ public class AwBoardsApplicationTests
 	 * findById() method. It should return a List of board objects
 	 */
 	@Test
-	public void testDaoFindById()
+	@Transactional
+	public void testBoardServicesGetBoardsByUserId()
 	{
 		int [] boards = new int[3];
 		ArrayList<Board> list = new ArrayList<>();
-		ArrayList<Board> result = new ArrayList<>();
 		
 		for(int i = 0; i < boards.length; i++)
 		{
 	
-			//Create a new board and save it to the database as well as list
+			//Create a new board and save it to the list for comparison later
 			Board b = new Board(i,"test",Timestamp.valueOf(date),2);
-			dao.save(b);
 			list.add(b);
+			dao.save(b);
 		}
 		
-		list = (ArrayList<Board>) dao.findById(boards);
-		assertEquals(list,result);
-		
+		ArrayList<Board> result = new ArrayList<>();
+		result = (ArrayList<Board>) service.getBoardsByUserId(boards);
+		System.out.println("List size:" + list.size() + " " + "Result size: " + result.size());
+		assertEquals(list.size(),result.size());
 	}
 	@Test
 	public void testDaoDelete()
@@ -111,7 +114,7 @@ public class AwBoardsApplicationTests
 		//Delete the board
 		dao.delete(bd);
 		
-		assertEquals(null,dao.findOne(998));
+		assertEquals(null,dao.findOne(bd.getId()));
 		
 	}
 	
