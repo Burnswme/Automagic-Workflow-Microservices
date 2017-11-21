@@ -41,6 +41,17 @@
                             <goal>npm</goal>
                         </goals>
                     </execution>
+                    
+                    <execution>
+                    	<id>npm install ngx-bootstrap bootstrap --save</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+
+                        <configuration>
+                            <arguments>install ngx-bootstrap bootstrap --save</arguments>
+                        </configuration>
+                    </execution>
 
                     <execution>
                         <id>npm run build</id>
