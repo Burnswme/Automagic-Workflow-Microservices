@@ -32,16 +32,4 @@ public class LoginCtrl {
 		
 		return new ResponseEntity<>(HttpStatus.CONFLICT);
 	}
-	
-	@PostMapping("/test")
-	public BoardUser testCreate() {
-		System.out.println("******************IN TEST*******************");
-		BoardUser test = new BoardUser();
-		test.setUsername("jUnit tests");
-		test.setFirstName("jUnit");
-		test.setLastName("tests");
-		test.setEmail("jUnit@tests.com");
-		test.setPassword("password");
-		return service.register(test);
-	}
 }
