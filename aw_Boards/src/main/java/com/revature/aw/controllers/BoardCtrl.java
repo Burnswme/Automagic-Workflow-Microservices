@@ -29,7 +29,7 @@ public class BoardCtrl
 		HttpSession session = req.getSession(false);
 		if(session != null)
 		{
-			List<Board> userBoards = new ArrayList();
+			List<Board> userBoards = new ArrayList<>();
 			userBoards = services.getBoardsByUserId(id);
 			if(userBoards != null)
 			{
