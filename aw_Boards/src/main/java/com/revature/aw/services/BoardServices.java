@@ -25,14 +25,19 @@ public class BoardServices
 	
 	public List<Board> getBoardsByUserId(int[] boardIds)
 	{
-		List<Board> boards = new ArrayList();
+		List<Board> boards = new ArrayList<>();
 		for(int i = 0; i < boardIds.length; i++)
 		{
 			Board b = new Board();
 			b = dao.findOne(boardIds[i]);
 			boards.add(b);
 		}
-		return boards;
+		if(!boards.isEmpty())
+		{
+			return boards;
+		}
+		else
+			return null;
 	}
 	public Board getBoardByBoardId(int id)
 	{
