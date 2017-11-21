@@ -1,0 +1,35 @@
+<div class="container">
+	<div class="form-horizontal">
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<h4>Enter your information below:</h4>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Username</label>
+			<div class="col-sm-10">
+				<input [(ngModel)]="bu.username" type="text" class="form-control"
+					placeholder="Enter username">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Password</label>
+			<div class="col-sm-10">
+				<input [(ngModel)]="bu.password" type="password" class="form-control"
+					placeholder="Enter password">
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-2">
+				<button id="loginBtn" class="btn btn-primary"
+					(click)="login(bu)">Log in</button>
+			</div>
+		</div>
+		<div class="form-group">
+			<div *ngIf="errorMessage && !submitted" class="alert alert-danger col-sm-offset-2" role="alert">
+				<span class="glyphicon glyphicon-exclamation-sign"
+					aria-hidden="true" alt="Error:"></span> {{errorMessage}}
+			</div>
+		</div>
+  </div>
+</div>

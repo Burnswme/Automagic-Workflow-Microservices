@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: aw-zuul
+
+server:
+  port: 8765
+  
+eureka:
+  instance:
+    hostname: zuul
+    instance-id: ${spring.application.name}:${server.port} 
