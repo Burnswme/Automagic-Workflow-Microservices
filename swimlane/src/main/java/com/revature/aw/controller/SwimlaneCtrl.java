@@ -33,4 +33,12 @@ public class SwimlaneCtrl {
 			System.out.println("some null");
 		}
 	}
+	
+	@PostMapping("/update")
+	public Swimlane updateSwimlane(@RequestBody Swimlane sl) {
+		if(dao != null) {
+			return null;
+		}
+		return null;
+	}
 }

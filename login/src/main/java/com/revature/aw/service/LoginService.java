@@ -22,4 +22,8 @@ public class LoginService {
 		}
 		return null;
 	}
+	
+	public BoardUser register(BoardUser bu) {
+		return dao.save(bu);
+	}
 }

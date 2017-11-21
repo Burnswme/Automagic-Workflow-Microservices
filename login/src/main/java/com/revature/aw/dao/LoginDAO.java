@@ -8,4 +8,6 @@ import com.revature.aw.domain.BoardUser;
 @Repository
 public interface LoginDAO extends CrudRepository<BoardUser, Integer>{
 	public BoardUser getBoardUserByUsername(String username);
+	
+	public BoardUser save(BoardUser user);
 }

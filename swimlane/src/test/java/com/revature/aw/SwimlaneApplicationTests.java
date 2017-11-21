@@ -1,9 +1,12 @@
 package com.revature.aw;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 import javax.transaction.Transactional;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +24,16 @@ public class SwimlaneApplicationTests {
 	@Autowired
 	private SwimlaneDAO dao;
 	
+	private Swimlane test;
+	
 	@Test
 	public void contextLoads() {
 		assertNotNull(dao);
+	}
+	
+	@Before
+	public void initSwimlane() {
+		
 	}
 	
 	@Test
@@ -55,5 +65,12 @@ public class SwimlaneApplicationTests {
 		assertNotNull(test);
 		assertEquals(originalId, test.getId());
 		assertEquals("updated jUnit swimlane", test.getName());
+	}
+	
+	//will rely on create swimlane working, as it needs to create something to delete
+	@Test
+	public void testSwimlaneDelete() {
+		Swimlane test = new Swimlane();
+//		test
 	}
 }

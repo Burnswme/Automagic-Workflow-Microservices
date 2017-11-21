@@ -2,13 +2,18 @@ package com.revature.aw.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="BOARD_USER")
 public class BoardUser {
 	@Id
+	@SequenceGenerator(name="buSeq", sequenceName="board_user_seq", allocationSize=1)
+	@GeneratedValue(generator="buSeq",strategy=GenerationType.SEQUENCE)
 	@Column(name="BU_ID")
 	private Integer id;
 	

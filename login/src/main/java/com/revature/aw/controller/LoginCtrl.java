@@ -34,15 +34,14 @@ public class LoginCtrl {
 	}
 	
 	@PostMapping("/test")
-	public String loginTest() {
+	public BoardUser testCreate() {
+		System.out.println("******************IN TEST*******************");
 		BoardUser test = new BoardUser();
-		test.setUsername("hello");
-		test.setPassword("world");
-		if(service != null) {
-			test = service.login(test);
-			return test.toString();
-		}
-		
-		return null;
+		test.setUsername("jUnit tests");
+		test.setFirstName("jUnit");
+		test.setLastName("tests");
+		test.setEmail("jUnit@tests.com");
+		test.setPassword("password");
+		return service.register(test);
 	}
 }
