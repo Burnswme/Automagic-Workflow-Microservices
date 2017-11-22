@@ -32,17 +32,17 @@ public class LoginApplicationTests {
 	@Test
 	public void testValidLogin() {
 		BoardUser bu = new BoardUser();
-		bu.setUsername("hello");
-		bu.setPassword("world");
+		bu.setUsername("jUnit tests");
+		bu.setPassword("password");
 		bu = service.login(bu);
-		assertEquals("billy", bu.getFirstName());
+		assertNotNull(bu);
 	}
 	//TEST FOR INVALID USER
 	@Test
 	public void testInvalidLogin() {
 		BoardUser bu = new BoardUser();
-		bu.setUsername("hello");
-		bu.setPassword("asdad");
+		bu.setUsername("jUnit tests");
+		bu.setPassword("wrong password");
 		bu = service.login(bu);
 		assertNull(bu);
 	}

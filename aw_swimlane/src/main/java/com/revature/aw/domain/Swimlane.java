@@ -19,6 +19,12 @@ public class Swimlane {
 	
 	@Column(name="SL_NAME")
 	private String name;
+	
+	@Column(name="BD_ID")
+	private int boardId;
+	
+	@Column(name="SL_POSITION")
+	private int order;
 
 	public Integer getId() {
 		return id;
@@ -36,10 +42,24 @@ public class Swimlane {
 		this.name = name;
 	}
 
+	public int getBoardId() {
+		return boardId;
+	}
+
+	public void setBoardId(int boardId) {
+		this.boardId = boardId;
+	}
+
+	public int getOrder() {
+		return order;
+	}
+
+	public void setOrder(int order) {
+		this.order = order;
+	}
+
 	@Override
 	public String toString() {
-		return "Swimlane [id=" + id + ", name=" + name + "]";
+		return "Swimlane [id=" + id + ", name=" + name + ", order=" + order + "]";
 	}
-	
-	
 }

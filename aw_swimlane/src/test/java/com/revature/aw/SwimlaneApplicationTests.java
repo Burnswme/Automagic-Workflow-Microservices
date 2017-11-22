@@ -3,6 +3,7 @@ package com.revature.aw;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import javax.transaction.Transactional;
 
@@ -13,8 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.revature.aw.dao.SwimlaneDAO;
 import com.revature.aw.domain.Swimlane;
+import com.revature.aw.service.SwimlaneService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -22,55 +23,52 @@ import com.revature.aw.domain.Swimlane;
 public class SwimlaneApplicationTests {
 	
 	@Autowired
-	private SwimlaneDAO dao;
+	private SwimlaneService service;
 	
 	private Swimlane test;
 	
-	@Test
-	public void contextLoads() {
-		assertNotNull(dao);
-	}
-	
+	//checks that service is properly autowired
+	//creates a base swimlane for all the tests to use
+	//deleted afterwards because the tests are @Transactional, it's never fully commited in the end
 	@Before
-	public void initSwimlane() {
-		
-	}
-	
 	@Test
-	public void testSwimlaneSave() {
-		Swimlane test = new Swimlane();
-		test.setName("jUnit swimlane");
+	public void initSwimlane() {
+		assertNotNull("service check", service);
 		
-		test = dao.save(test);
+		test = new Swimlane();
+		test.setName("jUnit Swimlane");
+		test.setOrder(1);
+		
+		test = service.save(test);
 		
 		assertNotNull(test);
-		//means id would have been set, since 0 is the default value for an instance variable
-		assertNotEquals(new Integer(0), test.getId());
+		//0 is the default value for id, so if it properly created a swimlane, it should not be 0
+		assertNotEquals("create swimlane test", new Integer(0), test.getId());
 	}
 	
 	@Test
 	public void testSwimlaneUpdate() {
-		Swimlane test = new Swimlane();
-		test.setName("jUnit swimlane");
-		
-		test = dao.save(test);
-		
+		test = service.save(test);
 		assertNotNull(test);
-		//gets original ID that is set to the object to ensure it's still the same after a save
+		//gets original ID that is set to the object to ensure it's still the same after a save, which in this case, is an update, so it should not be a new id
 		Integer originalId = test.getId();
 		
 		test.setName("updated jUnit swimlane");
-		test = dao.save(test);
+		test = service.save(test);
 		
 		assertNotNull(test);
 		assertEquals(originalId, test.getId());
 		assertEquals("updated jUnit swimlane", test.getName());
 	}
 	
-	//will rely on create swimlane working, as it needs to create something to delete
+	//tests if test actually exists, deletes it, then checks if it no longer exists
 	@Test
 	public void testSwimlaneDelete() {
-		Swimlane test = new Swimlane();
-//		test
+		test = service.save(test);
+		test = service.findSwimlaneById(test);
+		assertNotNull(test);
+		service.delete(test);
+		test = service.findSwimlaneById(test);
+		assertNull(test);
 	}
 }
