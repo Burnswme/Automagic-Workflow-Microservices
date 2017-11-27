@@ -26,6 +26,11 @@ public class LoginCtrl {
 			if(bu != null) {
 				HttpSession session = req.getSession();
 				session.setAttribute("user", bu);
+				//so other classes can just get a basic int to use user ID, rather than having to import/create boardUser as a whole
+				session.setAttribute("userId", bu.getId());
+				//same with username, otherwise we'd need to import BoardUser onto every microservice
+				session.setAttribute("userUsername", bu.getUsername());
+				
 				return new ResponseEntity<>(bu, HttpStatus.OK);
 			}
 		}
