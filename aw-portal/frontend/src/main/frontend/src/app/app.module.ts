@@ -10,13 +10,15 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './/app-routing.module';
+import { ModalComponent } from './modal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,

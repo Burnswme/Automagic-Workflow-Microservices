@@ -23,18 +23,18 @@ public class TaskCtrl {
 	@Autowired
 	private TaskService ts;
 	
-	@GetMapping("/getTasksByStoryId/{story}")
+	@GetMapping("/getTasksByStoryId/{id}")
 	@ResponseBody
-	public ResponseEntity<List<Task>> getTasksByStoryId(@PathVariable("story") int id, HttpServletRequest req)
+	public ResponseEntity<List<Task>> getTasksByStoryId(@PathVariable("id") int id, HttpServletRequest req)
 	{
 		List<Task> tasks = ts.getTasksByStoryId(id);
 		return (tasks != null) ? new ResponseEntity<>(tasks, HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.CONFLICT);
 	}
 	
-	@GetMapping("/getTaskById/{task}")
+	@GetMapping("/getTaskById/{id}")
 	@ResponseBody
-	public ResponseEntity<Task> getTaskById(@PathVariable("task") int id, HttpServletRequest req)
+	public ResponseEntity<Task> getTaskById(@PathVariable("id") int id, HttpServletRequest req)
 	{
 		Task task = ts.getTaskById(id);
 		return (task != null) ? new ResponseEntity<>(task, HttpStatus.OK)

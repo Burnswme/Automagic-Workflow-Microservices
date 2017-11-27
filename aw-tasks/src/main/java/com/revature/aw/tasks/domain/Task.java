@@ -34,6 +34,15 @@ public class Task {
 	
 	public Task() {}
 
+	public Task(int id, int storyId, String name, boolean completed, int order) {
+		super();
+		this.id = id;
+		this.storyId = storyId;
+		this.name = name;
+		this.completed = completed;
+		this.order = order;
+	}
+
 	public int getId() {
 		return id;
 	}

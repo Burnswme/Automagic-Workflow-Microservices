@@ -12,13 +12,15 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="STORY")
-public class Story 
-{
+public class Story {
 	@Id
 	@SequenceGenerator(name="storySeq",sequenceName="story_seq", allocationSize=1)
 	@GeneratedValue(generator="storySeq",strategy=GenerationType.SEQUENCE)
 	@Column(name="ST_ID")
 	private int id;
+	
+	@Column(name="ST_SWIMLANE")
+	private int swimlaneId;
 	
 	@Column(name="ST_TITLE")
 	private String title;
@@ -35,25 +37,9 @@ public class Story
 	@Column(name="ST_POSITION")
 	private int order;
 	
-	public Story()
-	{
-		
-	}
+	public Story() {}
 
-	public Story(int id, String title, String description, int points, Timestamp dateStoryCompleted, int order) 
-	{
-		super();
-		this.id = id;
-		this.title = title;
-		this.description = description;
-		this.points = points;
-		this.dateStoryCompleted = dateStoryCompleted;
-		this.order = order;
-	}
-	
-
-	public Story(String title, String description, int points, Timestamp dateStoryCompleted, int order) 
-	{
+	public Story(String title, String description, int points, Timestamp dateStoryCompleted, int order) {
 		super();
 		this.title = title;
 		this.description = description;
@@ -61,90 +47,67 @@ public class Story
 		this.dateStoryCompleted = dateStoryCompleted;
 		this.order = order;
 	}
-	
-	public Story(Story s)
-	{
-		super();
-		this.id = s.getId();
-		this.title = s.getTitle();
-		this.description = s.getDescription();
-		this.points = s.getPoints();
-		this.dateStoryCompleted = s.getDateStoryCompleted();
-		this.order = s.getOrder();
-		
-	}
 
-	public int getId() 
-	{
+	public int getId() {
 		return id;
 	}
 
-	public void setId(int id) 
-	{
+	public void setId(int id) {
 		this.id = id;
 	}
 
-	public String getTitle() 
-	{
+	public int getSwimlaneId() {
+		return swimlaneId;
+	}
+
+	public void setSwimlaneId(int swimlaneId) {
+		this.swimlaneId = swimlaneId;
+	}
+
+	public String getTitle() {
 		return title;
 	}
 
-	public void setTitle(String title) 
-	{
+	public void setTitle(String title) {
 		this.title = title;
 	}
 
-	public String getDescription()
-	{
+	public String getDescription() {
 		return description;
 	}
 
-	public void setDescription(String description)
-	{
+	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	public int getPoints() 
-	{
+	public int getPoints() {
 		return points;
 	}
 
-	public void setPoints(int points) 
-	{
+	public void setPoints(int points) {
 		this.points = points;
 	}
 
-	public Timestamp getDateStoryCompleted() 
-	{
+	public Timestamp getDateStoryCompleted() {
 		return dateStoryCompleted;
 	}
 
-	public void setDateStoryCompleted(Timestamp dateStoryCompleted) 
-	{
+	public void setDateStoryCompleted(Timestamp dateStoryCompleted) {
 		this.dateStoryCompleted = dateStoryCompleted;
 	}
 
-	public int getOrder() 
-	{
+	public int getOrder() {
 		return order;
 	}
 
-	public void setOrder(int order) 
-	{
+	public void setOrder(int order) {
 		this.order = order;
 	}
 
 	@Override
-	public String toString() 
-	{
-		return "Story [id=" + id + ", title=" + title + ", description=" + description + ", points=" + points
-				+ ", dateStoryCompleted=" + dateStoryCompleted + ", order=" + order + "]";
+	public String toString() {
+		return "Story [id=" + id + ", swimlaneId=" + swimlaneId + ", title=" + title + ", description=" + description
+				+ ", points=" + points + ", dateStoryCompleted=" + dateStoryCompleted + ", order=" + order + "]";
 	}
-	
-	
-	
-	
-	
-	
 	
 }

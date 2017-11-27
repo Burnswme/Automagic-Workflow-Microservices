@@ -2,7 +2,7 @@ server:
   port: 0
 spring:
   application:
-    name: aw-tasks
+    name: tasks
 eureka:
   client:
     register-with-eureka: true
