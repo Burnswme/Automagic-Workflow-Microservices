@@ -1,8 +1,11 @@
+import { BoardComponent } from './board/board.component';
+import { BoardService } from './board/board.service';
 import { DataService } from './data.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AlertModule } from 'ngx-bootstrap';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -18,15 +21,20 @@ import { ModalComponent } from './modal.component';
     NavbarComponent,
     LoginComponent,
     HomeComponent,
-    ModalComponent
+    ModalComponent,
+    BoardComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     BsDropdownModule.forRoot(),
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
-  providers: [DataService],
+  providers: [
+    DataService,
+    BoardService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
