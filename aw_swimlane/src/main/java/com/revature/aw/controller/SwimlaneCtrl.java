@@ -1,8 +1,12 @@
 package com.revature.aw.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,5 +48,13 @@ public class SwimlaneCtrl {
 			return new ResponseEntity<>(service.save(sl), HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.CONFLICT);
+	}
+	
+	//get all swimlanes of a board defined by board id
+	@GetMapping("/getSwimlanesByBoardId/{id}")
+	public ResponseEntity<Object> updateSwimlane(@PathVariable("id") int id) {
+		List<Swimlane> swimlanes = service.findSwimlanesByBoardId(id);
+		return (swimlanes != null) ? new ResponseEntity<>(swimlanes, HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.CONFLICT);
 	}
 }

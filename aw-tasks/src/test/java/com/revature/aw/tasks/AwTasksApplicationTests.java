@@ -34,10 +34,7 @@ public class AwTasksApplicationTests {
 	
 	@Before
 	public void createTask() {
-		task = new Task();
-		task.setName("A test task");
-		task.setStoryId(999);
-		task.setOrder(1);
+		task = new Task(0, 999, "A test task", false, 1);
 		task = ts.saveTask(task);
 	}
 	

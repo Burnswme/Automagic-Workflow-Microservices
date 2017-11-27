@@ -1,5 +1,7 @@
 package com.revature.aw.dao;
 
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 
 import com.revature.aw.domain.Story;
@@ -12,6 +14,10 @@ public interface Dao extends CrudRepository<Story,Integer>
 	//Read
 	//Find a Story by its id
 	public Story findOne(int id);
+	
+	//Read
+	//Find a Story by its id
+	public List<Story> findBySwimlaneId(int swimlaneId);
 
 	
 	//Delete

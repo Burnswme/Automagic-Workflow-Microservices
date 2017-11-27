@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,26 +46,13 @@ public class BoardCtrl
 			return null;
 	}
 	
-	@GetMapping("/getOneBoard")
+	@GetMapping("/getBoard/{id}")
 	@ResponseBody
-	public ResponseEntity<Object> getBoardById(@PathVariable("board.id")int id,HttpServletRequest req)
+	public ResponseEntity<Board> getBoardById(@PathVariable("id")int id,HttpServletRequest req)
 	{
-		HttpSession session = req.getSession(false);
-		if(session != null)
-		{
-			Board board = new Board();
-			board = services.getBoardByBoardId(id);
-			if(board != null)
-			{
-				List<Board> boards = new ArrayList<>();
-				boards.add(board);
-				return (ResponseEntity<Object>) boards;
-			}
-			else
-				return null;
-		}
-		else
-			return null;
+		Board board = services.getBoardByBoardId(id);
+		return (board != null) ? new ResponseEntity<>(board, HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.CONFLICT);
 	}
 	
 	@GetMapping("/deleteBoard")
