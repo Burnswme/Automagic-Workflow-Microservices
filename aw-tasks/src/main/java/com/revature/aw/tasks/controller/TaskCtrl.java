@@ -50,7 +50,7 @@ public class TaskCtrl {
 	
 	@PostMapping("/saveTask")
 	@ResponseBody
-	public ResponseEntity<Object> createBoard(@RequestBody Task task, HttpServletRequest req)
+	public ResponseEntity<Object> createTask(@RequestBody Task task, HttpServletRequest req)
 	{
 		Task t = ts.saveTask(task);
 		return (t != null) ? new ResponseEntity<>(t, HttpStatus.OK)
