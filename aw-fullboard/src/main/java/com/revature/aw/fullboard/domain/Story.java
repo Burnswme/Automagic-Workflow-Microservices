@@ -1,51 +1,31 @@
-package com.revature.aw.domain;
+package com.revature.aw.fullboard.domain;
 
 import java.sql.Timestamp;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-
-@Entity
-@Table(name="STORY")
 public class Story {
-	@Id
-	@SequenceGenerator(name="storySeq",sequenceName="story_seq", allocationSize=1)
-	@GeneratedValue(generator="storySeq",strategy=GenerationType.SEQUENCE)
-	@Column(name="ST_ID")
 	private int id;
-	
-	@Column(name="ST_SWIMLANE")
 	private int swimlaneId;
-	
-	@Column(name="ST_TITLE")
 	private String title;
-	
-	@Column(name="ST_DESC")
 	private String description;
-	
-	@Column(name="ST_POINTS")
 	private int points;
-	
-	@Column(name="ST_COMPLETED")
 	private Timestamp dateStoryCompleted;
-	
-	@Column(name="ST_POSITION")
 	private int order;
+	private List<Task> tasks;
 	
 	public Story() {}
 
-	public Story(String title, String description, int points, Timestamp dateStoryCompleted, int order) {
+	public Story(int id, int swimlaneId, String title, String description, int points, Timestamp dateStoryCompleted,
+			int order, List<Task> tasks) {
 		super();
+		this.id = id;
+		this.swimlaneId = swimlaneId;
 		this.title = title;
 		this.description = description;
 		this.points = points;
 		this.dateStoryCompleted = dateStoryCompleted;
 		this.order = order;
+		this.tasks = tasks;
 	}
 
 	public int getId() {
@@ -104,10 +84,19 @@ public class Story {
 		this.order = order;
 	}
 
+	public List<Task> getTasks() {
+		return tasks;
+	}
+
+	public void setTasks(List<Task> tasks) {
+		this.tasks = tasks;
+	}
+
 	@Override
 	public String toString() {
 		return "Story [id=" + id + ", swimlaneId=" + swimlaneId + ", title=" + title + ", description=" + description
-				+ ", points=" + points + ", dateStoryCompleted=" + dateStoryCompleted + ", order=" + order + "]";
+				+ ", points=" + points + ", dateStoryCompleted=" + dateStoryCompleted + ", order=" + order + ", tasks="
+				+ tasks + "]";
 	}
-	
+
 }

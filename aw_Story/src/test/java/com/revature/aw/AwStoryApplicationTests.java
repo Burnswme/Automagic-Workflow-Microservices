@@ -1,6 +1,6 @@
 package com.revature.aw;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import javax.transaction.Transactional;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,26 +77,26 @@ public class AwStoryApplicationTests
 		assertEquals(story.getId(),st.getId());
 	}
 	
-	@Test
-	@Transactional
-	public void testStoryServicesGetStories()
-	{
-		ArrayList<Story> list = new ArrayList<>();
-		ArrayList<Story> result = new ArrayList<>();
-		int [] ids = new int[3];
-		
-		for(int i = 0; i < 3; i++)
-		{
-			Story st = new Story("Services Test","Test Services Story",6,Timestamp.valueOf(date),3);
-			dao.save(st);
-			list.add(st);
-			ids[i] = st.getId();
-		}
-		
-		result = (ArrayList<Story>) service.getStories(ids);
-		System.out.println(list.size() + " " + result.size());
-		assertEquals(list.isEmpty(),result.isEmpty());
-	}
+//	@Test
+//	@Transactional
+//	public void testStoryServicesGetStories()
+//	{
+//		ArrayList<Story> list = new ArrayList<>();
+//		ArrayList<Story> result = new ArrayList<>();
+//		int [] ids = new int[3];
+//		
+//		for(int i = 0; i < 3; i++)
+//		{
+//			Story st = new Story("Services Test","Test Services Story",6,Timestamp.valueOf(date),3);
+//			dao.save(st);
+//			list.add(st);
+//			ids[i] = st.getId();
+//		}
+//		
+//		result = (ArrayList<Story>) service.getStories(ids);
+//		System.out.println(list.size() + " " + result.size());
+//		assertEquals(list.isEmpty(),result.isEmpty());
+//	}
 	
 
 }
