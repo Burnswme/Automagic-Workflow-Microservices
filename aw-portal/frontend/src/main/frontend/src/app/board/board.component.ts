@@ -13,7 +13,7 @@ export class AwBoard{
 @Component({
     selector: 'aw-board',
     templateUrl: './board.component.html',
-    styleUrls: ['./board.component']
+    styleUrls: ['./board.component.css']
 })
 export class BoardComponent implements OnInit{
     bu: AwBoard = {

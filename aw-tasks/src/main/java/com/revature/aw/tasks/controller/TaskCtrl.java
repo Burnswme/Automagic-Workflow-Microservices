@@ -25,8 +25,7 @@ public class TaskCtrl {
 	
 	@GetMapping("/getTasksByStoryId/{id}")
 	@ResponseBody
-	public ResponseEntity<List<Task>> getTasksByStoryId(@PathVariable("id") int id, HttpServletRequest req)
-	{
+	public ResponseEntity<List<Task>> getTasksByStoryId(@PathVariable("id") int id, HttpServletRequest req) {
 		List<Task> tasks = ts.getTasksByStoryId(id);
 		return (tasks != null) ? new ResponseEntity<>(tasks, HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -34,8 +33,7 @@ public class TaskCtrl {
 	
 	@GetMapping("/getTaskById/{id}")
 	@ResponseBody
-	public ResponseEntity<Task> getTaskById(@PathVariable("id") int id, HttpServletRequest req)
-	{
+	public ResponseEntity<Task> getTaskById(@PathVariable("id") int id, HttpServletRequest req)	{
 		Task task = ts.getTaskById(id);
 		return (task != null) ? new ResponseEntity<>(task, HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -50,8 +48,7 @@ public class TaskCtrl {
 	
 	@PostMapping("/saveTask")
 	@ResponseBody
-	public ResponseEntity<Task> createBoard(@RequestBody Task task, HttpServletRequest req)
-	{
+	public ResponseEntity<Task> createBoard(@RequestBody Task task, HttpServletRequest req)	{
 		Task t = ts.saveTask(task);
 		return (t != null) ? new ResponseEntity<>(t, HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.CONFLICT);
