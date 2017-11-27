@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,25 +23,12 @@ public class StoryCtrl
 	@Autowired
 	private StoryServices service;
 	
-	@GetMapping("/getBoardStories")
+	@GetMapping("/getStories/{id}")
 	@ResponseBody
-	public ResponseEntity<Object> getStories(@PathVariable("stories")int [] stories,HttpServletRequest req)
-	{
-		HttpSession session = req.getSession();
-		if(session != null)
-		{
-			List<Story> list = new ArrayList<>();
-			list = (ArrayList<Story>) service.getStories(stories);
-			if(list != null)
-			{
-				return (ResponseEntity<Object>)list;
-			}
-			else
-				return null;
-			
-		}
-		else
-			return null;
+	public ResponseEntity<Object> getStories(@PathVariable("id")int id, HttpServletRequest req) {
+		List<Story> list = service.getStoriesBySwimlaneId(id);
+		return (list != null) ? new ResponseEntity<>(list, HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.CONFLICT);
 	}
 	
 	@GetMapping("/getOneStory")

@@ -18,32 +18,14 @@ public class StoryServices
 	private Dao dao;
 	
 	//find a single story by its id
-	public Story getStoryByStoryId(int id)
-	{
-		Story story = new Story(dao.findOne(id));
-		if(story.getTitle() != null)
-		{
-			return story;
-		}
-		else
-			return null;
+	public Story getStoryByStoryId(int id) {
+		return dao.findOne(id);
 	}
 	//find a group of stories by passing an array of ints
 	//provided by the front end
-	public List<Story> getStories(int [] ids)
+	public List<Story> getStoriesBySwimlaneId(int id)
 	{
-		ArrayList<Story> list = new ArrayList<>();
-		for(int i = 0; i < ids.length; i++)
-		{
-			Story story = new Story(dao.findOne(ids[i]));
-			list.add(story);
-		}
-		if(!list.isEmpty())
-		{
-			return list;
-		}
-		else
-			return null;
+		return dao.findBySwimlaneId(id);
 	}
 	public Story updateStory(Story story)
 	{
