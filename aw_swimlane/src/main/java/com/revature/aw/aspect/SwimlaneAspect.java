@@ -22,7 +22,7 @@ import com.revature.aw.service.SwimlaneService;
 //CURRENTLY ONLY USING THE SAME DATABASE AS SWIMLANE
 //If the History table is ever given its own database, would only need to pass the History object as a JSON to a History service that would actually handle creating history objects
 @Aspect
-@Component("asepct")
+@Component("aspect")
 public class SwimlaneAspect {
 	private final Logger LOGGER = Logger.getLogger(SwimlaneAspect.class);
 	
