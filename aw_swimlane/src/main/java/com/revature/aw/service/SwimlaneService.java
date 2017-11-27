@@ -1,7 +1,6 @@
 package com.revature.aw.service;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +21,7 @@ public class SwimlaneService {
 	public Swimlane findSwimlaneById(Swimlane sl) {
 		return dao.findSwimlaneById(sl.getId());
 	}
-	
+
 	public List<Swimlane> findSwimlanesByBoardId(int id) {
 		return dao.findByBoardId(id);
 	}

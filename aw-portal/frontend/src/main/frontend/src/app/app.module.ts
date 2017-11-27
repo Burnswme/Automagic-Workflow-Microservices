@@ -14,6 +14,7 @@ import { HomeComponent } from './home/home.component';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './/app-routing.module';
 import { ModalComponent } from './modal.component';
+import { BoardComponent } from './board/board.component';
 
 @NgModule({
   declarations: [
