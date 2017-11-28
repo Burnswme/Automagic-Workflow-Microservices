@@ -23,10 +23,6 @@ public class SwimlaneService {
 		return dao.findSwimlaneById(sl.getId());
 	}
 	
-	public List<Swimlane> findSwimlanesByBoardId(int id) {
-		return dao.findByBoardId(id);
-	}
-	
 	public void delete(Swimlane sl) {
 		dao.delete(sl);
 	}

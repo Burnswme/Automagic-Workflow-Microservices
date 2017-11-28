@@ -7,10 +7,9 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -60,9 +59,9 @@ public class SwimlaneAspect {
 	}
 	
 	//creates history message old name/order and new name/order
-	//using @Around because you need the old swimlane name BEFORE it updates it, e.g. updated 'old swimlane name' TO 'new swimlane name'
-	@Around("execution(* com.revature.aw.controller.SwimlaneCtrl.updateSwimlane(..))")
-	public void afterUpdate(ProceedingJoinPoint jp) throws Throwable {
+	//using @Before because you need the old swimlane name BEFORE it updates it, e.g. updated 'old swimlane name' TO 'new swimlane name'
+	@Before("execution(* com.revature.aw.controller.SwimlaneCtrl.updateSwimlane(..))")
+	public void afterUpdate(JoinPoint jp) throws Throwable {
 		Swimlane sl = (Swimlane)jp.getArgs()[0];
 		Swimlane oldSl = service.findSwimlaneById(sl);
 		HttpServletRequest req = (HttpServletRequest)jp.getArgs()[1];
@@ -84,7 +83,6 @@ public class SwimlaneAspect {
 				+ "swimlane(order): " + sl.getName() + "(" + sl.getOrder() + ")");
 		hist.setTimestamp(new Date());
 		
-		jp.proceed();
 		
 		histDAO.save(hist);
 	}

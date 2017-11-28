@@ -48,10 +48,9 @@ public class SwimlaneCtrl {
 	@PostMapping("/update")
 	@ResponseBody
 	public ResponseEntity<Object> updateSwimlane(@RequestBody Swimlane sl, HttpServletRequest req) {
-		System.out.println("IN UPDATE");
 		if(service != null && sl != null && service.findSwimlaneById(sl) != null) {
-			System.out.println("UPDATE SL");
-			return new ResponseEntity<>(service.save(sl), HttpStatus.OK);
+			sl = service.save(sl);
+			return new ResponseEntity<>(sl, HttpStatus.OK);
 		}
 		
 		return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -66,6 +65,16 @@ public class SwimlaneCtrl {
 		}
 		
 		return new ResponseEntity<>(HttpStatus.CONFLICT);
+	}
+	
+	//final endpoint for tasks/stories trying to get boardId
+	@GetMapping("/getBoardId/{swimlaneId}")
+	public Integer getBoardId(@PathVariable("swimlaneId") int swimlaneId) {
+		Swimlane sl = new Swimlane();
+		sl.setId(swimlaneId);
+		sl = service.findSwimlaneById(sl);
+		
+		return sl.getBoardId();
 	}
 	
 //	//get all swimlanes of a board defined by board id
