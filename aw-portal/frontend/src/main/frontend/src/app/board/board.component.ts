@@ -63,7 +63,7 @@ export class BoardComponent implements OnInit{
     }
 
     createSwimlane(sl: AwSwimlane) {
-        sl.order = (this.bu.swimlanes) ? this.bu.swimlanes.length + 1 : 1;
+        sl.order = (this.bu.swimlanes) ? this.bu.swimlanes.length : 0;
         console.log(sl);
         this.sls.createSwimlane(sl).subscribe((result: AwSwimlane) => {
             this.bu.swimlanes.push(result);
