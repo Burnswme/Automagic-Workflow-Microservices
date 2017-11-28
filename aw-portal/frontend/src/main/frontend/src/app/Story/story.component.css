@@ -1,0 +1,13 @@
+.btn-group-vertical {
+    width: 32px;
+    padding: 0 0.25em;
+}
+
+.btn-info {
+    width: 202px;
+    height: 3em;
+}
+
+.glyphicon {
+    margin-left: -0.1em;
+}

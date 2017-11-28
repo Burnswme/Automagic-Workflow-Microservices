@@ -25,7 +25,7 @@
                 <li role="menuitem"><a class="dropdown-item">Create New Board</a></li>
                 <li *ngIf="boards?.length > 0" class="divider dropdown-divider"></li>
                 <li role="menuitem" *ngFor="let board of boards">
-                  <a [routerLink]="['../board/board.component.html']" class="dropdown-item">A board</a>
+                  <a class="dropdown-item" (click)="loadBoard(board.id)">{{board.name}}</a>
                 </li>
               </ul>
             </li>
