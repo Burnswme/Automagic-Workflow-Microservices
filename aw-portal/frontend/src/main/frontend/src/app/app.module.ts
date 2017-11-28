@@ -1,8 +1,12 @@
+import { StoryService } from './story/story.service';
+import { BoardComponent } from './board/board.component';
+import { BoardService } from './board/board.service';
 import { DataService } from './data.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AlertModule } from 'ngx-bootstrap';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -11,6 +15,11 @@ import { HomeComponent } from './home/home.component';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './/app-routing.module';
 import { ModalComponent } from './modal.component';
+import { SwimlaneComponent } from './swimlane/swimlane.component';
+import { SwimlaneService } from './swimlane/swimlane.service';
+import { StoryComponent } from './story/story.component';
+import { TaskComponent } from './task/task.component';
+import { TaskService } from './task/task.service';
 
 @NgModule({
   declarations: [
@@ -18,15 +27,26 @@ import { ModalComponent } from './modal.component';
     NavbarComponent,
     LoginComponent,
     HomeComponent,
-    ModalComponent
+    ModalComponent,
+    BoardComponent,
+    SwimlaneComponent,
+    StoryComponent,
+    TaskComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     BsDropdownModule.forRoot(),
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
-  providers: [DataService],
+  providers: [
+    DataService,
+    BoardService,
+    SwimlaneService,
+    StoryService,
+    TaskService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

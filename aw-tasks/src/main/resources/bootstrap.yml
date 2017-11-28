@@ -3,6 +3,7 @@ server:
 spring:
   application:
     name: tasks
+    
 eureka:
   client:
     register-with-eureka: true
