@@ -1,3 +1,5 @@
+import { AwSwimlane } from './../domain/aw-swimlane';
+import { SwimlaneService } from './../swimlane/swimlane.service';
 import { AwBoard } from './../domain/aw-board';
 import { BoardService } from './board.service';
 import { Component, OnInit } from '@angular/core';
@@ -16,34 +18,37 @@ export class BoardComponent implements OnInit{
         name: "",
         startDate: 0,
         duration: 0,
-        swimlanes: null
+        swimlanes: []
+    };
+    sl: AwSwimlane = {
+        id: 0,
+        boardId: 0,
+        name: "",
+        order: 0,
+        stories: []
     };
     errorMessage: string = "";
 
-    constructor(private service: BoardService,
+    constructor(private bs: BoardService,
+                private sls: SwimlaneService,
                 private route: ActivatedRoute,
                 private router: Router) {}
     
-    ngOnInit(){ 
-        // this.setBoardListener();
+    ngOnInit(){
         this.route.paramMap
-            .switchMap((params: ParamMap) => this.service.loadFullBoard(+params.get('id')))
+            .switchMap((params: ParamMap) => this.bs.getBoard(+params.get('id')))
             .subscribe(board => {
                 this.bu = board;
-                console.log(board);
+                this.sl.boardId = board.id;
                 this.display = true;
+                this.sls.getSwimlanes(board.id)
+                .subscribe((swimlanes: AwSwimlane[]) => {
+                    board.swimlanes = swimlanes;
+                })
             });
     };
 
     display: boolean = false;
-
-    setBoardListener(): void {
-        this.service.board.subscribe(board => {
-            this.bu = board;
-            console.log(board);
-            this.display = true;
-        });
-    }
 
     toggleDisplay(event){
         this.display = !this.display;
@@ -55,5 +60,20 @@ export class BoardComponent implements OnInit{
 
     editBoard(name:string){
 
+    }
+
+    createSwimlane(sl: AwSwimlane) {
+        sl.order = (this.bu.swimlanes) ? this.bu.swimlanes.length + 1 : 1;
+        console.log(sl);
+        this.sls.createSwimlane(sl).subscribe((result: AwSwimlane) => {
+            this.bu.swimlanes.push(result);
+            this.sl = {
+                id: 0,
+                boardId: this.bu.id,
+                name: "",
+                order: 0,
+                stories: []
+            };
+        });
     }
 };

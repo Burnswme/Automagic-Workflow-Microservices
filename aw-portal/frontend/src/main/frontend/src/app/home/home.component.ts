@@ -1,4 +1,4 @@
-import { AwUser } from './../login/login.component';
+import { AwUser } from './../domain/aw-user';
 import { DataService } from './../data.service';
 import { Component, OnInit } from '@angular/core';
 // import { AwBoard } from '../board/board.component';
@@ -9,7 +9,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  user: AwUser = {username: "", password: ""};
+  user: AwUser = {
+    id: 0,
+    email: "steve@revature.com",
+    fn: "Steve",
+    ln: "Stevie",
+    username: "steve",
+    password: "123"
+  };
   
 //   bu: AwBoard = {
 //     id: 0,

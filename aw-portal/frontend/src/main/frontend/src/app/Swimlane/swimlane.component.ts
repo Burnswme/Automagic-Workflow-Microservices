@@ -1,48 +1,48 @@
-import { DataService } from './../data.service';
-import { Component, OnInit } from '@angular/core';
-import { NgModel } from '@angular/forms';
-import { Router } from '@angular/router';
-
-export class AwSwimlane{
-    id: number;
-    name: string;
-    boardId: number;
-    position: number;
-}
+import { AwStory } from './../domain/aw-story';
+import { StoryService } from './../story/story.service';
+import { AwSwimlane } from './../domain/aw-swimlane';
+import { AwBoard } from './../domain/aw-board';
+import { Router, ActivatedRoute } from '@angular/router';
+import { SwimlaneService } from './swimlane.service';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-    selector: 'aw-swimlane',
-    templateUrl: './story.component.html',
-    styleUrls: ['./swimlane.compnent.css']
+  selector: 'aw-swimlane',
+  templateUrl: './swimlane.component.html',
+  styleUrls: ['./swimlane.component.css']
 })
-export class SwimlaneComponent implements OnInit{
-    sw: AwSwimlane = {
-        id: 0,
-        name: "",
-        boardId: 0,
-        position: 1
-    }
-    errorMessage: string = "";
+export class SwimlaneComponent implements OnInit {
+  @Input() board: AwBoard;
+  @Input() swimlane: AwSwimlane;
 
-    constructor(private service: DataService,
-        private router: Router) { }
-    
-    ngOnInit(){ }    
+  constructor(private sls: SwimlaneService,
+              private sts: StoryService,
+              private route: ActivatedRoute,
+              private router: Router) {}
 
-    moveLeft(): void{
-        if(this.sw.position > 1)
-            this.sw.position--;
-        else
-            this.sw.position = 1;    
-    }
+  ngOnInit() {
+    this.sts.getStories(this.swimlane.id).subscribe((stories: AwStory[]) => {
+      this.swimlane.stories = stories;
+    });
+  }
 
-    moveRight(): void{
-        this.sw.position++;
-    }
-    editSwimlane(name:string){
-        this.sw.name = name;
-    }
-    deleteSwimlane(sw: AwSwimlane){
-        
-    }
+  moveLeft() {}
+
+  moveRight() {}
+
+  delete(sl: AwSwimlane): void {
+    this.sls.deleteSwimlane(sl).subscribe((b: Boolean) => {
+      this.board.swimlanes = this.board.swimlanes.filter(obj => {
+				return obj.id !== sl.id;
+      });
+      this.board.swimlanes.forEach(obj => {
+        if (obj.order > sl.order) {
+          obj.order -= 1;
+          this.sls.updateSwimlane(obj).subscribe();
+        }
+      });
+
+    });
+  }
+
 }

@@ -30,16 +30,16 @@
                     </div>
                 </ul>
                 
-                <!-- <div class = "navbar-form navbar-right">
+                <div class = "navbar-form navbar-right">
                     <div class="form-group input-group">
-                        <input class="form-control" data-ng-model="newSwimLane.name" type="text"/>
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="button" (click)="createSwimLane()">
-                                    Create Swimlane
-                                </button>
-                            </span>
+                        <input class="form-control" [(ngModel)]="sl.name" type="text"/>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" (click)="createSwimlane(sl)">
+                                Create Swimlane
+                            </button>
+                        </span>
                     </div>
-                </div> -->
+                </div>
 
                 <!-- <div id="renameBoard" data-ng-hide = "!rename">
                     <p>Enter new name here:</p>
@@ -53,13 +53,13 @@
                         
                 </div>
 
-                <!-- <table>
+                <table>
                     <tr>
-                        <td id="lanes" class="well" ng-repeat="swimLane in board.swimLanes" >
-                            <scrum-swim-lane swim-lane="swimLane" board="board"></scrum-swim-lane>
+                        <td id="lanes" class="well" *ngFor="let swimlane of bu.swimlanes" >
+                            <aw-swimlane [swimlane]="swimlane" [board]="bu"></aw-swimlane>
                         </td>
                     </tr>
-                </table> -->
+                </table>
 
             </div>
         </div>

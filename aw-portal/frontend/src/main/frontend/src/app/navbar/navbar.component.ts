@@ -1,3 +1,4 @@
+import { AwUser } from './../domain/aw-user';
 import { Router } from '@angular/router';
 
 import { AwBoard } from './../domain/aw-board';
@@ -19,7 +20,14 @@ export class NavbarComponent implements OnInit {
       swimlanes: null
     }
   ];
-  user = {username: "smisoka"};
+  user: AwUser = {
+    id: 0,
+    email: "steve@revature.com",
+    fn: "Steve",
+    ln: "Stevie",
+    username: "steve",
+    password: "123"
+  };
 
   constructor(private router: Router) {}
 
