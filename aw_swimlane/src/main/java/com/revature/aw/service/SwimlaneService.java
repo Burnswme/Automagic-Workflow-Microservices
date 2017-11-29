@@ -21,9 +21,13 @@ public class SwimlaneService {
 	public Swimlane findSwimlaneById(Swimlane sl) {
 		return dao.findSwimlaneById(sl.getId());
 	}
+	
+	public Swimlane findSwimlaneByBoardIdAndOrder(Swimlane sl) {
+		return dao.findSwimlaneByBoardIdAndOrder(sl.getBoardId(), sl.getOrder());
+	}
 
 	public List<Swimlane> findSwimlanesByBoardId(int id) {
-		return dao.findByBoardId(id);
+		return dao.findByBoardIdOrderByOrder(id);
 	}
 	
 	public void delete(Swimlane sl) {
