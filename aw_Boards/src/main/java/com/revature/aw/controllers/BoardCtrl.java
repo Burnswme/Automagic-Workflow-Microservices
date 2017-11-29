@@ -27,9 +27,7 @@ public class BoardCtrl
 	@ResponseBody
 	public ResponseEntity<Object> getBoards(@PathVariable("users") int[] id, HttpServletRequest req)
 	{
-		HttpSession session = req.getSession(false);
-		if(session != null)
-		{
+
 			List<Board> userBoards = new ArrayList<>();
 			userBoards = services.getBoardsByUserId(id);
 			if(userBoards != null)
@@ -38,43 +36,47 @@ public class BoardCtrl
 			}
 			else
 			{
-				return null;
+				return new ResponseEntity<>(HttpStatus.CONFLICT);
 			}
-			
-		}
-		else
-			return null;
+
 	}
 	
-	@GetMapping("/getBoard/{id}")
+	@GetMapping("/getOneBoard")
 	@ResponseBody
-	public ResponseEntity<Board> getBoardById(@PathVariable("id")int id,HttpServletRequest req)
+	public ResponseEntity<Object> getBoardById(@PathVariable("board.id")int id,HttpServletRequest req)
 	{
-		Board board = services.getBoardByBoardId(id);
-		return (board != null) ? new ResponseEntity<>(board, HttpStatus.OK)
-				: new ResponseEntity<>(HttpStatus.CONFLICT);
+
+			Board board = new Board();
+			board = services.getBoardByBoardId(id);
+			if(board != null)
+			{
+				List<Board> boards = new ArrayList<>();
+				boards.add(board);
+				return (ResponseEntity<Object>) boards;
+			}
+			else
+				return new ResponseEntity<>(HttpStatus.CONFLICT);
+
 	}
 	
 	@GetMapping("/deleteBoard")
-	public void deleteBoard(@PathVariable("board")Board board, HttpServletRequest req)
+	public ResponseEntity<Object> deleteBoard(@PathVariable("board")Board board, HttpServletRequest req)
 	{
-		HttpSession session = req.getSession(false);
-		if(session != null)
+		if(services != null && board != null && services.getBoardByBoardId(board.getId()) != null) 
 		{
 			services.deleteBoard(board);
+			return new ResponseEntity<>(HttpStatus.OK);
 		}
-		else
-			System.out.println("Null Session -deleteBoard");
 		
+		return new ResponseEntity<>(HttpStatus.CONFLICT);
+
 	}
 	
 	@GetMapping("/createBoard")
 	@ResponseBody
 	public ResponseEntity<Object> createBoard(@PathVariable("id")int id,HttpServletRequest req)
 	{
-		HttpSession session = req.getSession(false);
-		if(session != null)
-		{
+
 			Board board = new Board();
 			board.setId(id);
 			board = services.updateBoard(board);
@@ -85,12 +87,7 @@ public class BoardCtrl
 				return (ResponseEntity<Object>) list;
 			}
 			else
-				return null;
-			
-		}
-		else
-			return null;
-		
+				return new ResponseEntity<>(HttpStatus.CONFLICT);
 		
 	}
 	
@@ -98,9 +95,7 @@ public class BoardCtrl
 	@ResponseBody
 	public ResponseEntity<Object> updateBoard(@PathVariable("board")Board board,HttpServletRequest req)
 	{
-		HttpSession session = req.getSession();
-		if(session != null)
-		{
+
 			Board updatedBoard = new Board();
 			updatedBoard = services.updateBoard(board);
 			if(updatedBoard != null)
@@ -110,9 +105,7 @@ public class BoardCtrl
 				return (ResponseEntity<Object>) boards;
 			}
 			else
-				return null;
-		}
-		else
-			return null;
+				return new ResponseEntity<>(HttpStatus.CONFLICT);
+
 	}
 }
