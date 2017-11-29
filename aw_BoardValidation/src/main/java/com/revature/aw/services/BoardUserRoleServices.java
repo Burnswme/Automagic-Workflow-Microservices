@@ -56,9 +56,9 @@ public class BoardUserRoleServices
 	public boolean determinePrivileges(int userId, int boardId)
 	{
 		boolean canView = false;
-		BoardUserRole bur = new BoardUserRole();
+		BoardUserRole bur = new BoardUserRole(0,0,0);
+		
 		bur = dao.findByUserIdAndBoardId(userId,boardId);
-		System.out.println("Determine Privileges " + bur);
 		if(!bur.equals(null))
 		{
 			if(bur.getRoleId() != 0)
@@ -66,7 +66,6 @@ public class BoardUserRoleServices
 				canView = true;
 			}
 		}
-		System.out.println("Determine Privileges " + canView);
 		return canView;
 	}
 	public BoardUserRole findByUserIdAndBoardId(int userId,int boardId)

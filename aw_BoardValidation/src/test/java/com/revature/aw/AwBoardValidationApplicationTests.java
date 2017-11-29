@@ -120,13 +120,27 @@ public class AwBoardValidationApplicationTests
 		
 		assertEquals(true,services.determinePrivileges(userId, boardId));
 	}
-	@Test
-	public void testServicesDeterminePrivilegesNegative()
+	@Test(expected = NullPointerException.class)
+	public void testServicesDeterminePrivilegesInvalidUser()
 	{
-		int userId = 1;
+		int userId = 3;
 		int boardId = 5;
 		
-		assertEquals(false,services.determinePrivileges(userId, boardId));
+		boolean privileges = false;
+		privileges = services.determinePrivileges(userId, boardId);
+	}
+	@Test
+	@Transactional
+	public void testServicesDeterminePrivilegesNotAllowed()
+	{
+		BoardUserRole bur4 = new BoardUserRole(3,1,0);
+		dao.save(bur4);
+		
+		boolean privileges = true;
+		privileges = services.determinePrivileges(3, 1);
+		
+		assertEquals(false,privileges);
+		
 	}
 
 }
