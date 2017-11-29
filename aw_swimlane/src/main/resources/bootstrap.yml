@@ -1,6 +1,7 @@
 spring:
   application:
     name: swimlane-service
-  datasource:
-    tomcat:
-      initial-size: 1
+  cloud:
+    config:
+      uri: http://localhost:9000   
+ 
