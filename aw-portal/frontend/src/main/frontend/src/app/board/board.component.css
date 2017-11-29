@@ -1,0 +1,8 @@
+aw-swimlane {
+    width: 250px;
+    display: inline-block;
+}
+
+#lanes {
+    vertical-align: top;
+}

@@ -2,11 +2,7 @@ import { DataService } from './../data.service';
 import { Component, OnInit } from '@angular/core';
 import { NgModel } from '@angular/forms';
 import { Router } from '@angular/router';
-
-export class AwUser {
-  username: string;
-  password: string;
-}
+import { AwUser } from '../domain/aw-user';
 
 @Component({
   selector: 'aw-login',
@@ -15,6 +11,10 @@ export class AwUser {
 })
 export class LoginComponent implements OnInit {
   bu: AwUser = {
+    id: 0,
+    email: "",
+    fn: "",
+    ln: "",
     username: "",
     password: ""
   };
