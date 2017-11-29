@@ -25,6 +25,14 @@ public class BoardUserRoleServices
 		list = dao.findByUserId(userId);
 		if(!list.isEmpty())
 		{
+			for(BoardUserRole bur: list)
+			{	//this should remove any boards for which the user 
+				//does not have viewing privileges (denoted as 0)
+				if(bur.getRoleId() < 1)
+				{
+					list.remove(bur);
+				}
+			}
 			return list;
 		}
 		else
@@ -58,5 +66,21 @@ public class BoardUserRoleServices
 	public void delete(BoardUserRole bur)
 	{
 		dao.delete(bur);
+	}
+	public boolean determinePrivileges(int userId, int boardId)
+	{
+		boolean canView = false;
+		BoardUserRole bur = new BoardUserRole();
+		bur = findOne(boardId);
+		
+		if(!bur.equals(null))
+		{
+			if(bur.getRoleId() != 0)
+			{
+				canView = true;
+			}
+		}
+		
+		return canView;
 	}
 }
