@@ -61,7 +61,7 @@ public class SwimlaneCtrl {
 		}
 	}
 	
-	@PostMapping("/getSwimlanes/{boardId}")
+	@GetMapping("/getSwimlanesByBoardId/{boardId}")
 	@ResponseBody
 	public ResponseEntity<Object> getSwimlanesByBoardId(@PathVariable("boardId") int id, HttpServletRequest req) {
 		if(service != null && id != 0) {
@@ -70,18 +70,7 @@ public class SwimlaneCtrl {
 		}
 		
 		return new ResponseEntity<>(HttpStatus.CONFLICT);
-	}
-	
-	//final endpoint for tasks/stories trying to get boardId
-	@GetMapping("/getBoardId/{swimlaneId}")
-	public Integer getBoardId(@PathVariable("swimlaneId") int swimlaneId) {
-		Swimlane sl = new Swimlane();
-		sl.setId(swimlaneId);
-		sl = service.findSwimlaneById(sl);
-		
-		return sl.getBoardId();
-	}
-	
+	}	
 
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<Exception> handleException(Exception e){

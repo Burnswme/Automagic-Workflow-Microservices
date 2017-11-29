@@ -14,5 +14,19 @@ export class StoryService {
     return this.http.get<AwStory[]>(this.zuulUrl + "/aw_story/getStories/" + swimlaneId)
       .retry(5);
   }
+  createStory(st: AwStory): Observable<AwStory> {
+    return this.http.post<AwStory>(this.zuulUrl + "/aw_story/createStory", st)
+      .retry(5);
+  }
+
+  updateStory(st: AwStory): Observable<AwStory> {
+    return this.http.post<AwStory>(this.zuulUrl + "/aw_story/updateStory", st)
+      .retry(5);
+  }
+
+  deleteStory(st: AwStory): Observable<Boolean> {
+    return this.http.post<Boolean>(this.zuulUrl + "/aw_story/deleteStory", st)
+      .retry(5);
+  }
 
 }

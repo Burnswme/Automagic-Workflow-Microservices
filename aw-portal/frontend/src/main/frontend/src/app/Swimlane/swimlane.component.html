@@ -28,8 +28,8 @@
 		<h4 class="modal-title" id="myModalLabel">{{swimlane.name}}</h4>
 	</div>
 	<div class="app-modal-body">
-		<input id="swimlaneName" type="text" placeholder="{{swimlane.name}}"/>
-		<button class="button button-primary" (click)="updateSwimlane(swimlaneName)">Save</button>
+		<input [(ngModel)]="updateName" id="swimlaneName" type="text" placeholder="{{swimlane.name}}"/>
+		<button class="button button-primary" (click)="updateSwimlane(updateName)">Save</button>
 	</div>
 	<div class="app-modal-footer">
 
@@ -73,14 +73,12 @@
 			<h4 class="modal-title" id="myModalLabel">New Story Details</h4>
 		</div>
 		<div class="app-modal-body" style="text-align:center">
-			<input type="text" placeholder="title"/> <br>
-			<input type="text" placeholder="description"/> <br>
-			<input id="points" type="number" class="form-control" min=1 max=10 style="width:20%; margin:auto" placeholder="points">
-			<!-- <input [(ngModel)]="swimlane.name" id="updatedName" type="text" placeholder="{{swimlane.name}}"/>
-			<button class="button button-primary" (click)="updateSwimlane(swimlane.name)">Save</button> -->
+			<input [(ngModel)]="newStory.title" type="text" placeholder="title"/> <br>
+			<input [(ngModel)]="newStory.description" type="text" placeholder="description"/> <br>
+			<input [(ngModel)]="newStory.points" id="points" type="number" class="form-control" min=1 max=10 style="width:20%; margin:auto" placeholder="points">
 		</div>
 		<div class="app-modal-footer">
-			
+			<button type="button" class="btn btn-default" (click)="createStory(newStory)" data-dismiss="modal">Create Story</button>
 		</div>
 	</app-modal>
 	<!-- Modal -->

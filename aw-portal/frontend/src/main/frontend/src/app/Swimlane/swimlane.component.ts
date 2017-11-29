@@ -14,8 +14,20 @@ import { Component, OnInit, Input } from '@angular/core';
 export class SwimlaneComponent implements OnInit {
   @Input() board: AwBoard;
   @Input() swimlane: AwSwimlane;
+  updateName: string;//used as an intermediary string to update/edit this.swimlane using ngModel without actually saving the value until you hit save
+
   sl2: AwSwimlane; //swimlane to be displaced when moving a swimlane around
-  swapSl: AwSwimlane; //for swapping
+
+  newStory: AwStory = {
+    id: 0,
+    swimlaneId:0,
+    title: "",
+    description: "",
+    points: 0,
+    timeCompleted: 0,
+    order: 0,
+    tasks: []
+  };
 
   constructor(private sls: SwimlaneService,
               private sts: StoryService,
@@ -26,13 +38,13 @@ export class SwimlaneComponent implements OnInit {
     this.sts.getStories(this.swimlane.id).subscribe((stories: AwStory[]) => {
       this.swimlane.stories = stories;
     });
+    //gives the 'edit' field a default value(the actual value)
+    this.updateName = this.swimlane.name;
   }
 
-  updateSwimlane(updatedName: string) {
-    console.log("UPDATE SWIMLANE")
-    console.log(updatedName);
-    this.swimlane.name = updatedName;
-    this.board.swimlanes[this.swimlane.order] = this.swimlane;
+  updateSwimlane() {
+    this.swimlane.name = this.updateName;
+    // this.board.swimlanes[this.swimlane.order] = this.swimlane;
     this.sls.updateSwimlane(this.swimlane).subscribe();
   }
 
@@ -42,12 +54,8 @@ export class SwimlaneComponent implements OnInit {
     this.swimlane.order = ogOrder-1;
     this.sl2 = this.board.swimlanes[this.swimlane.order];
     this.sl2.order = ogOrder;
-    this.swapSl = this.sl2;
-    this.board.swimlanes[ogOrder] = this.swapSl;
+    this.board.swimlanes[ogOrder] = this.sl2;
     this.board.swimlanes[ogOrder-1] = this.swimlane;
-    console.log(this.sl2);
-    console.log(this.swimlane);
-    console.log(this.board.swimlanes);
     this.sls.updateSwimlane(this.swimlane).subscribe();
     this.sls.updateSwimlane(this.sl2).subscribe();
   }
@@ -58,12 +66,8 @@ export class SwimlaneComponent implements OnInit {
     this.swimlane.order = ogOrder+1;
     this.sl2 = this.board.swimlanes[this.swimlane.order];
     this.sl2.order = ogOrder;
-    this.swapSl = this.sl2;
-    this.board.swimlanes[ogOrder] = this.swapSl;
+    this.board.swimlanes[ogOrder] = this.sl2;
     this.board.swimlanes[ogOrder+1] = this.swimlane;
-    console.log(this.sl2);
-    console.log(this.swimlane);
-    console.log(this.board.swimlanes);
     this.sls.updateSwimlane(this.swimlane).subscribe();
     this.sls.updateSwimlane(this.sl2).subscribe();
     
@@ -84,20 +88,23 @@ export class SwimlaneComponent implements OnInit {
     });
   }
 
-  createStory(title: string, slId: number, desc: string, points: number) {
-    console.log("CREATE STORY");
-    // sl.order = (this.bu.swimlanes) ? this.bu.swimlanes.length : 0;
-    // console.log(sl);
-    // this.sls.createSwimlane(sl).subscribe((result: AwSwimlane) => {
-    //     this.bu.swimlanes.push(result);
-    //     this.sl = {
-    //         id: 0,
-    //         boardId: this.bu.id,
-    //         name: "",
-    //         order: 0,
-    //         stories: []
-    //     };
-    // });
-}
+  createStory(st: AwStory) {
+    st.order = (this.swimlane.stories) ? this.swimlane.stories.length : 0;
+    st.swimlaneId = this.swimlane.id;
+
+    this.sts.createStory(st).subscribe((result: AwStory) => {
+      this.swimlane.stories.push(result);
+      this.newStory = {
+        id: 0,
+        swimlaneId:0,
+        title: "",
+        description: "",
+        points: 0,
+        timeCompleted: 0,
+        order: 0,
+        tasks: []
+      };
+    })
+  }
 
 }

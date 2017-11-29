@@ -44,7 +44,6 @@ public class SwimlaneAspect {
 		session.setAttribute("userUsername", "AOP Test guy");
 		//DELETE AFTERWARDS
 		
-		
 		int userId = (int)session.getAttribute("userId");
 		String username = (String)session.getAttribute("userUsername");
 		
