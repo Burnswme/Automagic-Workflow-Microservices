@@ -38,20 +38,6 @@ public class BoardUserRoleServices
 		else
 			return null;
 	}
-	
-	public BoardUserRole findOne(int i)
-	{
-		BoardUserRole bur;
-		
-		bur = dao.findOne(i);
-		if(!bur.equals(null))
-		{
-			return bur;
-		}
-		else
-			return null;
-	}
-	
 	public BoardUserRole save(BoardUserRole bur)
 	{
 		BoardUserRole x;
@@ -71,8 +57,8 @@ public class BoardUserRoleServices
 	{
 		boolean canView = false;
 		BoardUserRole bur = new BoardUserRole();
-		bur = findOne(boardId);
-		
+		bur = dao.findByUserIdAndBoardId(userId,boardId);
+		System.out.println("Determine Privileges " + bur);
 		if(!bur.equals(null))
 		{
 			if(bur.getRoleId() != 0)
@@ -80,7 +66,14 @@ public class BoardUserRoleServices
 				canView = true;
 			}
 		}
-		
+		System.out.println("Determine Privileges " + canView);
 		return canView;
+	}
+	public BoardUserRole findByUserIdAndBoardId(int userId,int boardId)
+	{
+		BoardUserRole bur;
+		
+		bur = dao.findByUserIdAndBoardId(userId, boardId);
+		return bur;
 	}
 }

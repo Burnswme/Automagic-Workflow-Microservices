@@ -55,7 +55,7 @@ public class BoardUserRoleController
 	@ResponseBody
 	public ResponseEntity<Object> deleteUserBoardRole(@RequestBody BoardUserRole bur, HttpServletRequest req)
 	{
-		if(services != null && bur != null && services.findOne(bur.getBoardId()) != null) 
+		if(services != null && bur != null && services.findByUserIdAndBoardId(bur.getUserId(),bur.getBoardId()) != null) 
 		{
 			services.delete(bur);
 			return new ResponseEntity<>(HttpStatus.OK);

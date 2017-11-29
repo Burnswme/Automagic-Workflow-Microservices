@@ -13,7 +13,7 @@ public interface Dao extends CrudRepository<BoardUserRole,Integer>
 	
 	//Read
 	public List<BoardUserRole> findByUserId(int userId);
-	public BoardUserRole findOne(int boardId);
+	public BoardUserRole findByUserIdAndBoardId(int userId,int boardId);
 	//Update
 	public BoardUserRole save(BoardUserRole bur);
 	//Delete

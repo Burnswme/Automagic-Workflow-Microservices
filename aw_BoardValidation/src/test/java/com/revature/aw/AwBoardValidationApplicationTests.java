@@ -67,11 +67,11 @@ public class AwBoardValidationApplicationTests
 	}
 	
 	@Test
-	public void testDaoFindOne()
+	public void testDaoFindByUserIdAndBoardId()
 	{
 		BoardUserRole bur3 = new BoardUserRole();
 		
-		bur3 = dao.findOne(bur.getBoardId());
+		bur3 = dao.findByUserIdAndBoardId(bur.getUserId(),bur.getBoardId());
 		
 		assertEquals(bur.getBoardId(),bur3.getBoardId());
 	}
@@ -103,14 +103,30 @@ public class AwBoardValidationApplicationTests
 		if(dao.findOne(bur.getBoardId()) != null)
 		{
 			dao.delete(bur);
-			assertEquals(null,dao.findOne(bur.getBoardId()));
+			assertEquals(null,dao.findByUserIdAndBoardId(bur.getUserId(), bur.getBoardId()));
 		}
 		else
 		{
 			bur2 = dao.save(bur);
 			dao.delete(bur);
-			assertEquals(null,dao.findOne(bur.getBoardId()));
+			assertEquals(null,dao.findByUserIdAndBoardId(bur.getUserId(), bur.getBoardId()));
 		}
+	}
+	@Test
+	public void testServicesDeterminePrivilegesAffirmative()
+	{
+		int userId = 1;
+		int boardId = 1;
+		
+		assertEquals(true,services.determinePrivileges(userId, boardId));
+	}
+	@Test
+	public void testServicesDeterminePrivilegesNegative()
+	{
+		int userId = 1;
+		int boardId = 5;
+		
+		assertEquals(false,services.determinePrivileges(userId, boardId));
 	}
 
 }
