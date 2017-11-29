@@ -102,14 +102,7 @@ public class Board
 	}
 
 	@Override
-	public String toString() 
-	{
+	public String toString() {
 		return "Board [id=" + id + ", name=" + name + ", startDate=" + startDate + ", numDays=" + numDays + "]";
 	}
-	
-
-
-
-	
-	
 }
