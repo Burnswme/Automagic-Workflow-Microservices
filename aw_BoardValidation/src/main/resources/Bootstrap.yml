@@ -1,4 +1,6 @@
-spring:
+#aw_BoardValidation
+ 
+spring: 
   application:
     name: aw_BoardValidation
   cloud:

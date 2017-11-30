@@ -1,4 +1,6 @@
-spring:
+#aw-eureka
+
+spring: 
   application:
     name: aw-eureka
   cloud:
