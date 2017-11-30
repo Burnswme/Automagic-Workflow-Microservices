@@ -1,4 +1,6 @@
-spring:
+#aw-tasks
+
+spring: 
   application:
     name: tasks
   cloud:

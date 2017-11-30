@@ -1,4 +1,6 @@
-spring:
+#swimlane-service
+
+spring: 
   application:
     name: swimlane-service
   cloud:
