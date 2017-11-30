@@ -13,10 +13,10 @@ public interface SwimlaneDAO extends CrudRepository<Swimlane, Integer> {
   
 	//finds a swimlane by id
 	public Swimlane findSwimlaneById(Integer id);
+	public List<Swimlane> findByBoardId(int boardId);
 	
 	public Swimlane findSwimlaneByBoardIdAndOrder(int boardId, int order);
 
-	//Find tasks by the story id of the parent story
 	public List<Swimlane> findByBoardIdOrderByOrder(int boardId);
   
 	//deletes swimlane

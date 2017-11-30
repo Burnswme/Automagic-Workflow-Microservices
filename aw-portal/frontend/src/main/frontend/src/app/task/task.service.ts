@@ -15,4 +15,20 @@ export class TaskService {
         .retry(5);
     }
 
+    createTask(task: AwTask): Observable<AwTask> {
+        return this.http.post<AwTask>(this.zuulUrl + "/tasks/saveTask?boardId="+localStorage.getItem("currentBoardId"), task)
+            .retry(5);
+    }
+
+    updateTask(task: AwTask): Observable<AwTask> {
+        return this.http.post<AwTask>(this.zuulUrl + "/tasks/updateTask?boardId="+localStorage.getItem("currentBoardId"), task)
+            .retry(5);
+    }
+
+    deleteTask(task: AwTask): Observable<Boolean> {
+        console.log("DELETING");
+        console.log(task);
+        return this.http.post<Boolean>(this.zuulUrl + "/tasks/deleteTask?boardId="+localStorage.getItem("currentBoardId"), task)
+            .retry(5);
+    }
 }

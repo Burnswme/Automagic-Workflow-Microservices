@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgModel } from '@angular/forms';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
+import { AwHistory } from '../domain/aw-history';
 
 @Component({
     selector: 'aw-board',
@@ -27,7 +28,12 @@ export class BoardComponent implements OnInit{
         order: 0,
         stories: []
     };
+
+    history: AwHistory[];
+
     errorMessage: string = "";
+
+    updatedName: string;
 
     constructor(private bs: BoardService,
                 private sls: SwimlaneService,
@@ -41,9 +47,13 @@ export class BoardComponent implements OnInit{
                 this.bu = board;
                 this.sl.boardId = board.id;
                 this.display = true;
+                console.log("GETTING SWIMLANES");
+                console.log(board.id);
                 this.sls.getSwimlanes(board.id)
                 .subscribe((swimlanes: AwSwimlane[]) => {
                     board.swimlanes = swimlanes;
+                    console.log("SWIMLANES GOTTEN?");
+                    console.log(board.swimlanes);
                 })
             });
     };
@@ -55,7 +65,7 @@ export class BoardComponent implements OnInit{
     }
 
     deleteBoard(board: AwBoard){
-
+        
     }
 
     editBoard(name:string){
@@ -75,5 +85,11 @@ export class BoardComponent implements OnInit{
                 stories: []
             };
         });
+    }
+
+    loadHistory() {
+        this.bs.getHistory(this.bu.id).subscribe((histList: AwHistory[]) => {
+            this.history = histList;
+        })
     }
 };

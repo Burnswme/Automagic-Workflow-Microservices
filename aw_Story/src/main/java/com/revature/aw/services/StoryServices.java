@@ -25,7 +25,7 @@ public class StoryServices
 	//provided by the front end
 	public List<Story> getStoriesBySwimlaneId(int id)
 	{
-		return dao.findBySwimlaneId(id);
+		return dao.findBySwimlaneIdOrderByOrder(id);
 	}
 	public Story updateStory(Story story)
 	{
