@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,9 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.revature.aw.auth.dao.BoardUserDao;
 import com.revature.aw.auth.domain.BoardUser;
 
-@CrossOrigin(allowedHeaders="*",allowCredentials="true")
 @RestController
-@EnableResourceServer
 public class UsersCtrl {
 	@Autowired
 	private BoardUserDao dao;
