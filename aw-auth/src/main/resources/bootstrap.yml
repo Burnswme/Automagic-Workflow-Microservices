@@ -1,33 +1,7 @@
 # aw-auth
-    
-server:
-  context-path: /auth
-  port: 8090
-
-logging:
-  level:
-    org.springframework.security: DEBUG
-  
-keystore:
-  password: automagic
-  
 spring:
   application:
     name: users
-  mvc:
-    dispatchOptionsRequest: true
-  datasource:
-    url: jdbc:oracle:thin:@meanbean.cz7bznkyn7di.us-east-2.rds.amazonaws.com:1521:ORCL
-    username: meanbean_user
-    password: p4ssw0rd
-    driver-class-name: oracle.jdbc.OracleDriver
-    platform: oracle
-  jpa:
-    database: ORACLE
-    show-sql: true
-
-eureka:
-  instance:
-    hostname: localhost
-    instance-id: ${spring.application.name}:${server.port}
-    
+  cloud:
+    config:
+      uri: http://localhost:9000    
