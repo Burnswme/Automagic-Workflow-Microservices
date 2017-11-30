@@ -1,18 +1,6 @@
 spring:
   application:
     name: aw-zuul
-
-server:
-  port: 8765
-  
-eureka:
-  instance:
-    hostname: localhost
-    instance-id: ${spring.application.name}:${server.port} 
-    
-zuul:
-  routes:
-    users:
-      path: /users/**
-      sensitiveHeaders:
-      serviceId: users
+  cloud:
+    config:
+      uri: http://localhost:9000  

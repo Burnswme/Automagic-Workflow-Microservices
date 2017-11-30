@@ -47,9 +47,13 @@ export class BoardComponent implements OnInit{
                 this.bu = board;
                 this.sl.boardId = board.id;
                 this.display = true;
+                console.log("GETTING SWIMLANES");
+                console.log(board.id);
                 this.sls.getSwimlanes(board.id)
                 .subscribe((swimlanes: AwSwimlane[]) => {
                     board.swimlanes = swimlanes;
+                    console.log("SWIMLANES GOTTEN?");
+                    console.log(board.swimlanes);
                 })
             });
     };

@@ -25,6 +25,7 @@ import { TaskService } from './task/task.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpModule } from '@angular/http';
 import { AuthGuard } from './auth-guard.service';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { AuthGuard } from './auth-guard.service';
     NgbModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    HttpModule
+    HttpModule,
+    ChartsModule
   ],
   providers: [
     BackendService,

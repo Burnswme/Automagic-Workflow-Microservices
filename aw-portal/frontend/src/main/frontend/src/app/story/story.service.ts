@@ -4,16 +4,16 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AwSwimlane } from './../domain/aw-swimlane';
 import 'rxjs/add/operator/retry';
+import { BackendService } from './../backend.service';
 
 @Injectable()
 export class StoryService {
   zuulUrl: string = "http://localhost:8765";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private backend: BackendService) {}
 
   getStories(swimlaneId: number): Observable<AwStory[]> {
-    return this.http.get<AwStory[]>(this.zuulUrl + "/aw_story/getStories/" + swimlaneId)
-      .retry(5);
+    return this.backend.get<AwStory[]>(this.zuulUrl + "/aw_story/getStories/" + swimlaneId);
   }
   createStory(st: AwStory): Observable<AwStory> {
     return this.http.post<AwStory>(this.zuulUrl + "/aw_story/createStory?boardId="+localStorage.getItem("currentBoardId"), st)
