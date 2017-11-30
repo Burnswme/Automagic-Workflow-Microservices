@@ -5,5 +5,5 @@ export class AwSwimlane{
     boardId: number;
     name: string;
     order: number;
-    stories: AwStory[];
+    stories: AwStory[] = [];
 }

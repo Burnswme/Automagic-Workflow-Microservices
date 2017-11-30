@@ -32,7 +32,7 @@ public class Story {
 	private int points;
 	
 	@Column(name="ST_COMPLETED")
-	private Timestamp dateStoryCompleted;
+	private Timestamp timeCompleted;
 	
 	@Column(name="ST_POSITION")
 	private int order;
@@ -44,7 +44,7 @@ public class Story {
 		this.title = title;
 		this.description = description;
 		this.points = points;
-		this.dateStoryCompleted = dateStoryCompleted;
+		this.timeCompleted = dateStoryCompleted;
 		this.order = order;
 	}
 
@@ -88,12 +88,12 @@ public class Story {
 		this.points = points;
 	}
 
-	public Timestamp getDateStoryCompleted() {
-		return dateStoryCompleted;
+	public Timestamp getTimeCompleted() {
+		return timeCompleted;
 	}
 
-	public void setDateStoryCompleted(Timestamp dateStoryCompleted) {
-		this.dateStoryCompleted = dateStoryCompleted;
+	public void setTimeCompleted(Timestamp timeCompleted) {
+		this.timeCompleted = timeCompleted;
 	}
 
 	public int getOrder() {
@@ -107,7 +107,7 @@ public class Story {
 	@Override
 	public String toString() {
 		return "Story [id=" + id + ", swimlaneId=" + swimlaneId + ", title=" + title + ", description=" + description
-				+ ", points=" + points + ", dateStoryCompleted=" + dateStoryCompleted + ", order=" + order + "]";
+				+ ", points=" + points + ", timeCompleted=" + timeCompleted + ", order=" + order + "]";
 	}
 	
 }

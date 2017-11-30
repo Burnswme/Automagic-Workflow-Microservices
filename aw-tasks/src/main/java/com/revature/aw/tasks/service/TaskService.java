@@ -17,7 +17,7 @@ public class TaskService {
 	private TaskDao dao;
 	
 	public List<Task> getTasksByStoryId(int storyId) {
-		return dao.findByStoryId(storyId);
+		return dao.findByStoryIdOrderByOrder(storyId);
 	}
 	
 	public Task getTaskById(int id) {

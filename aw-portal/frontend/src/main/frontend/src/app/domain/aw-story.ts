@@ -6,7 +6,7 @@ export class AwStory {
     title: string;
     description: string;
     points: number;
-    timeCompleted: number;
-    position: number;
+    timeCompleted: Date;
+    order: number;
     tasks: AwTask[];
 }

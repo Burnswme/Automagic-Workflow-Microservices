@@ -2,19 +2,15 @@ package com.revature.aw.services;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import com.revature.aw.dao.Dao;
+import com.revature.aw.dao.HistoryDAO;
 import com.revature.aw.domain.Board;
+import com.revature.aw.domain.History;
 
 @Component("BoardServices")
 @Transactional
@@ -60,5 +56,11 @@ public class BoardServices
 	{
 		dao.delete(board);
 	}
-
+	
+	@Autowired
+	private HistoryDAO histDAO;
+	
+	public List<History> getHistory(int boardId) {
+		return histDAO.findHistoryByBdIdOrderByTimestampDesc(boardId);
+	}
 }

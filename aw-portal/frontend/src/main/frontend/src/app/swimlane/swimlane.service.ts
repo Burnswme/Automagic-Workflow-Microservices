@@ -4,17 +4,17 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/retry';
+import { BackendService } from './../backend.service';
 
 @Injectable()
 export class SwimlaneService {
 
   zuulUrl: string = "http://localhost:8765";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private backend: BackendService) {}
 
   getSwimlanes(boardId: number): Observable<AwSwimlane[]> {
-    return this.http.get<AwSwimlane[]>(this.zuulUrl + "/swimlane-service/getSwimlanesByBoardId/" + boardId)
-      .retry(5);
+    return this.backend.get<AwSwimlane[]>("/swimlane-service/getSwimlanesByBoardId/" + boardId);
   }
 
   createSwimlane(sl: AwSwimlane): Observable<AwSwimlane> {
@@ -31,5 +31,4 @@ export class SwimlaneService {
     return this.http.post<Boolean>(this.zuulUrl + "/swimlane-service/delete", sl)
       .retry(5);
   }
-
 }

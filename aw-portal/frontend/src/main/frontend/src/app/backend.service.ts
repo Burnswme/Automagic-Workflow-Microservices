@@ -14,13 +14,13 @@ import 'rxjs/add/operator/retryWhen';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 
-
-
 @Injectable()
 export class BackendService {
   user: BehaviorSubject<AwUser> = new BehaviorSubject<AwUser>(new AwUser("", ""));
 
-  constructor(private http: Http, private router: Router) { }
+  constructor(private http: Http, private router: Router) {}
+
+  zuul: string = "http://localhost:8765";
 
   url: string;
   headers: Headers;
@@ -52,15 +52,17 @@ export class BackendService {
       });
   }
 
-  getUpdatedUser(user: AwUser): Observable<AwUser> {
-    console.log('getUpdatedUser() backend-service.ts');
-    this.url = "http://localhost:8765/users/auth/getUser";
-    this.headers = new Headers({ 
-      "Content-Type": "application/json",
-      'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token 
-    });
-    this.options = new RequestOptions({ headers: this.headers });
-    return this.http.post(this.url, user, this.options)
+  get<T>(endpoint: string): Observable<T> {
+    this.url = this.zuul + endpoint
+      + "?access_token=" + JSON.parse(localStorage.getItem('currentUser')).token;
+    return this.http.get(this.url)
+      .retryWhen(attempts => attempts
+        .mergeMap((error) => {
+          if (error.status === 401) {
+            this.router.navigateByUrl('/login');
+            return Observable.throw(error);
+          } else return of(error);})
+        .take(5))
       .map(res => res.json());
   }
 
