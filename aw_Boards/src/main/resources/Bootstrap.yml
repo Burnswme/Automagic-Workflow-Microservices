@@ -1,9 +1,36 @@
-server:
-  port: 0
+#aw-boards
+  
 spring:
   application:
     name: aw_Boards
+  mvc:
+    dispatchOptionsRequest: true
+  datasource:
+    url: jdbc:oracle:thin:@meanbean.cz7bznkyn7di.us-east-2.rds.amazonaws.com:1521:ORCL
+    username: meanbean_user
+    password: p4ssw0rd
+    driver-class-name: oracle.jdbc.OracleDriver
+    platform: oracle
+  jpa:
+    database: ORACLE
+    show-sql: true
+    
 eureka:
   client:
     register-with-eureka: true
-    fetch-registry: true    
+    fetch-registry: true
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}:${random.int}
+
+security:
+  oauth2:
+    resource:
+      accessTokenUri: http://localhost:8090/auth/oauth/check_token
+      userAuthorizationUri: http://localhost:8090/auth/oauth/authorize
+      userInfoUri: http://localhost:8090/auth/user
+      jwt:
+        keyUri: http://localhost:8090/auth/oauth/token_key
+
+server:
+  port: 0

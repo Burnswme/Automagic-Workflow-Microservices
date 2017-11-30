@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,39 +19,32 @@ import org.springframework.web.bind.annotation.RestController;
 import com.revature.aw.domain.Board;
 import com.revature.aw.services.BoardServices;
 
+@CrossOrigin(allowedHeaders="*",allowCredentials="true")
 @RestController
-public class BoardCtrl
-{
+@EnableResourceServer
+public class BoardCtrl {
 	@Autowired
 	private BoardServices services;
 	
 	@GetMapping("/getOwnerBoards")
 	@ResponseBody
-	public ResponseEntity<Object> getBoards(@PathVariable("users") int[] id, HttpServletRequest req)
-	{
+	public ResponseEntity<Object> getBoards(@PathVariable("users") int[] id, HttpServletRequest req) {
 		HttpSession session = req.getSession(false);
-		if(session != null)
-		{
+		if(session != null) {
 			List<Board> userBoards = new ArrayList<>();
 			userBoards = services.getBoardsByUserId(id);
-			if(userBoards != null)
-			{
+			if(userBoards != null) {
 				return (ResponseEntity<Object>) userBoards;
-			}
-			else
-			{
+			} else {
 				return null;
 			}
-			
-		}
-		else
+		} else
 			return null;
 	}
 	
 	@GetMapping("/getBoard/{id}")
 	@ResponseBody
-	public ResponseEntity<Board> getBoardById(@PathVariable("id")int id,HttpServletRequest req)
-	{
+	public ResponseEntity<Board> getBoardById(@PathVariable("id") int id) {
 		Board board = services.getBoardByBoardId(id);
 		return (board != null) ? new ResponseEntity<>(board, HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.CONFLICT);
