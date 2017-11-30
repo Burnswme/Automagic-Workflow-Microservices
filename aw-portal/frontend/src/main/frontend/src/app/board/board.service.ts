@@ -2,6 +2,8 @@ import { BackendService } from './../backend.service';
 import { AwBoard } from './../domain/aw-board';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/retry';
+import { AwHistory } from '../domain/aw-history';
 import { of } from 'rxjs/observable/of';
 import { Headers, Http, RequestOptions } from '@angular/http';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
@@ -30,4 +32,10 @@ export class BoardService {
     return this.backend.get<AwBoard>("/aw_boards/getBoard/" + id);
   }
 
+  getHistory(boardId: number): Observable<AwHistory[]> {
+    return this.backend.get<AwHistory[]>("/aw_boards/getHistory/" + boardId);
+  }
+  // updateBoard(board: Board): Observable<AwBoard> {
+
+  // }
 }

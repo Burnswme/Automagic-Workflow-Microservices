@@ -18,7 +18,7 @@ public interface Dao extends CrudRepository<Story,Integer>
 	//Read
 	//Find a Story by its id
 	public List<Story> findBySwimlaneId(int swimlaneId);
-
+	public List<Story> findBySwimlaneIdOrderByOrder(int swimlaneId);
 	
 	//Delete
 	public void delete(Story story);

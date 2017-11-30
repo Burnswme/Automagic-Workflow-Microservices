@@ -21,6 +21,8 @@ import { SwimlaneService } from './swimlane/swimlane.service';
 import { StoryComponent } from './story/story.component';
 import { TaskComponent } from './task/task.component';
 import { TaskService } from './task/task.service';
+
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpModule } from '@angular/http';
 import { AuthGuard } from './auth-guard.service';
 import { ChartsModule } from 'ng2-charts';
@@ -41,6 +43,7 @@ import { ChartsModule } from 'ng2-charts';
     BrowserModule,
     FormsModule,
     BsDropdownModule.forRoot(),
+    NgbModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
     HttpModule,

@@ -3,6 +3,9 @@ server:
 spring:
   application:
     name: aw_Story
+  datasource:
+    tomcat:
+      initial-size: 1
 eureka:
   client:
     register-with-eureka: true
