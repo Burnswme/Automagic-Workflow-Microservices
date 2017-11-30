@@ -29,7 +29,7 @@ export class BackendService {
   updatedUser: string;
 
   authenticate(user: AwUser) {
-    this.url = "http://localhost:8765/users/auth/oauth/token";
+    this.url = this.zuul + "/users/auth/oauth/token";
     this.headers = new Headers({
       "Content-Type": "application/x-www-form-urlencoded",
       "Authorization": "Basic " + Base64.encode('automagic:firaga')
@@ -38,7 +38,6 @@ export class BackendService {
     this.creds = 'grant_type=password';
     this.creds += '&username=' + user.username;
     this.creds += '&password=' + user.password;
-    // this.creds = 'grant_type=authorization_code';
     this.http.post(this.url, this.creds, this.options)
       .retry(5)
       .map(res => res.json())
@@ -66,9 +65,27 @@ export class BackendService {
       .map(res => res.json());
   }
 
+  post<T>(endpoint: string, body: Object): Observable<T> {
+    this.url = this.zuul + endpoint
+      + "?access_token=" + JSON.parse(localStorage.getItem('currentUser')).token;
+      this.headers = new Headers({ 
+        "Content-Type": "application/json"
+      });
+      this.options = new RequestOptions({ headers: this.headers });
+    return this.http.post(this.url, body, this.options)
+      .retryWhen(attempts => attempts
+        .mergeMap((error) => {
+          if (error.status === 401) {
+            this.router.navigateByUrl('/login');
+            return Observable.throw(error);
+          } else return of(error);})
+        .take(5))
+      .map(res => res.json());
+  }
+
   updateUser(): void {
     console.log('updateUser() backend-service.ts');
-    this.url = "http://localhost:8765/users/auth/getUser";
+    this.url = this.zuul + "/users/auth/getUser";
     this.headers = new Headers({ 
       "Content-Type": "application/json",
       'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token 
