@@ -1,3 +1,4 @@
+import { BackendService } from './backend.service';
 import { StoryService } from './story/story.service';
 import { BoardComponent } from './board/board.component';
 import { BoardService } from './board/board.service';
@@ -20,7 +21,10 @@ import { SwimlaneService } from './swimlane/swimlane.service';
 import { StoryComponent } from './story/story.component';
 import { TaskComponent } from './task/task.component';
 import { TaskService } from './task/task.service';
+
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HttpModule } from '@angular/http';
+import { AuthGuard } from './auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -40,14 +44,18 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     BsDropdownModule.forRoot(),
     NgbModule.forRoot(),
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    HttpModule
   ],
   providers: [
+    BackendService,
     DataService,
     BoardService,
     SwimlaneService,
     StoryService,
-    TaskService
+    TaskService,
+    BackendService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

@@ -1,5 +1,5 @@
+import { BackendService } from './../backend.service';
 import { AwUser } from './../domain/aw-user';
-import { DataService } from './../data.service';
 import { Component, OnInit } from '@angular/core';
 // import { AwBoard } from '../board/board.component';
 
@@ -9,30 +9,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  user: AwUser = {
-    id: 0,
-    email: "steve@revature.com",
-    fn: "Steve",
-    ln: "Stevie",
-    username: "steve",
-    password: "123"
-  };
-  
-//   bu: AwBoard = {
-//     id: 0,
-//     name: "",
-//     timeCompleted: "",
-//     duration: 0
-// };
+  user: AwUser;
 
-  constructor(private service: DataService) { }
+  constructor(private backend: BackendService) { }
 
   ngOnInit() {
-    this.getLoggedUser();
+    this.user = new AwUser("", "");
+    this.setAwUserListener();
   }
 
-  getLoggedUser(): void {
-    this.user = this.service.loggedUser;
+  setAwUserListener(): void {
+    this.backend.user.subscribe(result => {
+      this.user = result;
+    });
   }
 
 }

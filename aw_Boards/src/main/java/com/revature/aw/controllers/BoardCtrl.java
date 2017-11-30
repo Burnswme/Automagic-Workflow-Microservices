@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,38 +20,25 @@ import com.revature.aw.domain.History;
 import com.revature.aw.services.BoardServices;
 
 @RestController
-public class BoardCtrl
-{
+public class BoardCtrl {
 	@Autowired
 	private BoardServices services;
 	
 	@GetMapping("/getOwnerBoards")
 	@ResponseBody
-	public ResponseEntity<Object> getBoards(@PathVariable("users") int[] id, HttpServletRequest req)
-	{
-		HttpSession session = req.getSession(false);
-		if(session != null)
-		{
-			List<Board> userBoards = new ArrayList<>();
-			userBoards = services.getBoardsByUserId(id);
-			if(userBoards != null)
-			{
-				return (ResponseEntity<Object>) userBoards;
-			}
-			else
-			{
-				return null;
-			}
-			
+	public ResponseEntity<Object> getBoards(@PathVariable("users") int[] id) {
+		List<Board> userBoards = new ArrayList<>();
+		userBoards = services.getBoardsByUserId(id);
+		if(userBoards != null) {
+			return new ResponseEntity<>(userBoards, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
-		else
-			return null;
 	}
 	
 	@GetMapping("/getBoard/{id}")
 	@ResponseBody
-	public ResponseEntity<Object> getBoardById(@PathVariable("id")int id,HttpServletRequest req)
-	{
+	public ResponseEntity<Board> getBoardById(@PathVariable("id") int id) {
 		Board board = services.getBoardByBoardId(id);
 		return (board != null) ? new ResponseEntity<>(board, HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -68,7 +54,7 @@ public class BoardCtrl
 		} else {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
-		
+
 	}
 
 	@PostMapping("/createBoard")

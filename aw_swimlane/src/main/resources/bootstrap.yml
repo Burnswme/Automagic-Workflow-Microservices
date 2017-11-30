@@ -1,11 +1,7 @@
 spring:
   application:
     name: swimlane-service
-  datasource:
-    tomcat:
-      initial-size: 1
-      
-eureka:
-  instance:
-    hostname: localhost
-    instance-id: ${spring.application.name}:${server.port} 
+  cloud:
+    config:
+      uri: http://localhost:9000   
+

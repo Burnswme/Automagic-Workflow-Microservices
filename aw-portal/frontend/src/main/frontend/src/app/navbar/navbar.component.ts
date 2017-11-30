@@ -1,8 +1,11 @@
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BackendService } from './../backend.service';
 import { AwUser } from './../domain/aw-user';
 import { Router } from '@angular/router';
 
 import { AwBoard } from './../domain/aw-board';
 import { Component, OnInit } from '@angular/core';
+import { AwUserToken } from '../domain/aw-usertoken';
 
 @Component({
   selector: 'aw-navbar',
@@ -10,7 +13,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  loggedIn: boolean = true;
   boards: AwBoard[] = [
     {
       id: 99,
@@ -20,22 +22,41 @@ export class NavbarComponent implements OnInit {
       swimlanes: null
     }
   ];
-  user: AwUser = {
-    id: 0,
-    email: "steve@revature.com",
-    fn: "Steve",
-    ln: "Stevie",
-    username: "steve",
-    password: "123"
-  };
+  user: AwUser;
+  loggedUser: BehaviorSubject<AwUserToken>;
 
-  constructor(private router: Router) {}
+  constructor(private backend: BackendService, private router: Router) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.user = new AwUser("", "");
+    this.setAwUserListener();
+    if (this.isLoggedIn()) {
+      this.backend.updateUser();
+    }
+  }
 
   loadBoard(id: number): void {
     localStorage.setItem("currentBoardId", ""+id);
-    this.router.navigate(['/board', id]);
+    this.router.navigateByUrl('/board/' + id);
+  }
+
+  home(): void {
+    this.router.navigateByUrl('/home');
+  }
+
+  logout(): void {
+    this.backend.clearUser();
+    this.router.navigateByUrl('/login');
+  }
+
+  isLoggedIn(): boolean {
+    return this.backend.isLoggedIn();
+  }
+
+  setAwUserListener(): void {
+    this.backend.user.subscribe(result => {
+      this.user = result;
+    });
   }
 
 }

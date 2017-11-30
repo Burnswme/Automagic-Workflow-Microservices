@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: aw_BoardValidation
+  cloud:
+    config:
+      uri: http://localhost:9000 
+ 
+    
