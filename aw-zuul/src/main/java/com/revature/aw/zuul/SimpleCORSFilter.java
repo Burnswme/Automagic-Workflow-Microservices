@@ -1,4 +1,5 @@
-package com.revature.aw.auth;
+package com.revature.aw.zuul;
+
 
 import java.io.IOException;
 

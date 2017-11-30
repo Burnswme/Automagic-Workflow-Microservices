@@ -4,13 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,27 +16,21 @@ import org.springframework.web.bind.annotation.RestController;
 import com.revature.aw.domain.Board;
 import com.revature.aw.services.BoardServices;
 
-@CrossOrigin(allowedHeaders="*",allowCredentials="true")
 @RestController
-@EnableResourceServer
 public class BoardCtrl {
 	@Autowired
 	private BoardServices services;
 	
 	@GetMapping("/getOwnerBoards")
 	@ResponseBody
-	public ResponseEntity<Object> getBoards(@PathVariable("users") int[] id, HttpServletRequest req) {
-		HttpSession session = req.getSession(false);
-		if(session != null) {
-			List<Board> userBoards = new ArrayList<>();
-			userBoards = services.getBoardsByUserId(id);
-			if(userBoards != null) {
-				return (ResponseEntity<Object>) userBoards;
-			} else {
-				return null;
-			}
-		} else
-			return null;
+	public ResponseEntity<Object> getBoards(@PathVariable("users") int[] id) {
+		List<Board> userBoards = new ArrayList<>();
+		userBoards = services.getBoardsByUserId(id);
+		if(userBoards != null) {
+			return new ResponseEntity<>(userBoards, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
 	}
 	
 	@GetMapping("/getBoard/{id}")
@@ -51,25 +42,23 @@ public class BoardCtrl {
 	}
 	
 	@GetMapping("/deleteBoard")
-	public void deleteBoard(@PathVariable("board")Board board, HttpServletRequest req)
+	public ResponseEntity<Object> deleteBoard(@PathVariable("board")Board board, HttpServletRequest req)
 	{
-		HttpSession session = req.getSession(false);
-		if(session != null)
+		if(services != null && board != null && services.getBoardByBoardId(board.getId()) != null) 
 		{
 			services.deleteBoard(board);
+			return new ResponseEntity<>(HttpStatus.OK);
 		}
-		else
-			System.out.println("Null Session -deleteBoard");
 		
+		return new ResponseEntity<>(HttpStatus.CONFLICT);
+
 	}
 	
 	@GetMapping("/createBoard")
 	@ResponseBody
 	public ResponseEntity<Object> createBoard(@PathVariable("id")int id,HttpServletRequest req)
 	{
-		HttpSession session = req.getSession(false);
-		if(session != null)
-		{
+
 			Board board = new Board();
 			board.setId(id);
 			board = services.updateBoard(board);
@@ -80,12 +69,7 @@ public class BoardCtrl {
 				return (ResponseEntity<Object>) list;
 			}
 			else
-				return null;
-			
-		}
-		else
-			return null;
-		
+				return new ResponseEntity<>(HttpStatus.CONFLICT);
 		
 	}
 	
@@ -93,9 +77,7 @@ public class BoardCtrl {
 	@ResponseBody
 	public ResponseEntity<Object> updateBoard(@PathVariable("board")Board board,HttpServletRequest req)
 	{
-		HttpSession session = req.getSession();
-		if(session != null)
-		{
+
 			Board updatedBoard = new Board();
 			updatedBoard = services.updateBoard(board);
 			if(updatedBoard != null)
@@ -105,9 +87,7 @@ public class BoardCtrl {
 				return (ResponseEntity<Object>) boards;
 			}
 			else
-				return null;
-		}
-		else
-			return null;
+				return new ResponseEntity<>(HttpStatus.CONFLICT);
+
 	}
 }

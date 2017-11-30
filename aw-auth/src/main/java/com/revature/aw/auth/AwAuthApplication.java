@@ -1,12 +1,10 @@
 package com.revature.aw.auth;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
-@CrossOrigin(allowedHeaders="*",allowCredentials="true")
+@EnableResourceServer
 @SpringBootApplication
 public class AwAuthApplication {
 //	private static final Log logger = LogFactory.getLog(AwAuthApplication.class);

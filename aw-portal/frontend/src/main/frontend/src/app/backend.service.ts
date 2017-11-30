@@ -4,14 +4,20 @@ import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from
 import { Headers, Http, RequestOptions } from '@angular/http';
 import { Base64 } from 'js-base64';
 import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { of } from 'rxjs/observable/of';
+
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/retryWhen';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
 
 
 
 @Injectable()
-export class BackendService implements OnInit {
+export class BackendService {
   user: BehaviorSubject<AwUser> = new BehaviorSubject<AwUser>(new AwUser("", ""));
 
   constructor(private http: Http, private router: Router) { }
@@ -21,15 +27,6 @@ export class BackendService implements OnInit {
   options: RequestOptions;
   creds: String;
   updatedUser: string;
-
-  ngOnInit() {
-    // if (this.isLoggedIn()) {
-    //   let awuser = new AwUser(JSON.parse(localStorage.getItem('currentUser')).userName, "");
-    //   this.getUpdatedUser(awuser).subscribe((result: AwUser) => {
-    //     this.user.next(result);
-    //   });
-    // }
-  }
 
   authenticate(user: AwUser) {
     this.url = "http://localhost:8765/users/auth/oauth/token";
@@ -77,13 +74,16 @@ export class BackendService implements OnInit {
     this.options = new RequestOptions({ headers: this.headers });
     let body = new AwUser(JSON.parse(localStorage.getItem('currentUser')).userName, "");
     this.http.post(this.url, body, this.options)
-      .retry(5)
+      .retryWhen(attempts => attempts
+        .mergeMap((error) => {
+          if (error.status === 401) {
+            this.router.navigateByUrl('/login');
+            return Observable.throw(error);
+          } else return of(error);})
+        .take(5))
       .map(res => res.json())
       .subscribe(result => {
         this.user.next(result);
-      }, (error) => {
-        if (error.status == 401)
-          this.router.navigateByUrl('/login');
       });
   }
 
