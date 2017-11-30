@@ -9,13 +9,15 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.aw.domain.Board;
+import com.revature.aw.domain.History;
 import com.revature.aw.services.BoardServices;
 
 @RestController
@@ -49,71 +51,59 @@ public class BoardCtrl
 	
 	@GetMapping("/getBoard/{id}")
 	@ResponseBody
-	public ResponseEntity<Board> getBoardById(@PathVariable("id")int id,HttpServletRequest req)
+	public ResponseEntity<Object> getBoardById(@PathVariable("id")int id,HttpServletRequest req)
 	{
 		Board board = services.getBoardByBoardId(id);
 		return (board != null) ? new ResponseEntity<>(board, HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.CONFLICT);
 	}
 	
-	@GetMapping("/deleteBoard")
-	public void deleteBoard(@PathVariable("board")Board board, HttpServletRequest req)
-	{
-		HttpSession session = req.getSession(false);
-		if(session != null)
-		{
+	@PostMapping("/deleteBoard")
+	public ResponseEntity<Object> deleteBoard(@RequestBody Board board, HttpServletRequest req) {
+		if(services != null && board != null && services.getBoardByBoardId(board.getId()) != null) {
 			services.deleteBoard(board);
+			return new ResponseEntity<>(true, HttpStatus.OK);
+		} else if (services.getBoardByBoardId(board.getId()) == null) {
+			return new ResponseEntity<>(true, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
-		else
-			System.out.println("Null Session -deleteBoard");
 		
 	}
-	
-	@GetMapping("/createBoard")
+
+	@PostMapping("/createBoard")
 	@ResponseBody
-	public ResponseEntity<Object> createBoard(@PathVariable("id")int id,HttpServletRequest req)
-	{
-		HttpSession session = req.getSession(false);
-		if(session != null)
-		{
-			Board board = new Board();
-			board.setId(id);
+	public ResponseEntity<Object> createBoard(@RequestBody Board board, HttpServletRequest req) {
+		if (services != null) {
 			board = services.updateBoard(board);
-			if(board != null)
-			{
-				List<Board> list = new ArrayList<>();
-				list.add(board);
-				return (ResponseEntity<Object>) list;
-			}
-			else
-				return null;
-			
+			return new ResponseEntity<>(board, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
-		else
-			return null;
-		
+	}
+	
+	@PostMapping("/updateBoard")
+	@ResponseBody
+	public ResponseEntity<Object> updateBoard(@RequestBody Board board, HttpServletRequest req) {
+		if (services != null && board != null && services.getBoardByBoardId(board.getId()) != null) {
+			board = services.updateBoard(board);
+			return new ResponseEntity<>(board, HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
 		
 	}
 	
-	@GetMapping("/updateBoard")
-	@ResponseBody
-	public ResponseEntity<Object> updateBoard(@PathVariable("board")Board board,HttpServletRequest req)
-	{
-		HttpSession session = req.getSession();
-		if(session != null)
-		{
-			Board updatedBoard = new Board();
-			updatedBoard = services.updateBoard(board);
-			if(updatedBoard != null)
-			{
-				List<Board> boards = new ArrayList<>();
-				boards.add(updatedBoard);
-				return (ResponseEntity<Object>) boards;
+	@GetMapping("/getHistory/{boardId}")
+	public ResponseEntity<Object> getHistory(@PathVariable("boardId") int boardId, HttpServletRequest req) {
+		if(services != null && services.getBoardByBoardId(boardId) != null) {
+			List<History> history = services.getHistory(boardId);
+			for(History hist : history) {
+				System.out.println(hist);
 			}
-			else
-				return null;
+			return new ResponseEntity<>(history, HttpStatus.OK);
 		}
-		else
-			return null;
+		return new ResponseEntity<>(HttpStatus.CONFLICT);
 	}
 }

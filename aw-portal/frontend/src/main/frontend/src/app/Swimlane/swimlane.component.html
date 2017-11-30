@@ -54,7 +54,7 @@
 	<table class="table">
 	  <tr><th><h4>{{swimlane.name}}</h4></th></tr>
     <tr *ngFor="let story of swimlane.stories">
-      <td><aw-story [story]="story" [swimlane]="swimlane"></aw-story></td>
+      <td><aw-story [story]="story" [swimlane]="swimlane" [board]="board"></aw-story></td>
     </tr>
 	</table>
 	<!-- stories -->

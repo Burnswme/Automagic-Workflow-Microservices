@@ -70,7 +70,17 @@ public class SwimlaneCtrl {
 		}
 		
 		return new ResponseEntity<>(HttpStatus.CONFLICT);
-	}	
+	}
+	
+	@GetMapping("/getOtherSwimlanes/{boardId}/{swimlaneId}")
+	@ResponseBody
+	public ResponseEntity<Object> getOtherSwimlanes(@PathVariable("boardId") int boardId, @PathVariable("swimlaneId") int swimlaneId) {
+		if(service != null && boardId != 0 && swimlaneId != 0) {
+			List<Swimlane> filteredSwimlanes = service.findOtherSwimlanes(boardId, swimlaneId);
+			return new ResponseEntity<>(filteredSwimlanes, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.CONFLICT);
+	}
 
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<Exception> handleException(Exception e){

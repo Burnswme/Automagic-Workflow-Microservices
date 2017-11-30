@@ -10,7 +10,7 @@
     </button>
   </div>
   <!-- Story button, with modal attachment -->
-  <button class="btn btn-info" (click)="storyModal.show()">
+  <button class="btn btn-info" (click)="storyModal.show(); loadOtherSwimlanes(swimlane.id)">
       <span class="badge">{{story.points}}</span> <span class="wordwrap">{{story.title}}</span>
   </button>
 </div>
@@ -36,7 +36,8 @@
   <div class="app-modal-body">
     <input [(ngModel)]="newTitle" type="text" placeholder="{{newTitle}}"/> <br>
     <input [(ngModel)]="newDesc" type="text" placeholder="{{newDesc}}"/> <br>
-    <input [(ngModel)]="newPoints" type="number" class="form-control" min=1 max=10 />
+    <input [(ngModel)]="newPoints" type="number" class="form-control" min=1 max=10 /> <br>
+    <input [(ngModel)]="isCompleted" type="checkbox" /> <br>
     <!-- <span *ngIf="story.description; else noDesc">&emsp;{{story.description}}</span>
     <ng-template #noDesc>
       <span data-ng-hide="story.description">&emsp;No description</span>
@@ -53,23 +54,26 @@
         &emsp;No tasks yet
       </div>
     </ng-template>
-    <!-- <form>
-      &emsp; <input type="text" data-ng-model="newTask.name" required />
-      <button class="btn btn-default" data-ng-click="createTask()">Add
-        Task</button>
-    </form> -->
+
+    <form>
+      &emsp; <input [(ngModel)]="newTask.name" name="taskName" type="text"  required />
+      <button class="btn btn-default" (click)="createTask(newTask)">Add Task</button>
+    </form>
   </div>
   <div class="app-modal-footer">
-    <!-- <div class="btn-group dropup">
-      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Move to... <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu">
-        <li data-ng-repeat="otherSwimLane in otherSwimLanes">
-          <a data-ng-click="moveTo(otherSwimLane)" data-dismiss="modal">{{otherSwimLane.name}}</a>
-        </li>
-      </ul>
-    </div> -->
+
+    <div class="row">
+      <div class="col">
+        <div ngbDropdown class="d-inline-block">
+          <button class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle>Move to...</button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <li *ngFor="let otherSwimlane of otherSwimlanes">
+                  <a (click)="moveTo(otherSwimlane.id, otherSwimlane.stories.length, otherSwimlane.order)">{{otherSwimlane.name}}</a>
+              </li>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- Where the check story completion is located at-->
     
     <!-- <button type="button" class="btn btn-default" data-ng-hide="story.dateStoryCompleted" data-ng-click="markAsFinished()">

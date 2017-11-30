@@ -4,3 +4,8 @@ spring:
   datasource:
     tomcat:
       initial-size: 1
+      
+eureka:
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}:${server.port} 

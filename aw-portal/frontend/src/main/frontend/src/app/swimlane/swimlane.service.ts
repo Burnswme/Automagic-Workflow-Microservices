@@ -31,5 +31,4 @@ export class SwimlaneService {
     return this.http.post<Boolean>(this.zuulUrl + "/swimlane-service/delete", sl)
       .retry(5);
   }
-
 }

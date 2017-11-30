@@ -34,6 +34,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {}
 
   loadBoard(id: number): void {
+    localStorage.setItem("currentBoardId", ""+id);
     this.router.navigate(['/board', id]);
   }
 

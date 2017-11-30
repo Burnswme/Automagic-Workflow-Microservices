@@ -34,4 +34,16 @@ public class SwimlaneService {
 		dao.delete(sl);
 	}
 	
+	//returns all swimlanes of a board except the current one
+	//
+	public List<Swimlane> findOtherSwimlanes(int boardId, int swimlaneId) {
+		List<Swimlane> filter = dao.findByBoardId(boardId);
+		for(int i = 0; i < filter.size(); i++) {
+			if(filter.get(i).getId() == swimlaneId) {
+				filter.remove(i);
+				return filter;
+			}
+		}
+		return null;
+	}
 }

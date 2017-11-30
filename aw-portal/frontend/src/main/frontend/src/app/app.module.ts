@@ -20,6 +20,8 @@ import { SwimlaneService } from './swimlane/swimlane.service';
 import { StoryComponent } from './story/story.component';
 import { TaskComponent } from './task/task.component';
 import { TaskService } from './task/task.service';
+import { HistoryComponent } from './history/history.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -31,12 +33,14 @@ import { TaskService } from './task/task.service';
     BoardComponent,
     SwimlaneComponent,
     StoryComponent,
-    TaskComponent
+    TaskComponent,
+    HistoryComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     BsDropdownModule.forRoot(),
+    NgbModule.forRoot(),
     AppRoutingModule,
     HttpClientModule
   ],

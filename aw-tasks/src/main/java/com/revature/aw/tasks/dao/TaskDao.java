@@ -16,7 +16,7 @@ public interface TaskDao extends CrudRepository<Task, Integer> {
 		
 		//Find tasks by the story id of the parent story
 		public List<Task> findByStoryId(int storyId);
-		
+		public List<Task> findByStoryIdOrderByOrder(int storyId);
 		//Delete
 		//delete the current task
 		public void delete(Task task);

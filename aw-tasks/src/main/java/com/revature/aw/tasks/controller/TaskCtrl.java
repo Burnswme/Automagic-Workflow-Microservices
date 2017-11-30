@@ -43,16 +43,29 @@ public class TaskCtrl {
 	}
 	
 	@PostMapping("/deleteTask")
-	public ResponseEntity<Boolean> deleteTask(@RequestBody Task task, HttpServletRequest req)
-	{
-		ts.deleteTask(task);
-		return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<Boolean> deleteTask(@RequestBody Task task, HttpServletRequest req) {
+		if(ts != null && task != null && ts.getTaskById(task.getId()) != null) {
+			ts.deleteTask(task);
+			return new ResponseEntity<>(true, HttpStatus.OK);
+		} else if (ts.getTaskById(task.getId()) == null) {
+			return new ResponseEntity<>(true, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
 	}
 	
 	@PostMapping("/saveTask")
 	@ResponseBody
-	public ResponseEntity<Object> createTask(@RequestBody Task task, HttpServletRequest req)
-	{
+	public ResponseEntity<Object> createTask(@RequestBody Task task, HttpServletRequest req) {
+		Task t = ts.saveTask(task);
+		return (t != null) ? new ResponseEntity<>(t, HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.CONFLICT);
+	}
+	
+	//mostly for AoP/history/logging
+	@PostMapping("/updateTask")
+	public ResponseEntity<Object> updateTask(@RequestBody Task task, HttpServletRequest req) {
+		System.out.println(task);
 		Task t = ts.saveTask(task);
 		return (t != null) ? new ResponseEntity<>(t, HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.CONFLICT);

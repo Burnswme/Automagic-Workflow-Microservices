@@ -24,7 +24,7 @@ export class SwimlaneComponent implements OnInit {
     title: "",
     description: "",
     points: 0,
-    timeCompleted: 0,
+    timeCompleted: null,
     order: 0,
     tasks: []
   };
@@ -88,7 +88,7 @@ export class SwimlaneComponent implements OnInit {
     });
   }
 
-  createStory(st: AwStory) {
+  createStory(st: AwStory, boardId: number) {
     st.order = (this.swimlane.stories) ? this.swimlane.stories.length : 0;
     st.swimlaneId = this.swimlane.id;
 
@@ -100,11 +100,16 @@ export class SwimlaneComponent implements OnInit {
         title: "",
         description: "",
         points: 0,
-        timeCompleted: 0,
+        timeCompleted: null,
         order: 0,
-        tasks: []
+        tasks: [],
       };
     })
   }
 
+  dummy() {
+    console.log("SOMETHING");
+  }
+
+  
 }
