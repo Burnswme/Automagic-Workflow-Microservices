@@ -44,6 +44,7 @@ export class BackendService {
       .subscribe(response => {
         localStorage.setItem('currentUser',
           JSON.stringify({userName:user.username, token: response.access_token }));
+        localStorage.setItem('currentUserId', ""+user.id);
         this.updateUser();
         this.router.navigateByUrl("/home");
       }, (error) => {
@@ -67,7 +68,7 @@ export class BackendService {
 
   post<T>(endpoint: string, body: Object): Observable<T> {
     this.url = this.zuul + endpoint
-      + "?access_token=" + JSON.parse(localStorage.getItem('currentUser')).token;
+      + "?access_token=" + JSON.parse(localStorage.getItem('currentUser')).token; 
       this.headers = new Headers({ 
         "Content-Type": "application/json"
       });

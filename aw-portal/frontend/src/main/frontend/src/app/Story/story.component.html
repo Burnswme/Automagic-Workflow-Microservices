@@ -46,7 +46,7 @@
     <h5>Tasks</h5>
     <table *ngIf="story.tasks && story.tasks.length; else noTasks" class="table table-hover table-condensed">
       <tr *ngFor="let task of story.tasks">
-        <td><aw-task [task]="task" [story]="story"></aw-task></td>
+        <td><aw-task [task]="task" [story]="story" [board]="board"></aw-task></td>
       </tr>
     </table>
     <ng-template #noTasks>

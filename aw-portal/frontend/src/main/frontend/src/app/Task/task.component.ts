@@ -3,6 +3,7 @@ import { AwStory } from './../domain/aw-story';
 import { Component, OnInit, Input } from '@angular/core';
 import { TaskService } from './task.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AwBoard } from './../domain/aw-board';
 
 @Component({
   selector: 'aw-task',
@@ -12,7 +13,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class TaskComponent implements OnInit {
   @Input() task: AwTask;
   @Input() story: AwStory;
-
+  @Input() board: AwBoard;
   tsk2: AwTask; //task to be displaced when moving up/down
 
   newTask: AwTask = {
