@@ -58,7 +58,7 @@ export class SwimlaneComponent implements OnInit {
     this.swimlane.name = this.updateName;
     // this.board.swimlanes[this.swimlane.order] = this.swimlane;
     this.sls.updateSwimlane(this.swimlane).subscribe(sl => {
-      this.historyService.createHistory("User has changed a swimlan's name from " + oldName + " to " + sl.name).subscribe(hist => {
+      this.historyService.createHistory(" has changed a swimlan's name from " + oldName + " to " + sl.name).subscribe(hist => {
         //push to history
       });
     });
@@ -73,7 +73,7 @@ export class SwimlaneComponent implements OnInit {
     this.board.swimlanes[ogOrder] = this.sl2;
     this.board.swimlanes[ogOrder-1] = this.swimlane;
     this.sls.updateSwimlane(this.swimlane).subscribe(sl => {
-      this.historyService.createHistory("User has moved swimlane with the name " + sl.name + "to the left"
+      this.historyService.createHistory(" has moved swimlane with the name " + sl.name + " to the left "
       + " and " + this.sl2.name + " to the right").subscribe(hist => {
         //push to history
       });
@@ -90,7 +90,7 @@ export class SwimlaneComponent implements OnInit {
     this.board.swimlanes[ogOrder] = this.sl2;
     this.board.swimlanes[ogOrder+1] = this.swimlane;
     this.sls.updateSwimlane(this.swimlane).subscribe(sl => {
-      this.historyService.createHistory("User has moved swimlane with the name " + sl.name + "to the right"
+      this.historyService.createHistory(" has moved swimlane with the name " + sl.name + " to the right "
       + " and " + this.sl2.name + " to the left").subscribe(hist => {
         //push to history
       });

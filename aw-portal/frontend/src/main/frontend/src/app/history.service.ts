@@ -18,8 +18,9 @@ export class HistoryService {
     createHistory(action: string): Observable<AwHistory> {
         this.activity.boardId = parseInt(localStorage.getItem("currentBoardId"));
         this.activity.userId = parseInt(localStorage.getItem("currentUserId"));
-        this.activity.action = localStorage.getItem("userUsername") + action;
+        this.activity.action = localStorage.getItem("currentUserUsername") + action;
         this.activity.timestamp = new Date();
+        console.log(this.activity);
         return this.backend.post("/aw_history/createHistory", this.activity);
     }
 

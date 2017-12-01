@@ -27,6 +27,9 @@
                 <li role="menuitem" *ngFor="let board of boards">
                   <a class="dropdown-item" (click)="loadBoard(board.id)">{{board.name}}</a>
                 </li>
+                <li role="menuitem">
+                  <a class="dropdown-item" (click)="loadBoard(1)">TESTING</a>
+                </li>
               </ul>
             </li>
             <li class="divider dropdown-divider"></li>

@@ -175,7 +175,10 @@ export class StoryComponent implements OnInit {
         completed: false,
         order: 0,
       }
-    })
+      this.historyService.createHistory(" has created a task " + result.name).subscribe(hist => {
+        //push history
+      });
+    });
   }
   
   //takes in id of new swimlane, new order aka last in the new swimlane, and the place of the swimlane

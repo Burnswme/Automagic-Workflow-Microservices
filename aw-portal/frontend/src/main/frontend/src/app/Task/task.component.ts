@@ -65,7 +65,7 @@ export class TaskComponent implements OnInit {
           obj.order -= 1;
           this.ts.updateTask(obj).subscribe();
         }
-      })
+      });
     })
   }
 
