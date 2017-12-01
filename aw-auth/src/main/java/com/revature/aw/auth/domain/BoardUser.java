@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 @Table(name="BOARD_USER")
 public class BoardUser {
@@ -32,6 +34,10 @@ public class BoardUser {
 	@Column(name="BU_EMAIL")
 	private String email;
 	
+	@Type(type="numeric_boolean")
+	@Column(name="BU_ADMIN")
+	private boolean isAdmin;
+	
 	public BoardUser() {}
 	
 	public BoardUser(BoardUser bu) {
@@ -41,6 +47,7 @@ public class BoardUser {
 		this.firstName = bu.firstName;
 		this.lastName = bu.lastName;
 		this.email = bu.email;
+		this.isAdmin = bu.isAdmin;
 	}
 
 	public int getId() {
@@ -92,10 +99,21 @@ public class BoardUser {
 		this.email = email;
 	}
 
+	
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+
 	@Override
 	public String toString() {
 		return "BoardUser [id=" + id + ", username=" + username + ", password=" + password + ", firstName=" + firstName
-				+ ", lastName=" + lastName + ", email=" + email + "]";
+				+ ", lastName=" + lastName + ", email=" + email + ", isAdmin=" + isAdmin + "]";
 	}
+
+	
 	
 }
