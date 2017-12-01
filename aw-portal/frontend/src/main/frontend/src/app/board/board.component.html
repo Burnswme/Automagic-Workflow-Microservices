@@ -8,14 +8,14 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <span class="navbar-brand">{{bu.name}}</span>
+                <span class="navbar-brand">{{board.name}}</span>
             </div>
 
             <div class = "collapse navbar-collapse" id = "bs-example-navbar-collapse-1">
                 <ul class = "nav navbar-nav navbar-right">
                     <div class = "navbar-form">
                         <div class = "btn-group">
-                            <button type = "button" class = "btn btn-default">
+                            <button type = "button" class = "btn btn-default" (click)="burndownModal.show(); burndown.updateData()">
                                 <span class="glyphicon glyphicon-stats" aria-hidden="true"></span> 
                             </button>
 
@@ -55,19 +55,13 @@
                     </button>
                 </div> -->
 
-                <div class="row">
-                        
-                </div>
-
                 <table>
                     <tr>
-                        <td id="lanes" class="well" *ngFor="let swimlane of bu.swimlanes" >
-                            <aw-swimlane [swimlane]="swimlane" [board]="bu"></aw-swimlane>
+                        <td id="lanes" class="well" *ngFor="let swimlane of board.swimlanes" >
+                            <aw-swimlane [swimlane]="swimlane" [board]="board"></aw-swimlane>
                         </td>
                     </tr>
                 </table>
-                
-
             </div>
         </div>
     </div>
@@ -78,10 +72,9 @@
         </div>
     </ng-template>
 
-
     <app-modal #historyModal>
         <div class="app-modal-header">
-            <h4>{{bu.name}} Activity History</h4>
+            <h4>{{board.name}} Activity History</h4>
         </div>
         <div class="app-modal-body" style="overflow-y:auto; max-height: 500px">
             <table class="table table-striped table-bordered">
@@ -106,23 +99,6 @@
     
         </div>
     </app-modal>
-    <!-- Burndown Modal -->
-    <!-- <div class="modal fade" id="burndown" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="myModalLabel">Burndown Chart for "{{AwBoard.name}}"</h4>
-            </div>
-            <div class="modal-body">
-              <div id="chartHere" style="height:28em" ></div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-    </div> -->
 </div>
 
 <!-- <button type="button" (click)="deleteBoardModal.show()">Delete</button>
@@ -142,30 +118,16 @@
           <button type="button" class="btn btn-default" (click)="deleteBoardModal.hide()">Close</button>
     </div>
 </app-modal> -->
-
-<div class="row">
-    <div class="col-md-6">
-      <div style="display: block;">
-      <canvas baseChart width="400" height="400"
-                  [datasets]="lineChartData"
-                  [labels]="lineChartLabels"
-                  [options]="lineChartOptions"
-                  [colors]="lineChartColors"
-                  [legend]="lineChartLegend"
-                  [chartType]="lineChartType"
-                  (chartHover)="chartHovered($event)"
-                  (chartClick)="chartClicked($event)"></canvas>
-      </div>
+           
+<app-modal #burndownModal>
+    <div class="app-modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="burndownModal.hide()"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Burndown Chart for "{{board.name}}"</h4>
     </div>
-    <div class="col-md-6" style="margin-bottom: 10px">
-      <table class="table table-responsive table-condensed">
-        <tr>
-          <th *ngFor="let label of lineChartLabels">{{label}}</th>
-        </tr>
-        <tr *ngFor="let d of lineChartData">
-          <td *ngFor="let label of lineChartLabels; let j=index">{{d && d.data[j]}}</td>
-        </tr>
-      </table>
-      <button (click)="randomize()">CLICK</button>
+    <div class="app-modal-body">
+        <aw-burndown #burndown [board]="board"></aw-burndown>
     </div>
-  </div>
+    <div class="app-modal-footer">
+      <button type="button" class="btn btn-default" (click)="burndownModal.hide()">Close</button>
+    </div>
+  </app-modal>

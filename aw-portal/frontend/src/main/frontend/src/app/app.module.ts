@@ -26,6 +26,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpModule } from '@angular/http';
 import { AuthGuard } from './auth-guard.service';
 import { ChartsModule } from 'ng2-charts';
+import { BurndownComponent } from './burndown/burndown.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import { ChartsModule } from 'ng2-charts';
     BoardComponent,
     SwimlaneComponent,
     StoryComponent,
-    TaskComponent
+    TaskComponent,
+    BurndownComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +60,8 @@ import { ChartsModule } from 'ng2-charts';
     StoryService,
     TaskService,
     BackendService,
-    AuthGuard
+    AuthGuard,
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

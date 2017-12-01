@@ -14,20 +14,8 @@ import { AwHistory } from '../domain/aw-history';
     styleUrls: ['./board.component.css']
 })
 export class BoardComponent implements OnInit{
-    bu: AwBoard = {
-        id: 0,
-        name: "",
-        startDate: 0,
-        duration: 0,
-        swimlanes: []
-    };
-    sl: AwSwimlane = {
-        id: 0,
-        boardId: 0,
-        name: "",
-        order: 0,
-        stories: []
-    };
+    board: AwBoard = new AwBoard();
+    sl: AwSwimlane = new AwSwimlane();
 
     history: AwHistory[];
 
@@ -44,7 +32,7 @@ export class BoardComponent implements OnInit{
         this.route.paramMap
             .switchMap((params: ParamMap) => this.bs.getBoard(+params.get('id')))
             .subscribe(board => {
-                this.bu = board;
+                this.board = board;
                 this.sl.boardId = board.id;
                 this.display = true;
                 console.log("GETTING SWIMLANES");
@@ -73,13 +61,13 @@ export class BoardComponent implements OnInit{
     }
 
     createSwimlane(sl: AwSwimlane) {
-        sl.order = (this.bu.swimlanes) ? this.bu.swimlanes.length : 0;
+        sl.order = (this.board.swimlanes) ? this.board.swimlanes.length : 0;
         console.log(sl);
         this.sls.createSwimlane(sl).subscribe((result: AwSwimlane) => {
-            this.bu.swimlanes.push(result);
+            this.board.swimlanes.push(result);
             this.sl = {
                 id: 0,
-                boardId: this.bu.id,
+                boardId: this.board.id,
                 name: "",
                 order: 0,
                 stories: []
@@ -88,7 +76,7 @@ export class BoardComponent implements OnInit{
     }
 
     loadHistory() {
-        this.bs.getHistory(this.bu.id).subscribe((histList: AwHistory[]) => {
+        this.bs.getHistory(this.board.id).subscribe((histList: AwHistory[]) => {
             this.history = histList;
         })
     }

@@ -13,10 +13,10 @@ export class StoryService {
   constructor(private http: HttpClient, private backend: BackendService) {}
 
   getStories(swimlaneId: number): Observable<AwStory[]> {
-    return this.backend.get<AwStory[]>(this.zuulUrl + "/aw_story/getStories/" + swimlaneId);
+    return this.backend.get<AwStory[]>("/aw_story/getStories/" + swimlaneId);
   }
   createStory(st: AwStory): Observable<AwStory> {
-    return this.http.post<AwStory>(this.zuulUrl + "/aw_story/createStory?boardId="+localStorage.getItem("currentBoardId"), st)
+    return this.http.post<AwStory>("/aw_story/createStory?boardId="+localStorage.getItem("currentBoardId"), st)
       .retry(5);
   }
 

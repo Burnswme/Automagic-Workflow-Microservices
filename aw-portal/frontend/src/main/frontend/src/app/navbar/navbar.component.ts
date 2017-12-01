@@ -13,15 +13,7 @@ import { AwUserToken } from '../domain/aw-usertoken';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  boards: AwBoard[] = [
-    {
-      id: 99,
-      name: "test",
-      startDate: 1511276204213,
-      duration: 2,
-      swimlanes: null
-    }
-  ];
+  boards: AwBoard[] = [];
   user: AwUser;
   loggedUser: BehaviorSubject<AwUserToken>;
 
