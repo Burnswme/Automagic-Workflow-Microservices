@@ -18,17 +18,15 @@ export class SwimlaneService {
   }
 
   createSwimlane(sl: AwSwimlane): Observable<AwSwimlane> {
-    return this.http.post<AwSwimlane>(this.zuulUrl + "/swimlane-service/create", sl)
-      .retry(5);
+    console.log(sl);
+    return this.backend.post<AwSwimlane>("/swimlane-service/create", sl);
   }
   
   updateSwimlane(sl: AwSwimlane): Observable<AwSwimlane> {
-    return this.http.post<AwSwimlane>(this.zuulUrl + "/swimlane-service/update", sl)
-      .retry(5);
+    return this.backend.post<AwSwimlane>("/swimlane-service/update", sl);
   }
     
   deleteSwimlane(sl: AwSwimlane): Observable<Boolean> {
-    return this.http.post<Boolean>(this.zuulUrl + "/swimlane-service/delete", sl)
-      .retry(5);
+    return this.backend.post<Boolean>("/swimlane-service/delete", sl);
   }
 }

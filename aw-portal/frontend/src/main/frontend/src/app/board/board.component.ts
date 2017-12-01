@@ -2,6 +2,7 @@ import { AwSwimlane } from './../domain/aw-swimlane';
 import { SwimlaneService } from './../swimlane/swimlane.service';
 import { AwBoard } from './../domain/aw-board';
 import { BoardService } from './board.service';
+import { HistoryService } from './../history.service';
 import { Component, OnInit } from '@angular/core';
 import { NgModel } from '@angular/forms';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
@@ -35,9 +36,18 @@ export class BoardComponent implements OnInit{
 
     updatedName: string;
 
+    activity: AwHistory = {
+        id: 0,
+        userId: 0,
+        boardId: 0,
+        action: "",
+        timestamp: null
+      };
+
     constructor(private bs: BoardService,
                 private sls: SwimlaneService,
                 private route: ActivatedRoute,
+                private historyService: HistoryService,
                 private router: Router) {}
     
     ngOnInit(){
@@ -84,6 +94,9 @@ export class BoardComponent implements OnInit{
                 order: 0,
                 stories: []
             };
+            this.historyService.createHistory(" has created a swimlane with the name " + sl.name).subscribe(hist => {
+                //push to history
+            });
         });
     }
 

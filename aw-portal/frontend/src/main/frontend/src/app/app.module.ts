@@ -18,6 +18,7 @@ import { AppRoutingModule } from './/app-routing.module';
 import { ModalComponent } from './modal.component';
 import { SwimlaneComponent } from './swimlane/swimlane.component';
 import { SwimlaneService } from './swimlane/swimlane.service';
+import { HistoryService } from './history.service';
 import { StoryComponent } from './story/story.component';
 import { TaskComponent } from './task/task.component';
 import { TaskService } from './task/task.service';
@@ -57,6 +58,7 @@ import { ChartsModule } from 'ng2-charts';
     StoryService,
     TaskService,
     BackendService,
+    HistoryService,
     AuthGuard
   ],
   bootstrap: [AppComponent]

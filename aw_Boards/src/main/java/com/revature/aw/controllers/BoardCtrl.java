@@ -40,6 +40,7 @@ public class BoardCtrl {
 	@ResponseBody
 	public ResponseEntity<Board> getBoardById(@PathVariable("id") int id) {
 		Board board = services.getBoardByBoardId(id);
+		
 		return (board != null) ? new ResponseEntity<>(board, HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.CONFLICT);
 	}

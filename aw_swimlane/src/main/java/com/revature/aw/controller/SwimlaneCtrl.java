@@ -3,6 +3,7 @@ package com.revature.aw.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,7 +32,7 @@ public class SwimlaneCtrl {
 			return (sl2 == null) ? new ResponseEntity<>(service.save(sl), HttpStatus.OK)
 					: new ResponseEntity<>(sl2, HttpStatus.OK);
 		}
-		
+		System.out.println("CONFLICT?");
 		return new ResponseEntity<>(HttpStatus.CONFLICT);
 	}
 	
