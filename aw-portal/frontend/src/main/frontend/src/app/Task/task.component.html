@@ -9,8 +9,6 @@
     <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
   </button>
 </div>
-<div class="col-xs-1">
-
 
 
 <form class="form-inline" *ngIf="editing; else noEdit">
@@ -30,9 +28,9 @@
 <ng-template #noEdit>
   
   <div class="col-xs-8">
-      <div *ngIf="task.completed; else notComplete">
+      <span *ngIf="task.completed; else notComplete">
           <span class="label label-success">*</span>
-      </div>
+      </span>
       <ng-template #notComplete>
           <span class="label label-default">*</span>
       </ng-template>
@@ -48,22 +46,3 @@
     
   </div>
 </ng-template>
-
-<!-- Delete Task Modal -->
-<!-- <div class="modal fade" data-ng-attr-id="{{ 'deleteTask' + task.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Delete Task</h4>
-      </div>
-      <div class="modal-body">
-        <span>Are you sure that you wish to delete {{task.name}}?</span>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-ng-click="delete()" data-dismiss="modal">Delete</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div> -->

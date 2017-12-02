@@ -34,9 +34,13 @@
     </div> -->
   </div>
   <div class="app-modal-body">
+    <span class="label label-primary">Title</span>
     <input [(ngModel)]="newTitle" type="text" placeholder="{{newTitle}}"/> <br>
+    <span class="label label-primary">Description</span>
     <input [(ngModel)]="newDesc" type="text" placeholder="{{newDesc}}"/> <br>
-    <input [(ngModel)]="newPoints" type="number" class="form-control" min=1 max=10 /> <br>
+    <span class="label label-primary">Points</span>
+    <input [(ngModel)]="newPoints" type="number" class="form-control" min=1 max=10 style="max-width: 50px" />
+    <span class="label label-primary">Completed</span>
     <input [(ngModel)]="isCompleted" type="checkbox" /> <br>
     <!-- <span *ngIf="story.description; else noDesc">&emsp;{{story.description}}</span>
     <ng-template #noDesc>
