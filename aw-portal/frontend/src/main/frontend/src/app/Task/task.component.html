@@ -18,7 +18,7 @@
   <input type="checkbox" [(ngModel)]="newTask.completed" name="isCompleted" />
   <input type="text" [(ngModel)]="newTask.name" name="newName" required />
   </div>
-  <div class="col-xs-2 pull-right">
+  <div class="col-xs-2">
     <button type="button" class="btn btn-success btn-sm" (click)="save(); editing = !editing">
       <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
     </button>
@@ -28,13 +28,14 @@
   </div>
 </form>
 <ng-template #noEdit>
-  <div *ngIf="task.completed; else notComplete">
-      <span class="label label-success">*</span>
-  </div>
-  <ng-template #notComplete>
-      <span class="label label-default">*</span>
-  </ng-template>
+  
   <div class="col-xs-8">
+      <div *ngIf="task.completed; else notComplete">
+          <span class="label label-success">*</span>
+      </div>
+      <ng-template #notComplete>
+          <span class="label label-default">*</span>
+      </ng-template>
     {{task.name}}
   </div>
   <div class="col-xs-2 pull-right">

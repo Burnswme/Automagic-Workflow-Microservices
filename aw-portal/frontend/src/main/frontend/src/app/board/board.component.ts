@@ -20,7 +20,8 @@ export class BoardComponent implements OnInit{
         name: "",
         startDate: 0,
         duration: 0,
-        swimlanes: []
+        swimlanes: [],
+        history: []
     };
     sl: AwSwimlane = {
         id: 0,
@@ -29,8 +30,6 @@ export class BoardComponent implements OnInit{
         order: 0,
         stories: []
     };
-
-    history: AwHistory[];
 
     errorMessage: string = "";
 
@@ -65,6 +64,10 @@ export class BoardComponent implements OnInit{
                     console.log("SWIMLANES GOTTEN?");
                     console.log(board.swimlanes);
                 })
+                this.historyService.getHistory(this.bu.id).subscribe((histList: AwHistory[]) => {
+                    this.bu.history = histList;
+                    console.log(this.bu.history);
+                } ) 
             });
     };
 
@@ -94,15 +97,9 @@ export class BoardComponent implements OnInit{
                 order: 0,
                 stories: []
             };
-            this.historyService.createHistory(" has created a swimlane with the name " + sl.name).subscribe(hist => {
-                //push to history
+            this.historyService.createHistory(" has created a swimlane with the name [" + sl.name + "]").subscribe(hist => {
+                this.bu.history.unshift(hist);
             });
         });
-    }
-
-    loadHistory() {
-        this.bs.getHistory(this.bu.id).subscribe((histList: AwHistory[]) => {
-            this.history = histList;
-        })
     }
 };

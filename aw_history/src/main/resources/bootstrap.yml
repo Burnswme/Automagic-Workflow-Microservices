@@ -1,9 +1,6 @@
-#aw_Boards
-  
-spring:
+spring: 
   application:
-    name: aw_Boards
+    name: aw_history
   cloud:
     config:
       uri: http://localhost:9000 
-      

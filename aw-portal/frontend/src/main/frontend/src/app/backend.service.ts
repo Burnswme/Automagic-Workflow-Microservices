@@ -45,7 +45,12 @@ export class BackendService {
         localStorage.setItem('currentUser',
           JSON.stringify({userName:user.username, token: response.access_token }));
         
-        localStorage.setItem('currentUserId', ""+user.id);
+        console.log("?????");
+        console.log(this.user);
+        console.log(this.user);
+        console.log(this.user.value);
+        localStorage.setItem("currentUserId", "" + this.user.value.id);
+        console.log(localStorage.getItem("currentUserId"));
         localStorage.setItem("currentUserUsername", user.username);
         this.updateUser();
         this.router.navigateByUrl("/home");

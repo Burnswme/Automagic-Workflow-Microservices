@@ -25,7 +25,7 @@ export class HistoryService {
     }
 
     getHistory(boardId: number): Observable<AwHistory[]> {
-        return this.backend.get("/getHistoryByBoardId/" + boardId);
+        return this.backend.get("/aw_history/getHistoryByBoardId/" + boardId);
     }
 
     

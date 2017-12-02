@@ -19,7 +19,8 @@ export class NavbarComponent implements OnInit {
       name: "test",
       startDate: 1511276204213,
       duration: 2,
-      swimlanes: null
+      swimlanes: null,
+      history: []
     }
   ];
   user: AwUser;
