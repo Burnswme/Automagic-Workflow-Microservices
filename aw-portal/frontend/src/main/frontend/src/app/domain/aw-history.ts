@@ -3,5 +3,6 @@ export class AwHistory{
     userId: number;
     boardId: number;
     action: string;
-    timestamp: Date;
+    timestamp: number;
+    constructor() {}
 }

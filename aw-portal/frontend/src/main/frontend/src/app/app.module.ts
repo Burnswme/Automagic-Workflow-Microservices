@@ -27,6 +27,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpModule } from '@angular/http';
 import { AuthGuard } from './auth-guard.service';
 import { ChartsModule } from 'ng2-charts';
+import { BurndownComponent } from './burndown/burndown.component';
+import { DatePipe } from '@angular/common';
+import { ValidationService } from './validation.service';
+import { BoardNotFoundComponent } from './board-not-found/board-not-found.component';
+import { NotAuthorizedComponent } from './not-authorized/not-authorized.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +43,10 @@ import { ChartsModule } from 'ng2-charts';
     BoardComponent,
     SwimlaneComponent,
     StoryComponent,
-    TaskComponent
+    TaskComponent,
+    BurndownComponent,
+    BoardNotFoundComponent,
+    NotAuthorizedComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +67,9 @@ import { ChartsModule } from 'ng2-charts';
     TaskService,
     BackendService,
     HistoryService,
-    AuthGuard
+    ValidationService,
+    AuthGuard,
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

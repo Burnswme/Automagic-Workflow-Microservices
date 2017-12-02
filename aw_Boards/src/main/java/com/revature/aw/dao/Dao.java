@@ -20,6 +20,8 @@ public interface Dao extends CrudRepository<Board, Integer>
 	//Find a board by the board ids of the user
 	public List<Board> findById(int[] ids);
 	
+	public List<Board> findAll();
+	
 	
 	//Delete
 	//delete the current board

@@ -6,4 +6,5 @@ export class AwSwimlane{
     name: string;
     order: number;
     stories: AwStory[] = [];
+    constructor() {}
 }

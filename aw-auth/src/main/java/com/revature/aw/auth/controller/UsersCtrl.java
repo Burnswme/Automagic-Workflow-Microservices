@@ -13,18 +13,26 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.aw.auth.dao.BoardUserDao;
 import com.revature.aw.auth.domain.BoardUser;
+import com.revature.aw.auth.service.BoardUserService;
 
 @RestController
 public class UsersCtrl {
 	@Autowired
-	private BoardUserDao dao;
+	private BoardUserService service;
 
 	@PostMapping(value = "/getUser")
 	public ResponseEntity<BoardUser> getUser(@RequestBody BoardUser user) {
-		System.out.println("POST /getUser");
-		Optional<BoardUser> optUser = dao.findByUsername(user.getUsername());
-		optUser.orElseThrow(() -> new UsernameNotFoundException("Username not found"));
-		return new ResponseEntity<>(optUser.get(), HttpStatus.OK);
+		user = service.getUser(user.getUsername());
+		return (user != null) ? new ResponseEntity<>(user, HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.CONFLICT);
+	}
+
+	@PostMapping(value = "/saveUser")
+	public ResponseEntity<BoardUser> saveUser(@RequestBody BoardUser user) {
+		System.out.println(user);
+		user = service.saveUser(user);
+		return (user != null) ? new ResponseEntity<>(user, HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.CONFLICT);
 	}
 	
 	@ExceptionHandler(Exception.class)

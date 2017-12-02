@@ -6,20 +6,14 @@ import { BackendService } from './backend.service';
 
 @Injectable()
 export class HistoryService {
-    activity: AwHistory = {
-        id: 0,
-        userId: 0,
-        boardId: 0,
-        action: "",
-        timestamp: null
-    }
+    activity: AwHistory = new AwHistory();
     constructor(private backend: BackendService) {}
 
     createHistory(action: string): Observable<AwHistory> {
         this.activity.boardId = parseInt(localStorage.getItem("currentBoardId"));
         this.activity.userId = parseInt(localStorage.getItem("currentUserId"));
         this.activity.action = localStorage.getItem("userUsername") + action;
-        this.activity.timestamp = new Date();
+        this.activity.timestamp = Date.now();
         return this.backend.post("/aw_history/createHistory", this.activity);
     }
 

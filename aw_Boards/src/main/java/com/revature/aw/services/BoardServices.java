@@ -19,28 +19,26 @@ public class BoardServices
 	@Autowired
 	private Dao dao;
 	
-	public List<Board> getBoardsByUserId(int[] boardIds)
+	public List<Board> getBoardsByBoardIds(int[] boardIds)
 	{
 		List<Board> boards = new ArrayList<>();
-		for(int i = 0; i < boardIds.length; i++)
-		{
-			Board b = new Board();
-			b = dao.findOne(boardIds[i]);
-			boards.add(b);
+		for(int i = 0; i < boardIds.length; i++) {
+			boards.add(dao.findOne(boardIds[i]));
 		}
-		if(!boards.isEmpty())
-		{
-			return boards;
-		}
-		else
-			return null;
+		return boards;
 	}
+	
+	public List<Board> getAllBoards() {
+		return dao.findAll();
+	}
+	
 	public Board getBoardByBoardId(int id)
 	{
 		Board board = new Board();
 		board = dao.findOne(id);
 		return board;
 	}
+	
 	public Board updateBoard(Board board)
 	{
 		Board updatedBoard = new Board();

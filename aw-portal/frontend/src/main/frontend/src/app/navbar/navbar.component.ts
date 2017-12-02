@@ -1,3 +1,6 @@
+import { AwRole } from './../domain/aw-role';
+import { ValidationService } from './../validation.service';
+import { BoardService } from './../board/board.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { BackendService } from './../backend.service';
 import { AwUser } from './../domain/aw-user';
@@ -13,30 +16,26 @@ import { AwUserToken } from '../domain/aw-usertoken';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  boards: AwBoard[] = [
-    {
-      id: 99,
-      name: "test",
-      startDate: 1511276204213,
-      duration: 2,
-      swimlanes: null
-    }
-  ];
-  user: AwUser;
+  boards: AwBoard[] = [];
+  newBoard: AwBoard = new AwBoard();
+  user: AwUser = new AwUser("", "");
+  newUser: AwUser = new AwUser("", "");
   loggedUser: BehaviorSubject<AwUserToken>;
 
-  constructor(private backend: BackendService, private router: Router) {}
+  constructor(private backend: BackendService, 
+              private bds: BoardService,
+              private bvs: ValidationService,
+              private router: Router) {}
 
   ngOnInit() {
-    this.user = new AwUser("", "");
     this.setAwUserListener();
     if (this.isLoggedIn()) {
-      this.backend.updateUser();
+      this.backend.updateUserRef();
     }
   }
 
   loadBoard(id: number): void {
-    localStorage.setItem("currentBoardId", ""+id);
+    // localStorage.setItem("currentBoardId", ""+id);
     this.router.navigateByUrl('/board/' + id);
   }
 
@@ -56,7 +55,38 @@ export class NavbarComponent implements OnInit {
   setAwUserListener(): void {
     this.backend.user.subscribe(result => {
       this.user = result;
+      if (result.username != "") {
+        if (result.admin) {
+          this.bds.getAllBoards().subscribe(boards => {
+            this.boards = boards;
+          });
+        } else {
+          this.bvs.getRoles(result.id)
+          .subscribe(roles => {
+            let ids = roles.map(role => role.boardId);
+            this.bds.getBoards(ids).subscribe(boards => {
+              this.boards = boards;
+            });
+          })
+        }
+      }
     });
+  }
+
+  createBoard(board: AwBoard): void {
+    board.startDate = Date.now();
+    this.bds.createBoard(board).subscribe(result => {
+      this.boards.push(result);
+      console.log(new AwRole(this.user.id, result.id, 2));
+      this.bvs.saveRole(new AwRole(this.user.id, result.id, 2)).subscribe();
+    });
+    this.newBoard = new AwBoard();
+  }
+
+  register(): void {
+    this.backend.createUser(this.newUser).subscribe(result => {
+      this.newUser = new AwUser("", "");
+    })
   }
 
 }

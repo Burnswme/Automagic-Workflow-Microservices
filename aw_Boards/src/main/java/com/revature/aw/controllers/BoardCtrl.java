@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,16 +25,20 @@ public class BoardCtrl {
 	@Autowired
 	private BoardServices services;
 	
-	@GetMapping("/getOwnerBoards")
+	@PostMapping("/getBoards")
 	@ResponseBody
-	public ResponseEntity<Object> getBoards(@PathVariable("users") int[] id) {
-		List<Board> userBoards = new ArrayList<>();
-		userBoards = services.getBoardsByUserId(id);
-		if(userBoards != null) {
-			return new ResponseEntity<>(userBoards, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.CONFLICT);
-		}
+	public ResponseEntity<List<Board>> getBoards(@RequestBody int[] ids) {
+		List<Board> userBoards = services.getBoardsByBoardIds(ids);
+		System.out.println(userBoards);
+		return new ResponseEntity<>(userBoards, HttpStatus.OK);
+	}
+	
+	@GetMapping("/getAllBoards")
+	@ResponseBody
+	public ResponseEntity<List<Board>> getAllBoards() {
+		List<Board> boards = services.getAllBoards();
+		return (boards != null) ? new ResponseEntity<>(boards, HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.CONFLICT);
 	}
 	
 	@GetMapping("/getBoard/{id}")
@@ -60,7 +65,7 @@ public class BoardCtrl {
 
 	@PostMapping("/createBoard")
 	@ResponseBody
-	public ResponseEntity<Object> createBoard(@RequestBody Board board, HttpServletRequest req) {
+	public ResponseEntity<Board> createBoard(@RequestBody Board board) {
 		if (services != null) {
 			board = services.updateBoard(board);
 			return new ResponseEntity<>(board, HttpStatus.OK);
@@ -92,5 +97,10 @@ public class BoardCtrl {
 			return new ResponseEntity<>(history, HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.CONFLICT);
+	}
+	
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<Exception> handleException(Exception e){
+		return new ResponseEntity<Exception>(e,HttpStatus.CONFLICT);
 	}
 }
