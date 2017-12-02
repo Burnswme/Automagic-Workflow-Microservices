@@ -267,3 +267,26 @@ Using default security password: 15efb591-42f0-4a95-8c29-6cf07026793a
 2017-12-02 15:14:20 [http-nio-auto-1-exec-4] INFO  c.r.aw.tasks.aspect.TaskAspect - Good Task Update: Task [id=141, storyId=1, name=ytes, completed=true, order=0]
 2017-12-02 15:17:55 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
 2017-12-02 15:22:55 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2017-12-02 15:27:55 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2017-12-02 15:32:55 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2017-12-02 15:37:55 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2017-12-02 15:42:55 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2017-12-02 15:47:55 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2017-12-02 15:52:55 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2017-12-02 15:57:55 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2017-12-02 16:02:55 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2017-12-02 16:07:55 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2017-12-02 16:12:55 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2017-12-02 16:17:55 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2017-12-02 16:18:58 [http-nio-auto-1-exec-8] INFO  c.r.aw.tasks.aspect.TaskAspect - Good Task Update: Task [id=141, storyId=1, name=rrrr, completed=true, order=0]
+2017-12-02 16:21:34 [http-nio-auto-1-exec-4] INFO  c.r.aw.tasks.aspect.TaskAspect - Good Task Update: Task [id=141, storyId=1, name=rrrr, completed=false, order=0]
+2017-12-02 16:22:32 [http-nio-auto-1-exec-1] INFO  c.r.aw.tasks.aspect.TaskAspect - Good Task Update: Task [id=141, storyId=1, name=rrrr, completed=true, order=0]
+2017-12-02 16:22:55 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2017-12-02 16:23:23 [http-nio-auto-1-exec-10] INFO  c.r.aw.tasks.aspect.TaskAspect - Good Task Create: Task [id=142, storyId=1, name=incomplete, completed=false, order=1]
+2017-12-02 16:24:07 [http-nio-auto-1-exec-8] INFO  c.r.aw.tasks.aspect.TaskAspect - Good Task Update: Task [id=141, storyId=1, name=incomplete, completed=true, order=0]
+2017-12-02 16:25:56 [http-nio-auto-1-exec-5] INFO  c.r.aw.tasks.aspect.TaskAspect - Good Task Update: Task [id=142, storyId=1, name=incomplete, completed=false, order=0]
+2017-12-02 16:25:57 [http-nio-auto-1-exec-6] INFO  c.r.aw.tasks.aspect.TaskAspect - Good Task Update: Task [id=141, storyId=1, name=incomplete, completed=true, order=1]
+2017-12-02 16:27:55 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2017-12-02 16:32:55 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2017-12-02 16:37:55 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2017-12-02 16:42:55 [AsyncResolver-bootstrap-executor-0] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
