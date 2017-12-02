@@ -122,7 +122,7 @@
 <app-modal #burndownModal>
     <div class="app-modal-header">
         <button type="button" class="close" aria-label="Close" (click)="burndownModal.hide()"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Burndown Chart for "{{board.name}}"</h4>
+        <h4 class="modal-title" id="myModalLabel">Burndown Chart for {{board.name}}</h4>
     </div>
     <div class="app-modal-body">
         <aw-burndown #burndown [board]="board"></aw-burndown>

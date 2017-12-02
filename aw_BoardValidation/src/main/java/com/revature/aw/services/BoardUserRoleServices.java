@@ -18,61 +18,30 @@ public class BoardUserRoleServices
 	@Autowired
 	private Dao dao;
 	
-	public List<BoardUserRole> findByUserId(int userId)
-	{
-		List<BoardUserRole> list = new ArrayList<>();
-		
-		list = dao.findByUserId(userId);
-		if(!list.isEmpty())
-		{
-			for(BoardUserRole bur: list)
-			{	//this should remove any boards for which the user 
-				//does not have viewing privileges (denoted as 0)
-				if(bur.getRoleId() < 1)
-				{
-					list.remove(bur);
-				}
-			}
-			return list;
-		}
-		else
-			return null;
+	public List<BoardUserRole> findByUserId(int userId) {
+		return dao.findByUserId(userId);
 	}
-	public BoardUserRole save(BoardUserRole bur)
-	{
-		BoardUserRole x;
-		x = dao.save(bur);
-		if(!x.equals(null))
-		{
-			return x;
-		}
-		else
-			return null;
+	
+	public BoardUserRole save(BoardUserRole bur) {
+		return dao.save(bur);
 	}
-	public void delete(BoardUserRole bur)
-	{
+	
+	public void delete(BoardUserRole bur) {
 		dao.delete(bur);
 	}
-	public boolean determinePrivileges(int userId, int boardId)
-	{
+	
+	public boolean determinePrivileges(int userId, int boardId) {
 		boolean canView = false;
 		BoardUserRole bur = new BoardUserRole(0,0,0);
 		
 		bur = dao.findByUserIdAndBoardId(userId,boardId);
-		if(!bur.equals(null))
-		{
-			if(bur.getRoleId() != 0)
-			{
-				canView = true;
-			}
-		}
+		System.out.println(bur);
+		if(bur != null && bur.getRoleId() != 0)
+			canView = true;
 		return canView;
 	}
-	public BoardUserRole findByUserIdAndBoardId(int userId,int boardId)
-	{
-		BoardUserRole bur;
-		
-		bur = dao.findByUserIdAndBoardId(userId, boardId);
-		return bur;
+	
+	public BoardUserRole findByUserIdAndBoardId(int userId,int boardId) {
+		return dao.findByUserIdAndBoardId(userId, boardId);
 	}
 }

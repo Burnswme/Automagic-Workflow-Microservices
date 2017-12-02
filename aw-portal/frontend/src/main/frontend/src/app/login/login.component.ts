@@ -11,7 +11,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  bu: AwUser; 
+  bu: AwUser;
+  newUser: AwUser = new AwUser("","");
   errorMessage: string = "";
   submitted: boolean = false;
 
@@ -28,5 +29,10 @@ export class LoginComponent implements OnInit {
   login(bu: AwUser): void {
     this.service.authenticate(bu);
   }
+
+  // register(newUser: AwUser): void {
+  //   this.service.createUser(newUser);
+  //   this.newUser = new AwUser("", "");
+  // }
 
 }

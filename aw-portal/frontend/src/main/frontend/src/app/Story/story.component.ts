@@ -7,6 +7,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AwSwimlane } from '../domain/aw-swimlane';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AwBoard } from './../domain/aw-board';
+import { AwHistory } from '../domain/aw-history';
+import { HistoryService } from './../history.service';
 
 @Component({
   selector: 'aw-story',
@@ -27,12 +29,13 @@ export class StoryComponent implements OnInit {
   isCompleted: boolean;
 
   st2: AwStory; //story that is displaced(i.e. not the one being moved) when you move a story
-
+  activity: AwHistory;
 
   newTask: AwTask = new AwTask();
 
   constructor(private sts: StoryService,
               private ts: TaskService,
+              private historyService: HistoryService,
               private route: ActivatedRoute,
               private router: Router) {}
 
@@ -58,6 +61,17 @@ export class StoryComponent implements OnInit {
     console.log(this.newDesc);
     console.log(this.newPoints);
     console.log(this.isCompleted);
+    var oldTitle = this.story.title;
+    var oldDesc = this.story.description;
+    var oldPoints = this.story.points;
+    var oldStatus;
+    if(this.story.timeCompleted !== null) {
+      oldStatus = true;
+    } 
+    else {
+      oldStatus = false;
+    }
+
     this.story.title = this.newTitle;
     this.story.description = this.newDesc;
     this.story.points = this.newPoints;
@@ -68,7 +82,12 @@ export class StoryComponent implements OnInit {
       this.story.timeCompleted = null;
     }
     console.log(this.story);
-    this.sts.updateStory(this.story).subscribe();
+    this.sts.updateStory(this.story).subscribe(st => {
+      this.historyService.createHistory(" has updated a story from (" + oldTitle + ", " + oldDesc + ", " + oldPoints + ", " + oldStatus
+    + " to (" + this.story.title + ", " + this.story.description + ", " + this.story.points + ", " + this.isCompleted + ")").subscribe(hist => {
+        //push to history
+      });
+    });
   }
 
   moveUp() {
@@ -79,7 +98,11 @@ export class StoryComponent implements OnInit {
     this.st2.order = ogOrder;
     this.swimlane.stories[ogOrder] = this.st2;
     this.swimlane.stories[ogOrder-1] = this.story;
-    this.sts.updateStory(this.story).subscribe();
+    this.sts.updateStory(this.story).subscribe(st => {
+      this.historyService.createHistory(" has moved story " + st.title + " up and " + this.st2 + " down").subscribe(hist => {
+        //push to history
+      });
+    });
     this.sts.updateStory(this.st2).subscribe();
   }
   
@@ -91,7 +114,11 @@ export class StoryComponent implements OnInit {
     this.st2.order = ogOrder;
     this.swimlane.stories[ogOrder] = this.st2;
     this.swimlane.stories[ogOrder+1] = this.story;
-    this.sts.updateStory(this.story).subscribe();
+    this.sts.updateStory(this.story).subscribe(st => {
+      this.historyService.createHistory(" has moved story " + st.title + " down and " + this.st2 + " up").subscribe(hist => {
+        //push to history
+      });
+    });
     this.sts.updateStory(this.st2).subscribe();
   }
 
@@ -105,7 +132,10 @@ export class StoryComponent implements OnInit {
           obj.order -= 1;
           this.sts.updateStory(obj).subscribe();
         }
-      })
+      });
+      this.historyService.createHistory(" has deleted story " + st.title).subscribe(hist => {
+        //push to history
+      });
     })
   }
 

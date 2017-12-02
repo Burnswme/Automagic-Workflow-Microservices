@@ -16,6 +16,16 @@ public class BoardUserService implements UserDetailsService {
 	
 	@Autowired
 	private BoardUserDao dao;
+	
+	public BoardUser getUser(String username) throws UsernameNotFoundException {
+		Optional<BoardUser> optUser = dao.findByUsername(username);
+		optUser.orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+		return optUser.get();
+	}
+	
+	public BoardUser saveUser(BoardUser user) {
+		return dao.save(user);
+	}
 
 	@Override
 	public BoardUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

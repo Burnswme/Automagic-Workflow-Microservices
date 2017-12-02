@@ -1,5 +1,5 @@
 import { AwBoard } from './../domain/aw-board';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { DataService } from '../data.service';
 
 @Component({
@@ -7,18 +7,13 @@ import { DataService } from '../data.service';
   templateUrl: './burndown.component.html',
   styleUrls: ['./burndown.component.css']
 })
-export class BurndownComponent implements OnInit {
+export class BurndownComponent {
   @Input() board: AwBoard;
-  min: Date = this.service.roundDate(0);
 
   constructor(private service: DataService) {}
-
-  ngOnInit() {}
   
   // lineChart
-  public lineChartData:Array<any> = [
-    {data: [], label: ''}
-  ];
+  public lineChartData:Array<any> = [{data: []}];
   public lineChartLabels:Array<any> = [];
   public lineChartOptions:any = {
     responsive: true,
@@ -26,7 +21,6 @@ export class BurndownComponent implements OnInit {
       xAxes: [{
         type: 'time',
         time: {
-          // min: this.min,
           unit: 'day',
           unitStepSize: 1,
           displayFormats: {
@@ -76,12 +70,7 @@ export class BurndownComponent implements OnInit {
   }
 
   updateData(): void {
-    let dataset = this.service.getDataSet(this.board);
-    this.lineChartData = [
-      {data: dataset, label: 'Data'}
-    ];
-    this.min = dataset[0].t;
-    
+    this.lineChartData = [{data: this.service.getDataSet(this.board)}];
   }
 
 }

@@ -5,6 +5,8 @@ import { AwBoard } from './../domain/aw-board';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SwimlaneService } from './swimlane.service';
 import { Component, OnInit, Input } from '@angular/core';
+import { AwHistory } from './../domain/aw-history';
+import { HistoryService } from './../history.service';
 
 @Component({
   selector: 'aw-swimlane',
@@ -17,6 +19,14 @@ export class SwimlaneComponent implements OnInit {
   updateName: string;//used as an intermediary string to update/edit this.swimlane using ngModel without actually saving the value until you hit save
 
   sl2: AwSwimlane; //swimlane to be displaced when moving a swimlane around
+  
+  activity: AwHistory = {
+    id: 0,
+    userId: 0,
+    boardId: 0,
+    action: "",
+    timestamp: null
+  };
 
   newStory: AwStory = {
     id: 0,
@@ -32,6 +42,7 @@ export class SwimlaneComponent implements OnInit {
   constructor(private sls: SwimlaneService,
               private sts: StoryService,
               private route: ActivatedRoute,
+              private historyService: HistoryService,
               private router: Router) {}
 
   ngOnInit() {
@@ -43,9 +54,14 @@ export class SwimlaneComponent implements OnInit {
   }
 
   updateSwimlane() {
+    var oldName = this.swimlane.name;
     this.swimlane.name = this.updateName;
     // this.board.swimlanes[this.swimlane.order] = this.swimlane;
-    this.sls.updateSwimlane(this.swimlane).subscribe();
+    this.sls.updateSwimlane(this.swimlane).subscribe(sl => {
+      this.historyService.createHistory("User has changed a swimlan's name from " + oldName + " to " + sl.name).subscribe(hist => {
+        //push to history
+      });
+    });
   }
 
   moveLeft() {
@@ -56,7 +72,12 @@ export class SwimlaneComponent implements OnInit {
     this.sl2.order = ogOrder;
     this.board.swimlanes[ogOrder] = this.sl2;
     this.board.swimlanes[ogOrder-1] = this.swimlane;
-    this.sls.updateSwimlane(this.swimlane).subscribe();
+    this.sls.updateSwimlane(this.swimlane).subscribe(sl => {
+      this.historyService.createHistory("User has moved swimlane with the name " + sl.name + "to the left"
+      + " and " + this.sl2.name + " to the right").subscribe(hist => {
+        //push to history
+      });
+    });
     this.sls.updateSwimlane(this.sl2).subscribe();
   }
 
@@ -68,7 +89,13 @@ export class SwimlaneComponent implements OnInit {
     this.sl2.order = ogOrder;
     this.board.swimlanes[ogOrder] = this.sl2;
     this.board.swimlanes[ogOrder+1] = this.swimlane;
-    this.sls.updateSwimlane(this.swimlane).subscribe();
+    this.sls.updateSwimlane(this.swimlane).subscribe(sl => {
+      this.historyService.createHistory("User has moved swimlane with the name " + sl.name + "to the right"
+      + " and " + this.sl2.name + " to the left").subscribe(hist => {
+        //push to history
+      });
+      
+    });
     this.sls.updateSwimlane(this.sl2).subscribe();
     
   }
@@ -78,13 +105,16 @@ export class SwimlaneComponent implements OnInit {
       this.board.swimlanes = this.board.swimlanes.filter(obj => {
 				return obj.id !== sl.id;
       });
+      
       this.board.swimlanes.forEach(obj => {
         if (obj.order > sl.order) {
           obj.order -= 1;
           this.sls.updateSwimlane(obj).subscribe();
         }
       });
-
+      this.historyService.createHistory(" has deleted swimlane " + sl.name).subscribe(hist => {
+        //push to history
+      });
     });
   }
 
@@ -104,12 +134,10 @@ export class SwimlaneComponent implements OnInit {
         order: 0,
         tasks: [],
       };
+
+      this.historyService.createHistory(" has created a story with the name " + st.title).subscribe(hist => {
+        //push to history
+      })
     })
   }
-
-  dummy() {
-    console.log("SOMETHING");
-  }
-
-  
 }

@@ -43,7 +43,7 @@ export class DataService {
     for (let i = 0; i <= days; i++) {
       out.push(
         (story.timeCompleted &&
-          new Date(story.timeCompleted) < new Date(start.getTime() + i*(1000 * 60 * 60 * 24)))
+          new Date(story.timeCompleted) < this.roundDate(start.getTime() + (i+1)*(1000 * 60 * 60 * 24)))
         ? 0 : story.points);
     }
     return out;

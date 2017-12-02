@@ -14,6 +14,18 @@ export class BoardService {
     return this.backend.get<AwBoard>("/aw_boards/getBoard/" + id);
   }
 
+  getBoards(ids: number[]): Observable<AwBoard[]> {
+    return this.backend.post<AwBoard[]>("/aw_boards/getBoards", ids);
+  }
+
+  getAllBoards(): Observable<AwBoard[]> {
+    return this.backend.get<AwBoard[]>("/aw_boards/getAllBoards");
+  }
+
+  createBoard(board: AwBoard): Observable<AwBoard> {
+    return this.backend.post<AwBoard>("/aw_boards/createBoard", board);
+  }
+
   getHistory(boardId: number): Observable<AwHistory[]> {
     return this.backend.get<AwHistory[]>("/aw_boards/getHistory/" + boardId);
   }

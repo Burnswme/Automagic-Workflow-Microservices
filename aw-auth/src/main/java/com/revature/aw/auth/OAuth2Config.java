@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -33,11 +34,11 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 		clients.inMemory()
-			.withClient("automagic")
-			.secret("firaga")
-			.authorizedGrantTypes("password", "refresh_token")
-			.scopes("resource-server-read")
-			.accessTokenValiditySeconds(600);
+				.withClient("automagic")
+				.secret("firaga")
+				.authorizedGrantTypes("password", "refresh_token")
+				.scopes("resource-server-read")
+				.accessTokenValiditySeconds(600);
 	}
 
 	@Override
