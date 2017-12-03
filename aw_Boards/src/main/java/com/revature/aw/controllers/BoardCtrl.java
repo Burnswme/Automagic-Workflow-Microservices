@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.aw.domain.Board;
-import com.revature.aw.domain.History;
+
 import com.revature.aw.message.BoardSource;
 import com.revature.aw.services.BoardServices;
 
@@ -96,20 +96,4 @@ public class BoardCtrl {
 		
 	}
 	
-	@GetMapping("/getHistory/{boardId}")
-	public ResponseEntity<Object> getHistory(@PathVariable("boardId") int boardId, HttpServletRequest req) {
-		if(services != null && services.getBoardByBoardId(boardId) != null) {
-			List<History> history = services.getHistory(boardId);
-			for(History hist : history) {
-				System.out.println(hist);
-			}
-			return new ResponseEntity<>(history, HttpStatus.OK);
-		}
-		return new ResponseEntity<>(HttpStatus.CONFLICT);
-	}
-	
-	@ExceptionHandler(Exception.class)
-	public ResponseEntity<Exception> handleException(Exception e){
-		return new ResponseEntity<Exception>(e,HttpStatus.CONFLICT);
-	}
 }

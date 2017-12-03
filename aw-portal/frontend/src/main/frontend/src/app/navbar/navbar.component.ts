@@ -16,6 +16,7 @@ import { AwUserToken } from '../domain/aw-usertoken';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+
   boards: AwBoard[] = [];
   newBoard: AwBoard = new AwBoard();
   user: AwUser = new AwUser("", "");
@@ -36,7 +37,7 @@ export class NavbarComponent implements OnInit {
   }
 
   loadBoard(id: number): void {
-    // localStorage.setItem("currentBoardId", ""+id);
+    localStorage.setItem("currentBoardId", ""+id);
     this.router.navigateByUrl('/board/' + id);
   }
 

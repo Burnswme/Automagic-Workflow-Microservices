@@ -84,8 +84,8 @@ export class StoryComponent implements OnInit {
     console.log(this.story);
     this.sts.updateStory(this.story).subscribe(st => {
       this.historyService.createHistory(" has updated a story from (" + oldTitle + ", " + oldDesc + ", " + oldPoints + ", " + oldStatus
-    + " to (" + this.story.title + ", " + this.story.description + ", " + this.story.points + ", " + this.isCompleted + ")").subscribe(hist => {
-        //push to history
+    + ") to (" + this.story.title + ", " + this.story.description + ", " + this.story.points + ", " + this.isCompleted + ")").subscribe(hist => {
+        this.board.history.unshift(hist);
       });
     });
   }
@@ -99,8 +99,8 @@ export class StoryComponent implements OnInit {
     this.swimlane.stories[ogOrder] = this.st2;
     this.swimlane.stories[ogOrder-1] = this.story;
     this.sts.updateStory(this.story).subscribe(st => {
-      this.historyService.createHistory(" has moved story " + st.title + " up and " + this.st2 + " down").subscribe(hist => {
-        //push to history
+      this.historyService.createHistory(" has moved story [" + st.title + "] up and [" + this.st2 + "] down").subscribe(hist => {
+        this.board.history.unshift(hist);
       });
     });
     this.sts.updateStory(this.st2).subscribe();
@@ -115,8 +115,8 @@ export class StoryComponent implements OnInit {
     this.swimlane.stories[ogOrder] = this.st2;
     this.swimlane.stories[ogOrder+1] = this.story;
     this.sts.updateStory(this.story).subscribe(st => {
-      this.historyService.createHistory(" has moved story " + st.title + " down and " + this.st2 + " up").subscribe(hist => {
-        //push to history
+      this.historyService.createHistory(" has moved story [" + st.title + "] down and [" + this.st2 + "] up").subscribe(hist => {
+        this.board.history.unshift(hist);
       });
     });
     this.sts.updateStory(this.st2).subscribe();
@@ -133,8 +133,8 @@ export class StoryComponent implements OnInit {
           this.sts.updateStory(obj).subscribe();
         }
       });
-      this.historyService.createHistory(" has deleted story " + st.title).subscribe(hist => {
-        //push to history
+      this.historyService.createHistory(" has deleted story [" + st.title + "]").subscribe(hist => {
+        this.board.history.unshift(hist);
       });
     })
   }
@@ -163,14 +163,20 @@ export class StoryComponent implements OnInit {
     this.ts.createTask(task).subscribe((result: AwTask) => {
       this.story.tasks.push(result);
       this.newTask = new AwTask();
-    })
+      
+      this.historyService.createHistory(" has created a task [" + result.name + "]").subscribe(hist => {
+        this.board.history.unshift(hist);
+      });
+    });
+     
   }
   
   //takes in id of new swimlane, new order aka last in the new swimlane, and the place of the swimlane
   moveTo(swimlaneId: number, newOrder: number, slOrder: number) {
     console.log("MOVE TO: " + swimlaneId);
     
-    
+    var oldSwimlane = this.swimlane.name;
+    var newSwimlane = this.board.swimlanes[slOrder].name;
     
     this.board.swimlanes[this.swimlane.order].stories = this.board.swimlanes[this.swimlane.order].stories.filter(obj => {
       return obj.id !== this.story.id;
@@ -191,7 +197,12 @@ export class StoryComponent implements OnInit {
     this.story.swimlaneId = swimlaneId;
     this.story.order = newOrder;
 
-    this.sts.updateStory(this.story).subscribe();
+    this.sts.updateStory(this.story).subscribe(obj => {
+      this.historyService.createHistory(" has moved the story [" + this.story.title + "] from swimlane [" + oldSwimlane + "] to [" 
+    + newSwimlane + "]").subscribe(hist => {
+      this.board.history.unshift(hist);
+    })
+    });
     this.board.swimlanes[slOrder].stories[newOrder] = this.story;
   }
 }
