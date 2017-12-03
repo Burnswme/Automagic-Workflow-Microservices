@@ -5555,3 +5555,11 @@ Using default security password: 1ab6fb36-1f80-4351-b353-4ed03b637aad
 2017-12-02 23:00:36 [main] INFO  c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1512273636452, current=UP, previous=STARTING]
 2017-12-02 23:00:36 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_AW_BOARDS/aw_Boards:555466033: registering service...
 2017-12-02 23:00:36 [DiscoveryClient-InstanceInfoReplicator-0] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_AW_BOARDS/aw_Boards:555466033 - registration status: 204
+2017-12-02 23:00:36 [main] INFO  o.s.i.endpoint.EventDrivenConsumer - Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2017-12-02 23:00:36 [main] INFO  o.s.i.c.PublishSubscribeChannel - Channel 'aw_Boards:8002.errorChannel' has 1 subscriber(s).
+2017-12-02 23:00:36 [main] INFO  o.s.i.endpoint.EventDrivenConsumer - started _org.springframework.integration.errorLogger
+2017-12-02 23:00:36 [main] INFO  o.s.c.s.DefaultLifecycleProcessor - Starting beans in phase 2147482647
+2017-12-02 23:00:36 [main] INFO  o.s.c.s.DefaultLifecycleProcessor - Starting beans in phase 2147483647
+2017-12-02 23:00:36 [main] INFO  o.s.b.c.e.t.TomcatEmbeddedServletContainer - Tomcat started on port(s): 8002 (http)
+2017-12-02 23:00:36 [main] INFO  o.s.c.n.e.s.EurekaAutoServiceRegistration - Updating port to 8002
+2017-12-02 23:00:36 [main] INFO  com.revature.aw.AwBoardsApplication - Started AwBoardsApplication in 38.739 seconds (JVM running for 39.69)
