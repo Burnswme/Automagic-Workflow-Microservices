@@ -102,7 +102,7 @@ public class AwBoardsApplicationTests
 		}
 		
 		ArrayList<Board> result = new ArrayList<>();
-		result = (ArrayList<Board>) service.getBoardsByUserId(boards);
+		result = (ArrayList<Board>) service.getBoardsByBoardIds(boards);
 		System.out.println("List size:" + list.size() + " " + "Result size: " + result.size());
 		assertEquals(list.size(),result.size());
 	}

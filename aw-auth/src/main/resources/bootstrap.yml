@@ -1,0 +1,8 @@
+# aw-auth
+
+spring:
+  application:
+    name: users
+  cloud:
+    config:
+      uri: ${SPRING_CONFIG_URI:http://18.217.188.44:9000}    
