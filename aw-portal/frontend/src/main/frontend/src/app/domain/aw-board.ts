@@ -5,7 +5,10 @@ export class AwBoard {
     id: number;
     name: string;
     startDate: number;
-    duration: number;
+    numDays: number;
     swimlanes: AwSwimlane[];
+
     history: AwHistory[];
+
+    constructor() {}
 }

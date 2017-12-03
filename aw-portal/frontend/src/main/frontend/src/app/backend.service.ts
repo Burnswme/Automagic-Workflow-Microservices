@@ -44,15 +44,12 @@ export class BackendService {
       .subscribe(response => {
         localStorage.setItem('currentUser',
           JSON.stringify({userName:user.username, token: response.access_token }));
-        
-        console.log("?????");
-        console.log(this.user);
-        console.log(this.user);
-        console.log(this.user.value);
+
         localStorage.setItem("currentUserId", "" + this.user.value.id);
-        console.log(localStorage.getItem("currentUserId"));
+
         localStorage.setItem("currentUserUsername", user.username);
-        this.updateUser();
+
+        this.updateUserRef();
         this.router.navigateByUrl("/home");
       }, (error) => {
         console.log('error in', error);
@@ -91,24 +88,9 @@ export class BackendService {
       .map(res => res.json());
   }
 
-  updateUser(): void {
-    console.log('updateUser() backend-service.ts');
-    this.url = this.zuul + "/users/auth/getUser";
-    this.headers = new Headers({ 
-      "Content-Type": "application/json",
-      'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('currentUser')).token 
-    });
-    this.options = new RequestOptions({ headers: this.headers });
+  updateUserRef(): void {
     let body = new AwUser(JSON.parse(localStorage.getItem('currentUser')).userName, "");
-    this.http.post(this.url, body, this.options)
-      .retryWhen(attempts => attempts
-        .mergeMap((error) => {
-          if (error.status === 401) {
-            this.router.navigateByUrl('/login');
-            return Observable.throw(error);
-          } else return of(error);})
-        .take(5))
-      .map(res => res.json())
+    this.post<AwUser>("/users/auth/getUser", body)
       .subscribe(result => {
         this.user.next(result);
       });
@@ -122,4 +104,40 @@ export class BackendService {
     localStorage.removeItem('currentUser');
     this.user.next(new AwUser("", ""));
   }
+
+  createUser(user: AwUser): Observable<AwUser> {
+    return this.post<AwUser>("/users/auth/saveUser", user);
+  }
+
+  // createUser(user: AwUser): void {
+  //   this.url = this.zuul + "/users/auth/oauth/token";
+  //   this.headers = new Headers({
+  //     "Content-Type": "application/x-www-form-urlencoded",
+  //     "Authorization": "Basic " + Base64.encode('autoguest:blizzaga')
+  //   });
+  //   this.options = new RequestOptions({ headers: this.headers });
+  //   this.creds = 'grant_type=client_credentials';
+  //   this.http.post(this.url, this.creds, this.options)
+  //     .retry(5)
+  //     .map(res => res.json())
+  //     .subscribe(response => {
+  //       console.log("Made it this far!");
+  //       this.url = this.zuul + "/users/auth/saveUser?access_token=" + response.access_token; 
+  //       this.headers = new Headers({ 
+  //         "Content-Type": "application/json"
+  //       });
+  //       this.options = new RequestOptions({ headers: this.headers });
+  //       this.http.post(this.url, user, this.options)
+  //         .retryWhen(attempts => attempts
+  //           .mergeMap((error) => {
+  //             if (error.status === 401) {
+  //               this.router.navigateByUrl('/login');
+  //               return Observable.throw(error);
+  //             } else return of(error);})
+  //           .take(5)).subscribe();
+  //     }, (error) => {
+  //       console.log('error in', error);
+  //     });
+
+  // }
 }

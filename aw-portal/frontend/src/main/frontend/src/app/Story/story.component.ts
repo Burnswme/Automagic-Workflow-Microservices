@@ -31,19 +31,13 @@ export class StoryComponent implements OnInit {
   st2: AwStory; //story that is displaced(i.e. not the one being moved) when you move a story
   activity: AwHistory;
 
-  newTask: AwTask = {
-    id: 0,
-    storyId: 0,
-    name: "",
-    completed: false,
-    order: 0
-  }
+  newTask: AwTask = new AwTask();
 
   constructor(private sts: StoryService,
               private ts: TaskService,
               private historyService: HistoryService,
               private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router) {}
 
   ngOnInit() {
     this.ts.getTasks(this.story.id).subscribe((tasks: AwTask[]) => {
@@ -82,7 +76,7 @@ export class StoryComponent implements OnInit {
     this.story.description = this.newDesc;
     this.story.points = this.newPoints;
     if(this.isCompleted == true) {
-      this.story.timeCompleted = new Date();
+      this.story.timeCompleted = Date.now();
     }
     else {
       this.story.timeCompleted = null;
@@ -168,17 +162,13 @@ export class StoryComponent implements OnInit {
     console.log(task);
     this.ts.createTask(task).subscribe((result: AwTask) => {
       this.story.tasks.push(result);
-      this.newTask = {
-        id: 0,
-        storyId: 0,
-        name: "",
-        completed: false,
-        order: 0,
-      }
+      this.newTask = new AwTask();
+      
       this.historyService.createHistory(" has created a task [" + result.name + "]").subscribe(hist => {
         this.board.history.unshift(hist);
       });
     });
+     
   }
   
   //takes in id of new swimlane, new order aka last in the new swimlane, and the place of the swimlane

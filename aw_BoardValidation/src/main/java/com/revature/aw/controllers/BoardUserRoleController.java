@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,32 +24,18 @@ public class BoardUserRoleController
 	@Autowired
 	private BoardUserRoleServices services;
 	
-	@GetMapping("/getUserBoards")
+	@GetMapping("/getUserBoards/{id}")
 	@ResponseBody
-	public ResponseEntity<Object> getUserBoards(@PathVariable("userId")int userId, HttpServletRequest req)
-	{
-		List<BoardUserRole> list;
-		list = services.findByUserId(userId);
-		if(!list.isEmpty())
-		{
-			return (ResponseEntity<Object>) list;
-		}
-		else
-			return new ResponseEntity<>(HttpStatus.CONFLICT);
+	public ResponseEntity<List<BoardUserRole>> getUserBoards(@PathVariable("id") int userId) {
+		return new ResponseEntity<>(services.findByUserId(userId), HttpStatus.OK);
 	}
 	
-	@GetMapping("/createUserBoardRole")
+	@PostMapping("/createUserBoardRole")
 	@ResponseBody
-	public ResponseEntity<Object> createUserBoardRole(@RequestBody BoardUserRole bur,HttpServletRequest req )
-	{
-		BoardUserRole x;
-		x = services.save(bur);
-		if(!x.equals(null))
-		{
-			return new ResponseEntity<>(HttpStatus.OK);
-		}
-		else
-			return new ResponseEntity<>(HttpStatus.CONFLICT);
+	public ResponseEntity<BoardUserRole> createUserBoardRole(@RequestBody BoardUserRole bur) {
+		BoardUserRole x = services.save(bur);
+		return (x != null) ? new ResponseEntity<>(x, HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.CONFLICT);
 	}
 	
 	@GetMapping("/deleteUserBoardRole")
@@ -64,13 +51,14 @@ public class BoardUserRoleController
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 	}
 	
-	@GetMapping("/determineUserPrivileges")
+	@GetMapping("/fetchUserPrivileges/{user}/{board}")
 	@ResponseBody
-	public boolean determineUserPrivileges(@PathVariable("userId")int userId, @PathVariable("boardId")int boardId, HttpServletRequest req)
-	{
-		boolean canView = false;
-		canView = services.determinePrivileges(userId, boardId);
-		
-		return canView;
+	public ResponseEntity<Boolean> determineUserPrivileges(@PathVariable("user") int userId, @PathVariable("board")int boardId) {
+		return new ResponseEntity<>(services.determinePrivileges(userId, boardId), HttpStatus.OK);
+	}
+	
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<Exception> handleException(Exception e){
+		return new ResponseEntity<Exception>(e,HttpStatus.CONFLICT);
 	}
 }

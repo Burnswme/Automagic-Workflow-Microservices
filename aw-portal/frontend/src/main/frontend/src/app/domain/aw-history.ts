@@ -4,4 +4,5 @@ export class AwHistory{
     boardId: number;
     action: string;
     timestamp: Date;
+    constructor() {}
 }

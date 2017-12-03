@@ -1,3 +1,6 @@
+import { Observable } from 'rxjs/Observable';
+import { BackendService } from './../backend.service';
+import { ValidationService } from './../validation.service';
 import { AwSwimlane } from './../domain/aw-swimlane';
 import { SwimlaneService } from './../swimlane/swimlane.service';
 import { AwBoard } from './../domain/aw-board';
@@ -8,70 +11,80 @@ import { NgModel } from '@angular/forms';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 import { AwHistory } from '../domain/aw-history';
+import { AwUser } from '../domain/aw-user';
 
 @Component({
     selector: 'aw-board',
     templateUrl: './board.component.html',
     styleUrls: ['./board.component.css']
 })
+
+
 export class BoardComponent implements OnInit{
-    bu: AwBoard = {
-        id: 0,
-        name: "",
-        startDate: 0,
-        duration: 0,
-        swimlanes: [],
-        history: []
-    };
-    sl: AwSwimlane = {
-        id: 0,
-        boardId: 0,
-        name: "",
-        order: 0,
-        stories: []
-    };
+    user: AwUser = new AwUser("", "");
+    board: AwBoard = new AwBoard();
+    sl: AwSwimlane = new AwSwimlane();
+    history: AwHistory[];
 
     errorMessage: string = "";
-
     updatedName: string;
+    display: boolean = false;
+    activity: AwHistory = new AwHistory();
 
-    activity: AwHistory = {
-        id: 0,
-        userId: 0,
-        boardId: 0,
-        action: "",
-        timestamp: null
-      };
-
-    constructor(private bs: BoardService,
+    constructor(private bds: BoardService,
                 private sls: SwimlaneService,
                 private route: ActivatedRoute,
                 private historyService: HistoryService,
+                private backend: BackendService,
+                private bvs: ValidationService,
                 private router: Router) {}
     
     ngOnInit(){
-        this.route.paramMap
-            .switchMap((params: ParamMap) => this.bs.getBoard(+params.get('id')))
-            .subscribe(board => {
-                this.bu = board;
-                this.sl.boardId = board.id;
-                this.display = true;
-                console.log("GETTING SWIMLANES");
-                console.log(board.id);
-                this.sls.getSwimlanes(board.id)
-                .subscribe((swimlanes: AwSwimlane[]) => {
-                    board.swimlanes = swimlanes;
-                    console.log("SWIMLANES GOTTEN?");
-                    console.log(board.swimlanes);
-                })
-                this.historyService.getHistory(this.bu.id).subscribe((histList: AwHistory[]) => {
-                    this.bu.history = histList;
-                    console.log(this.bu.history);
-                } ) 
-            });
-    };
 
-    display: boolean = false;
+        this.setAwUserListener();
+    }
+    
+    setAwUserListener(): void {
+        this.backend.user.subscribe(result => {
+            this.user = result;
+            if (this.user.username != "") {
+                this.getBoard();
+            }
+            this.historyService.getHistory(this.board.id).subscribe((histList: AwHistory[]) => {
+                this.board.history = histList;
+                console.log(this.board.history);
+            } ) 
+        });
+    }
+
+
+    getBoard(): void {
+        let id;
+        this.route.paramMap.switchMap((params: ParamMap) => {
+            id = +params.get('id');
+            return this.bvs.isAuthorized(this.user, id);
+        }).subscribe(result => {
+            if (result) {
+                this.bds.getBoard(id).subscribe(board => {
+                    this.board = board;
+                    this.sl.boardId = board.id;
+                    this.display = true;
+                    console.log("GETTING SWIMLANES");
+                    console.log(board.id);
+                    this.sls.getSwimlanes(board.id)
+                    .subscribe((swimlanes: AwSwimlane[]) => {
+                        board.swimlanes = swimlanes;
+                        console.log("SWIMLANES GOTTEN?");
+                        console.log(board.swimlanes);
+                    }, (error) => {
+                        this.router.navigateByUrl('/boardNotFound');
+                    })
+                });
+            } else {
+                this.router.navigateByUrl('/notAuthorized');
+            }
+        });
+    }
 
     toggleDisplay(event){
         this.display = !this.display;
@@ -86,19 +99,19 @@ export class BoardComponent implements OnInit{
     }
 
     createSwimlane(sl: AwSwimlane) {
-        sl.order = (this.bu.swimlanes) ? this.bu.swimlanes.length : 0;
+        sl.order = (this.board.swimlanes) ? this.board.swimlanes.length : 0;
         console.log(sl);
         this.sls.createSwimlane(sl).subscribe((result: AwSwimlane) => {
-            this.bu.swimlanes.push(result);
+            this.board.swimlanes.push(result);
             this.sl = {
                 id: 0,
-                boardId: this.bu.id,
+                boardId: this.board.id,
                 name: "",
                 order: 0,
                 stories: []
             };
             this.historyService.createHistory(" has created a swimlane with the name [" + sl.name + "]").subscribe(hist => {
-                this.bu.history.unshift(hist);
+                this.board.history.unshift(hist);
             });
         });
     }

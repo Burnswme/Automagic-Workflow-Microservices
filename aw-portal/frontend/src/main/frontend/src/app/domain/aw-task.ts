@@ -4,4 +4,5 @@ export class AwTask {
     name: string;
     completed: boolean;
     order: number;
+    constructor() {}
 }

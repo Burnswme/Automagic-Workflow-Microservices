@@ -12,18 +12,24 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
-        <li *ngIf="isLoggedIn(); else register" container="body" dropdown placement="bottom right">
+
+        <li *ngIf="isLoggedIn()" container="body" dropdown placement="bottom right">
           <a dropdownToggle type="button">
             {{user.username}} <span class="caret"></span>
           </a>
           <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+            <li *ngIf="user.admin" role="menuitem"><a class="dropdown-item" (click)="regmodal.show()">Add New User</a></li>
+            <li *ngIf="user.admin" class="divider dropdown-divider"></li>
             <li role="menuitem" dropdown triggers="mouseover" dropdown placement="top left" container="body">
               <a dropdownToggle class="dropdown-item dropdown-toggle">
                 Boards <span class="caret"></span>
               </a>
               <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
-                <li role="menuitem"><a class="dropdown-item">Create New Board</a></li>
-                <li *ngIf="boards?.length > 0" class="divider dropdown-divider"></li>
+                <li *ngIf="!user.admin" role="menuitem"><a class="dropdown-item" (click)="createBoardModal.show()">Create New Board</a></li>
+                <li *ngIf="!user.admin" class="divider dropdown-divider"></li>
+                <li *ngIf="boards?.length == 0" role="menuitem" >
+                    <a class="dropdown-item">No boards</a>
+                </li>
                 <li role="menuitem" *ngFor="let board of boards">
                   <a class="dropdown-item" (click)="loadBoard(board.id)">{{board.name}}</a>
                 </li>
@@ -36,27 +42,85 @@
             <li role="menuitem"><a class="dropdown-item" (click)="logout()">Logout</a></li>
           </ul>
         </li>
-        <ng-template #register>
+        <!-- <ng-template #register>
           <form class="navbar-form navbar-right">
               <button type="button" class="btn btn-warning"
                 (click)="regmodal.show()">Register</button>
           </form>
-        </ng-template>
+        </ng-template> -->
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
 
 <app-modal #regmodal>
+	<div class="app-modal-header">
+		<button type="button" class="close" (click)="regmodal.hide()">&times;</button>
+		<h4 class="modal-title">Create New Board</h4>
+	</div>
+	<div class="app-modal-body">
+		<div class="form-horizontal">
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<h4>Enter your information below:</h4>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">First Name</label>
+				<div class="col-sm-10">
+					<input [(ngModel)]="newUser.firstName" type="text" class="form-control"
+					placeholder="Enter username">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Last Name</label>
+				<div class="col-sm-10">
+					<input [(ngModel)]="newUser.lastName" type="text" class="form-control"
+					placeholder="Enter username">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Email</label>
+				<div class="col-sm-10">
+					<input [(ngModel)]="newUser.email" type="email" class="form-control"
+					placeholder="Enter username">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Username</label>
+				<div class="col-sm-10">
+					<input [(ngModel)]="newUser.username" type="text" class="form-control"
+					placeholder="Enter username">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Password</label>
+				<div class="col-sm-10">
+					<input [(ngModel)]="newUser.password" type="password" class="form-control"
+					placeholder="Enter password">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="app-modal-footer">
+		<button type="button" class="btn btn-success" (click)="register(); regmodal.hide()">Submit</button>
+		<button type="button" class="btn btn-danger" (click)="regmodal.hide()">Cancel</button>
+	</div>
+</app-modal>
+
+<app-modal #createBoardModal>
   <div class="app-modal-header">
-    header
+    <button type="button" class="close" (click)="createBoardModal.hide()">&times;</button>
+    <h4 class="modal-title">Create New Board</h4>
   </div>
   <div class="app-modal-body">
-    Whatever content you like, form fields, anything
-    <input type="text">
+      <p>Please enter a name for the new board:</p>
+      <input type ="text" [(ngModel)]="newBoard.name" required/>
+      <p>Please enter the number of days:</p>
+      <input type ="number" [(ngModel)]="newBoard.numDays" min=1 required/><br>
+      <button class="btn btn-warning" (click)="createBoard(newBoard); createBoardModal.hide()">Submit</button>
   </div>
   <div class="app-modal-footer">
-    <button type="button" class="btn btn-primary">Save changes</button>
-    <button type="button" class="btn btn-default" (click)="regmodal.hide()">Close</button>
+    <button type="button" class="btn btn-default" (click)="createBoardModal.hide()">Close</button>
   </div>
 </app-modal>
