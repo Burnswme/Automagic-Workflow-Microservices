@@ -1,6 +1,5 @@
 package com.revature.aw.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,12 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.aw.domain.Board;
 import com.revature.aw.domain.History;
+import com.revature.aw.message.BoardSource;
 import com.revature.aw.services.BoardServices;
 
 @RestController
 public class BoardCtrl {
 	@Autowired
 	private BoardServices services;
+	
+	@Autowired
+	BoardSource source;
 	
 	@PostMapping("/getBoards")
 	@ResponseBody
@@ -45,15 +49,20 @@ public class BoardCtrl {
 	@ResponseBody
 	public ResponseEntity<Board> getBoardById(@PathVariable("id") int id) {
 		Board board = services.getBoardByBoardId(id);
-		
 		return (board != null) ? new ResponseEntity<>(board, HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.CONFLICT);
 	}
 	
 	@PostMapping("/deleteBoard")
-	public ResponseEntity<Object> deleteBoard(@RequestBody Board board, HttpServletRequest req) {
+	public ResponseEntity<Boolean> deleteBoard(@RequestBody Board board, HttpServletRequest req) {
 		if(services != null && board != null && services.getBoardByBoardId(board.getId()) != null) {
 			services.deleteBoard(board);
+			source.boardUserRoleChannel().send(
+					MessageBuilder.withPayload(board.getId()).build()
+				);
+			source.swimlaneChannel().send(
+					MessageBuilder.withPayload(board.getId()).build()
+				);
 			return new ResponseEntity<>(true, HttpStatus.OK);
 		} else if (services.getBoardByBoardId(board.getId()) == null) {
 			return new ResponseEntity<>(true, HttpStatus.OK);
