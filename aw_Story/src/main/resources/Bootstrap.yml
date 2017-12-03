@@ -1,8 +1,63 @@
 #aw_Story
 
-spring: 
+server:
+  port: 8003
+spring:
   application:
     name: aw_Story
+    
+  rabbitmq:
+    host: localhost
+    password: guest
+    username: guest
+    port: 5672
+
   cloud:
-    config:
-      uri: ${SPRING_CONFIG_URI:http://18.217.188.44:9000} 
+    stream:
+      bindings:
+        input:
+          destination: story-rabbit
+        Task:
+          destination: task-rabbit
+          
+  datasource:
+    tomcat:
+      initial-size: 1
+    max-active: 3  
+    url: jdbc:oracle:thin:@macguffin.cfs7tvzcxdyw.us-east-2.rds.amazonaws.com:1521:ORCL
+    username: macguffin_user
+    password: p4ssw0rd
+    driver-class-name: oracle.jdbc.OracleDriver
+    platform: oracle
+  jpa:
+    hibernate: 
+      ddl-auto: update
+    database: ORACLE
+    show-sql: true  
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true   
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}:${random.int}
+security:
+  oauth2:
+    resource:
+      accessTokenUri: http://localhost:8090/auth/oauth/check_token
+      userAuthorizationUri: http://localhost:8090/auth/oauth/authorize
+      userInfoUri: http://localhost:8090/auth/user
+      jwt:
+        keyUri: http://localhost:8090/auth/oauth/token_key    
+        
+        
+logging:
+  level:
+    org.springframework.web: ERROR
+    com.revature.aw: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file: ./logs/aw_story.log

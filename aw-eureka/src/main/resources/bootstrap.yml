@@ -1,8 +1,16 @@
 #aw-eureka
 
-spring: 
+spring:
   application:
     name: aw-eureka
-  cloud:
-    config:
-      uri: ${SPRING_CONFIG_URI:http://18.217.188.44:9000}  
+
+server:
+  port: 8761
+#  context-path: /auth
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+  datacenter: Tampa
+  environment: Automagic

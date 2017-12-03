@@ -40,7 +40,7 @@
                     <div class="form-group input-group">
                         <input class="form-control" [(ngModel)]="sl.name" type="text"/>
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button" (click)="createSwimlane(sl, newSlName)">
+                            <button class="btn btn-default" type="button" (click)="createSwimlane(sl)">
                                 Create Swimlane
                             </button>
                         </span>
@@ -85,7 +85,7 @@
                    </tr>
                 </thead>
                 <tbody>
-                   <tr id="history" *ngFor="let hist of bu.history">
+                   <tr id="history" *ngFor="let hist of board.history">
                         <th scope="row">{{hist.timestamp | date:'yyyy-MM-dd HH:mm:ss Z'}}</th>
                         <td style="max-width:350px">{{hist.action}}</td>
                         <!-- <aw-history [hist]="hist"></aw-history> -->

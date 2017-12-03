@@ -69,20 +69,17 @@ export class BoardComponent implements OnInit{
                     this.board = board;
                     this.sl.boardId = board.id;
                     this.display = true;
-                    console.log("GETTING SWIMLANES");
-                    console.log(board.id);
                     this.sls.getSwimlanes(board.id)
                     .subscribe((swimlanes: AwSwimlane[]) => {
                         this.board.swimlanes = swimlanes;
-                        console.log("SWIMLANES GOTTEN?");
-                        console.log(board.swimlanes);
                     }, (error) => {
                         this.router.navigateByUrl('/boardNotFound');
                     });
-                    // this.historyService.getHistory(this.board.id).subscribe((histList: AwHistory[]) => {
-                    //     this.board.history = histList;
-                    //     console.log(this.board.history);
-                    // }); 
+                    this.historyService.getHistory(this.board.id).subscribe((histList: AwHistory[]) => {
+                        this.board.history = histList;
+                        console.log("HISTORY");
+                        console.log(this.board.history);
+                    }); 
                 });
             } else {
                 this.router.navigateByUrl('/notAuthorized');
@@ -113,11 +110,12 @@ export class BoardComponent implements OnInit{
         })
     }
 
-    createSwimlane(sl: AwSwimlane, name: string) {
+    createSwimlane(sl: AwSwimlane) {
         sl.order = (this.board.swimlanes) ? this.board.swimlanes.length : 0;
         console.log(sl);
         console.log(sl.name);
         console.log("THE BOARD: ");
+        
         console.log(this.board);
         this.sls.createSwimlane(sl).subscribe((result: AwSwimlane) => {
             this.board.swimlanes.push(result);
