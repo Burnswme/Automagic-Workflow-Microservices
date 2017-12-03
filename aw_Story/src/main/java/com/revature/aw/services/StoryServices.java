@@ -43,4 +43,8 @@ public class StoryServices
 		dao.delete(story);
 	}
 	
+	public List<Story> removeBySwimlaneId(int swimlaneId) {
+		return dao.removeBySwimlaneId(swimlaneId);
+	}
+	
 }

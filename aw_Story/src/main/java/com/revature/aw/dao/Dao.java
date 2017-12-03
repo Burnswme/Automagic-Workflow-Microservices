@@ -22,4 +22,5 @@ public interface Dao extends CrudRepository<Story,Integer>
 	
 	//Delete
 	public void delete(Story story);
+	public List<Story> removeBySwimlaneId(int swimlaneId);
 }
