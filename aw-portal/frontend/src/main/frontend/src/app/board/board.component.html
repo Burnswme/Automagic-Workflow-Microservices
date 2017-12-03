@@ -11,7 +11,7 @@
                 <span class="navbar-brand">{{board.name}}</span>
             </div>
 
-            <div class = "collapse navbar-collapse" id = "bs-example-navbar-collapse-1">
+            <div class="row"> <!-- class = "collapse navbar-collapse" id = "bs-example-navbar-collapse-1"> -->
                 <ul class = "nav navbar-nav navbar-right">
                     <div class = "navbar-form">
                         <div class = "btn-group">
@@ -54,15 +54,16 @@
                         Submit
                     </button>
                 </div> -->
-
-                <table>
-                    <tr>
-                        <td id="lanes" class="well" *ngFor="let swimlane of board.swimlanes" >
-                            <aw-swimlane [swimlane]="swimlane" [board]="board"></aw-swimlane>
-                        </td>
-                    </tr>
-                </table>
+                
             </div>
+
+            <table>
+                <tr>
+                    <td id="lanes" class="well" *ngFor="let swimlane of board.swimlanes" >
+                        <aw-swimlane [swimlane]="swimlane" [board]="board"></aw-swimlane>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
     

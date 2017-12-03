@@ -5,6 +5,6 @@ spring:
     name: aw_BoardValidation
   cloud:
     config:
-      uri:  ${SPRING_CONFIG_URI:http://18.217.188.44:9000} 
+      uri:  ${SPRING_CONFIG_URI:http://13.59.39.239:9000} 
  
     
