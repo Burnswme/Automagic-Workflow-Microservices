@@ -14,6 +14,7 @@ public interface Dao extends CrudRepository<BoardUserRole,Integer>
 	//Read
 	public List<BoardUserRole> findByUserId(int userId);
 	public BoardUserRole findByUserIdAndBoardId(int userId,int boardId);
+	public void deleteByBoardId(int boardId);
 	//Update
 	public BoardUserRole save(BoardUserRole bur);
 	//Delete

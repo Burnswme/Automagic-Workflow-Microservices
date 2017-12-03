@@ -1,3 +1,4 @@
+import { AwBoard } from './domain/aw-board';
 import { AwUser } from './domain/aw-user';
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
@@ -17,6 +18,7 @@ import 'rxjs/add/observable/throw';
 @Injectable()
 export class BackendService {
   user: BehaviorSubject<AwUser> = new BehaviorSubject<AwUser>(new AwUser("", ""));
+  boards: BehaviorSubject<AwBoard[]> = new BehaviorSubject<AwBoard[]>([]);
 
   constructor(private http: Http, private router: Router) {}
 
@@ -92,6 +94,18 @@ export class BackendService {
       });
   }
 
+  updateBoardsRef(): void {
+    let body = new AwUser(JSON.parse(localStorage.getItem('currentUser')).userName, "");
+    this.post<AwUser>("/users/auth/getUser", body)
+      .subscribe(result => {
+        this.user.next(result);
+      });
+  }
+
+  setBoards(boards: AwBoard[]): void {
+    this.boards.next(boards);
+  }
+
   isLoggedIn(): boolean {
     return localStorage.getItem('currentUser') !== null;
   }
@@ -99,41 +113,10 @@ export class BackendService {
   clearUser(): void {
     localStorage.removeItem('currentUser');
     this.user.next(new AwUser("", ""));
+    this.boards.next([]);
   }
 
   createUser(user: AwUser): Observable<AwUser> {
     return this.post<AwUser>("/users/auth/saveUser", user);
   }
-
-  // createUser(user: AwUser): void {
-  //   this.url = this.zuul + "/users/auth/oauth/token";
-  //   this.headers = new Headers({
-  //     "Content-Type": "application/x-www-form-urlencoded",
-  //     "Authorization": "Basic " + Base64.encode('autoguest:blizzaga')
-  //   });
-  //   this.options = new RequestOptions({ headers: this.headers });
-  //   this.creds = 'grant_type=client_credentials';
-  //   this.http.post(this.url, this.creds, this.options)
-  //     .retry(5)
-  //     .map(res => res.json())
-  //     .subscribe(response => {
-  //       console.log("Made it this far!");
-  //       this.url = this.zuul + "/users/auth/saveUser?access_token=" + response.access_token; 
-  //       this.headers = new Headers({ 
-  //         "Content-Type": "application/json"
-  //       });
-  //       this.options = new RequestOptions({ headers: this.headers });
-  //       this.http.post(this.url, user, this.options)
-  //         .retryWhen(attempts => attempts
-  //           .mergeMap((error) => {
-  //             if (error.status === 401) {
-  //               this.router.navigateByUrl('/login');
-  //               return Observable.throw(error);
-  //             } else return of(error);})
-  //           .take(5)).subscribe();
-  //     }, (error) => {
-  //       console.log('error in', error);
-  //     });
-
-  // }
 }

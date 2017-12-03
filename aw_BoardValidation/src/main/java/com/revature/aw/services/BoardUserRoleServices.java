@@ -30,6 +30,10 @@ public class BoardUserRoleServices
 		dao.delete(bur);
 	}
 	
+	public void deleteByBoardId(int boardId) {
+		dao.deleteByBoardId(boardId);
+	}
+	
 	public boolean determinePrivileges(int userId, int boardId) {
 		boolean canView = false;
 		BoardUserRole bur = new BoardUserRole(0,0,0);

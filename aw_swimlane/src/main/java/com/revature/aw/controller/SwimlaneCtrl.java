@@ -3,11 +3,11 @@ package com.revature.aw.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,12 +17,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.aw.domain.Swimlane;
+import com.revature.aw.message.SwimlaneSource;
 import com.revature.aw.service.SwimlaneService;
 
 @RestController
 public class SwimlaneCtrl {
 	@Autowired
 	private SwimlaneService service;
+	@Autowired
+	private SwimlaneSource source;
 	
 	@PostMapping("/create")
 	@ResponseBody
@@ -41,7 +44,9 @@ public class SwimlaneCtrl {
 	public ResponseEntity<Object> deleteSwimlane(@RequestBody Swimlane sl, HttpServletRequest req) {
 		if(service != null && sl != null && service.findSwimlaneById(sl) != null) {
 			service.delete(sl);
-			System.out.println("Deleted. No issues?");
+			source.storyChannel().send(
+					MessageBuilder.withPayload(sl.getId()).build()
+				);
 			return new ResponseEntity<>(true, HttpStatus.OK);
 		} else if (service.findSwimlaneById(sl) == null) {
 			System.out.println("Not here, so good?");

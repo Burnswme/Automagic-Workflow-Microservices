@@ -31,4 +31,8 @@ public class TaskService {
 	public void deleteTask(Task task) {
 		dao.delete(task);
 	}
+	
+	public void deleteByStoryId(int storyId) {
+		dao.deleteByStoryId(storyId);
+	}
 }
