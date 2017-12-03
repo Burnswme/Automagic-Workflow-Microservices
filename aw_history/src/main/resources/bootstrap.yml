@@ -1,6 +1,53 @@
-spring: 
+#aw_history
+
+#spring: 
+#  application:
+#    name: aw_history
+#  cloud:
+#    config:
+#      uri: http://localhost:9000 
+server:
+  port: 8004
+spring:
   application:
     name: aw_history
-  cloud:
-    config:
-      uri: http://localhost:9000 
+  datasource:
+    tomcat:
+      initial-size: 1
+    max-active: 3  
+    url: jdbc:oracle:thin:@automagic.cf65nkvvhk0p.us-east-2.rds.amazonaws.com:1521/ORCL
+    username: automagic
+    password: password
+    driver-class-name: oracle.jdbc.OracleDriver 
+
+  jpa:
+    hibernate: 
+      ddl-auto: update
+    database: ORACLE
+    show-sql: true  
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true 
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}:${random.int}      
+security:
+  oauth2:
+    resource:
+      accessTokenUri: http://localhost:8090/auth/oauth/check_token
+      userAuthorizationUri: http://localhost:8090/auth/oauth/authorize
+      userInfoUri: http://localhost:8090/auth/user
+      jwt:
+        keyUri: http://localhost:8090/auth/oauth/token_key  
+        
+logging:
+  level:
+    org.springframework.web: ERROR
+    com.revature.aw: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file: ./logs/aw_history.log

@@ -15,7 +15,6 @@ export class HistoryService {
 
         this.activity.action = localStorage.getItem("currentUserUsername") + action;
         this.activity.timestamp = new Date();
-        console.log(this.activity);
 
         return this.backend.post("/aw_history/createHistory", this.activity);
     }

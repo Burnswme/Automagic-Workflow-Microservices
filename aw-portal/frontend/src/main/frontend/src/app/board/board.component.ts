@@ -25,6 +25,7 @@ export class BoardComponent implements OnInit{
     board: AwBoard = new AwBoard();
     editor: AwBoard = new AwBoard();
     sl: AwSwimlane = new AwSwimlane();
+    newSlName: string;
     history: AwHistory[];
 
     errorMessage: string = "";
@@ -50,11 +51,9 @@ export class BoardComponent implements OnInit{
             this.user = result;
             if (this.user.username != "") {
                 this.getBoard();
+                console.log("NO SWIMLANES?");
             }
-            this.historyService.getHistory(this.board.id).subscribe((histList: AwHistory[]) => {
-                this.board.history = histList;
-                console.log(this.board.history);
-            } ) 
+            
         });
     }
 
@@ -74,12 +73,16 @@ export class BoardComponent implements OnInit{
                     console.log(board.id);
                     this.sls.getSwimlanes(board.id)
                     .subscribe((swimlanes: AwSwimlane[]) => {
-                        board.swimlanes = swimlanes;
+                        this.board.swimlanes = swimlanes;
                         console.log("SWIMLANES GOTTEN?");
                         console.log(board.swimlanes);
                     }, (error) => {
                         this.router.navigateByUrl('/boardNotFound');
-                    })
+                    });
+                    // this.historyService.getHistory(this.board.id).subscribe((histList: AwHistory[]) => {
+                    //     this.board.history = histList;
+                    //     console.log(this.board.history);
+                    // }); 
                 });
             } else {
                 this.router.navigateByUrl('/notAuthorized');
@@ -110,9 +113,12 @@ export class BoardComponent implements OnInit{
         })
     }
 
-    createSwimlane(sl: AwSwimlane) {
+    createSwimlane(sl: AwSwimlane, name: string) {
         sl.order = (this.board.swimlanes) ? this.board.swimlanes.length : 0;
         console.log(sl);
+        console.log(sl.name);
+        console.log("THE BOARD: ");
+        console.log(this.board);
         this.sls.createSwimlane(sl).subscribe((result: AwSwimlane) => {
             this.board.swimlanes.push(result);
             this.sl = {
