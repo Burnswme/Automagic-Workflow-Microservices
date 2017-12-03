@@ -33,6 +33,7 @@ export class NavbarComponent implements OnInit {
     if (this.isLoggedIn()) {
       this.backend.updateUserRef();
     }
+    this.setBoardsListener();
   }
 
   loadBoard(id: number): void {
@@ -58,26 +59,28 @@ export class NavbarComponent implements OnInit {
       this.user = result;
       if (result.username != "") {
         if (result.admin) {
-          this.bds.getAllBoards().subscribe(boards => {
-            this.boards = boards;
-          });
+          this.bds.getAllBoards();
         } else {
           this.bvs.getRoles(result.id)
           .subscribe(roles => {
             let ids = roles.map(role => role.boardId);
-            this.bds.getBoards(ids).subscribe(boards => {
-              this.boards = boards;
-            });
+            this.bds.getBoards(ids);
           })
         }
       }
     });
   }
 
+  setBoardsListener(): void {
+    this.backend.boards.subscribe(result => {
+      this.boards = result;
+    });
+  }
+
   createBoard(board: AwBoard): void {
     board.startDate = Date.now();
     this.bds.createBoard(board).subscribe(result => {
-      this.boards.push(result);
+      this.bds.addBoardToList(result);
       console.log(new AwRole(this.user.id, result.id, 2));
       this.bvs.saveRole(new AwRole(this.user.id, result.id, 2)).subscribe();
     });

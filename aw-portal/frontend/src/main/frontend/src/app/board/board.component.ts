@@ -23,6 +23,7 @@ import { AwUser } from '../domain/aw-user';
 export class BoardComponent implements OnInit{
     user: AwUser = new AwUser("", "");
     board: AwBoard = new AwBoard();
+    editor: AwBoard = new AwBoard();
     sl: AwSwimlane = new AwSwimlane();
     history: AwHistory[];
 
@@ -86,16 +87,27 @@ export class BoardComponent implements OnInit{
         });
     }
 
+    setEdit(): void {
+        this.editor = { ...this.board };
+    }
+
+    updateBoard(board: AwBoard): void {
+        this.bds.updateBoard(board).subscribe(result => {
+            this.board = { ...this.editor };
+        })
+    }
+
     toggleDisplay(event){
         this.display = !this.display;
     }
 
     deleteBoard(board: AwBoard){
-        
-    }
-
-    editBoard(name:string){
-
+        this.bds.deleteBoard(board).subscribe(result => {
+            if (result) {
+                this.bds.removeBoardFromList(board);
+                this.router.navigateByUrl('/home');
+            }
+        })
     }
 
     createSwimlane(sl: AwSwimlane) {

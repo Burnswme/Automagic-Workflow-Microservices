@@ -20,4 +20,5 @@ public interface TaskDao extends CrudRepository<Task, Integer> {
 		//Delete
 		//delete the current task
 		public void delete(Task task);
+		public void deleteByStoryId(int storyId);
 }

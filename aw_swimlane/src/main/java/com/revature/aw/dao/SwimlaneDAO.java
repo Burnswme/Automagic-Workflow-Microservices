@@ -1,6 +1,7 @@
 package com.revature.aw.dao;
 
 import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -21,4 +22,5 @@ public interface SwimlaneDAO extends CrudRepository<Swimlane, Integer> {
   
 	//deletes swimlane
 	public void delete(Swimlane sl);
+	public List<Swimlane> removeByBoardId(int boardId);
 }
