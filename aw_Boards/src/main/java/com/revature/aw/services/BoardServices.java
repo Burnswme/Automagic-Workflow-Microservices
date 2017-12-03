@@ -8,9 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.aw.dao.Dao;
-import com.revature.aw.dao.HistoryDAO;
 import com.revature.aw.domain.Board;
-import com.revature.aw.domain.History;
 
 @Component("BoardServices")
 @Transactional
@@ -53,12 +51,5 @@ public class BoardServices
 	public void deleteBoard(Board board)
 	{
 		dao.delete(board);
-	}
-	
-	@Autowired
-	private HistoryDAO histDAO;
-	
-	public List<History> getHistory(int boardId) {
-		return histDAO.findHistoryByBdIdOrderByTimestampDesc(boardId);
 	}
 }

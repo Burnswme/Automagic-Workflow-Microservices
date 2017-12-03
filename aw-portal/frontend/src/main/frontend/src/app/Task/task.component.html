@@ -9,8 +9,6 @@
     <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
   </button>
 </div>
-<div class="col-xs-1">
-
 
 
 <form class="form-inline" *ngIf="editing; else noEdit">
@@ -18,7 +16,7 @@
   <input type="checkbox" [(ngModel)]="newTask.completed" name="isCompleted" />
   <input type="text" [(ngModel)]="newTask.name" name="newName" required />
   </div>
-  <div class="col-xs-2 pull-right">
+  <div class="col-xs-2">
     <button type="button" class="btn btn-success btn-sm" (click)="save(); editing = !editing">
       <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
     </button>
@@ -28,13 +26,14 @@
   </div>
 </form>
 <ng-template #noEdit>
-  <div *ngIf="task.completed; else notComplete">
-      <span class="label label-success">*</span>
-  </div>
-  <ng-template #notComplete>
-      <span class="label label-default">*</span>
-  </ng-template>
+  
   <div class="col-xs-8">
+      <span *ngIf="task.completed; else notComplete">
+          <span class="label label-success">*</span>
+      </span>
+      <ng-template #notComplete>
+          <span class="label label-default">*</span>
+      </ng-template>
     {{task.name}}
   </div>
   <div class="col-xs-2 pull-right">
@@ -47,22 +46,3 @@
     
   </div>
 </ng-template>
-
-<!-- Delete Task Modal -->
-<!-- <div class="modal fade" data-ng-attr-id="{{ 'deleteTask' + task.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Delete Task</h4>
-      </div>
-      <div class="modal-body">
-        <span>Are you sure that you wish to delete {{task.name}}?</span>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-ng-click="delete()" data-dismiss="modal">Delete</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div> -->

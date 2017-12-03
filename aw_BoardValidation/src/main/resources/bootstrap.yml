@@ -1,10 +1,8 @@
 #aw_BoardValidation
- 
-spring: 
+
+spring:
   application:
     name: aw_BoardValidation
   cloud:
     config:
       uri:  ${SPRING_CONFIG_URI:http://13.59.39.239:9000} 
- 
-    

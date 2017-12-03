@@ -21,11 +21,11 @@ public class History {
 	
 	//id of board user that enacted action
 	@Column(name="BU_ID")
-	private int buId;
+	private int userId;
 	
 	//id of board that action took place in(if any?)
 	@Column(name="BD_ID")
-	private int bdId;
+	private int boardId;
 	
 	//name of the action
 	@Column(name="HIST_ACTION")
@@ -45,20 +45,20 @@ public class History {
 		this.id = id;
 	}
 
-	public int getBuId() {
-		return buId;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setBuId(int buId) {
-		this.buId = buId;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
-	public int getBdId() {
-		return bdId;
+	public int getBoardId() {
+		return boardId;
 	}
 
-	public void setBdId(int bdId) {
-		this.bdId = bdId;
+	public void setBoardId(int boardId) {
+		this.boardId = boardId;
 	}
 
 	public String getAction() {
@@ -79,9 +79,11 @@ public class History {
 
 	@Override
 	public String toString() {
-		return "History [id=" + id + ", buId=" + buId + ", bdId=" + bdId + ", action=" + action + ", timestamp="
-				+ timestamp + "]";
+		return "History [id=" + id + ", userId=" + userId + ", boardId=" + boardId + ", action=" + action
+				+ ", timestamp=" + timestamp + "]";
 	}
+
+	
 	
 	
 	

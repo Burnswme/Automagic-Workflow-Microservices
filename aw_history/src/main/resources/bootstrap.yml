@@ -1,0 +1,8 @@
+#aw_history
+
+spring:
+  application:
+    name: aw_history
+  cloud:
+    config:
+      uri:  ${SPRING_CONFIG_URI:http://13.59.39.239:9000} 
