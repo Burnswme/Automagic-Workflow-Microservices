@@ -42,7 +42,7 @@ export class TaskComponent implements OnInit {
     this.story.tasks[ogOrder] = this.tsk2;
     this.story.tasks[ogOrder-1] = this.task;
     this.ts.updateTask(this.task).subscribe(tsk => {
-      this.historyService.createHistory(" has moved task [" + tsk.name + "] up and [" + this.tsk2 + "] down").subscribe(hist => {
+      this.historyService.createHistory(" has moved task [" + tsk.name + "] up and [" + this.tsk2.name + "] down").subscribe(hist => {
         this.board.history.unshift(hist);
       })
     });
@@ -57,7 +57,7 @@ export class TaskComponent implements OnInit {
     this.story.tasks[ogOrder] = this.tsk2;
     this.story.tasks[ogOrder+1] = this.task;
     this.ts.updateTask(this.task).subscribe(tsk => {
-      this.historyService.createHistory(" has moved task [" + tsk.name + "] down and [" + this.tsk2 + "] up").subscribe(hist => {
+      this.historyService.createHistory(" has moved task [" + tsk.name + "] down and [" + this.tsk2.name + "] up").subscribe(hist => {
         this.board.history.unshift(hist);
       })
     });
@@ -65,7 +65,6 @@ export class TaskComponent implements OnInit {
   }
 
   deleteTask(task: AwTask) {
-    console.log(task);
     this.ts.deleteTask(task).subscribe((b: Boolean) => {
       this.story.tasks = this.story.tasks.filter(obj => {
         return obj.id !== task.id;
@@ -87,8 +86,6 @@ export class TaskComponent implements OnInit {
     var oldCompleted = this.task.completed;
     this.task.name = this.newTask.name;
     this.task.completed = this.newTask.completed;
-    console.log("SAVING");
-    console.log(this.task);
     this.ts.updateTask(this.task).subscribe(tsk => {
       this.historyService.createHistory(" has updated a task from (" + oldName + ", " + oldCompleted + ") to (" +
       tsk.name + ", " + tsk.completed + ")").subscribe(hist => {

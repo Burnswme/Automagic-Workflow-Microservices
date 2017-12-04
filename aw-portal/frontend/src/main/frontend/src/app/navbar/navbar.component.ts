@@ -81,7 +81,6 @@ export class NavbarComponent implements OnInit {
     board.startDate = Date.now();
     this.bds.createBoard(board).subscribe(result => {
       this.bds.addBoardToList(result);
-      console.log(new AwRole(this.user.id, result.id, 2));
       this.bvs.saveRole(new AwRole(this.user.id, result.id, 2)).subscribe();
     });
     this.newBoard = new AwBoard();

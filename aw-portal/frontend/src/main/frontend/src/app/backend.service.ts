@@ -30,7 +30,7 @@ export class BackendService {
   creds: String;
   updatedUser: string;
 
-  authenticate(user: AwUser) {
+  authenticate(user: AwUser, callback) {
     this.url = this.zuul + "/users/auth/oauth/token";
     this.headers = new Headers({
       "Content-Type": "application/x-www-form-urlencoded",
@@ -41,7 +41,13 @@ export class BackendService {
     this.creds += '&username=' + user.username;
     this.creds += '&password=' + user.password;
     this.http.post(this.url, this.creds, this.options)
-      .retry(5)
+      .retryWhen(attempts => attempts
+        .mergeMap((error) => {
+          if (error.status === 400) {
+            callback(error.error_description);
+            return Observable.throw(error);
+          } else return of(error);})
+        .take(5))
       .map(res => res.json())
       .subscribe(response => {
         localStorage.setItem('currentUser',
@@ -53,8 +59,6 @@ export class BackendService {
 
         this.updateUserRef();
         this.router.navigateByUrl("/home");
-      }, (error) => {
-        console.log('error in', error);
       });
   }
 
