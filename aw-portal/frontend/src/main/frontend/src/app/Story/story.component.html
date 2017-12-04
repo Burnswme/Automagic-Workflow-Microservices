@@ -22,75 +22,89 @@
 
 <app-modal #storyModal>
   <div class="app-modal-header">
-    <button type="button" class="close" (click)="storyModal.hide()" aria-label="Close">
+    <button type="button" class="close" (click)="editing = false; storyModal.hide()" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
-    <!-- <div data-ng-hide="editing"> -->
+
+    <div *ngIf="editing; else notEditingHeader">
+      <input type="number" [(ngModel)]="story.points" min=1 max=10 required />
+      <input type="text" [(ngModel)]="story.title" required />
+    </div>
+    <ng-template #notEditingHeader>
       <h4 class="modal-title" id="myModalLabel"><span class="badge">{{story.points}}</span> {{story.title}}</h4>
-    <!-- </div>
-    <div data-ng-if="editing">
-      <input type="number" data-ng-model="story.points" min=1 max=10 required />
-      <input type="text" data-ng-model="story.title" required />
-    </div> -->
+    </ng-template>
   </div>
   <div class="app-modal-body">
-    <span class="label label-primary">Title</span>
-    <input [(ngModel)]="newTitle" type="text" placeholder="{{newTitle}}"/> <br>
-    <span class="label label-primary">Description</span>
-    <input [(ngModel)]="newDesc" type="text" placeholder="{{newDesc}}"/> <br>
-    <span class="label label-primary">Points</span>
-    <input [(ngModel)]="newPoints" type="number" class="form-control" min=1 max=10 style="max-width: 50px" />
-    <span class="label label-primary">Completed</span>
-    <input [(ngModel)]="isCompleted" type="checkbox" /> <br>
-    <!-- <span *ngIf="story.description; else noDesc">&emsp;{{story.description}}</span>
+
+
+    <h5>Description</h5>
+    <div *ngIf="editing; else noDesc">
+      <textarea [(ngModel)]="story.description"></textarea>
+      <br><br>
+      <h5>Completed?</h5>>
+      <input [(ngModel)]="isCompleted" type="checkbox" /> <br>
+    </div>
     <ng-template #noDesc>
-      <span data-ng-hide="story.description">&emsp;No description</span>
-    </ng-template> -->
-    <br><br>
-    <h5>Tasks</h5>
-    <table *ngIf="story.tasks && story.tasks.length; else noTasks" class="table table-hover table-condensed">
-      <tr *ngFor="let task of story.tasks">
-        <td><aw-task [task]="task" [story]="story" [board]="board"></aw-task></td>
-      </tr>
-    </table>
-    <ng-template #noTasks>
-      <div>
-        &emsp;No tasks yet
+      <span *ngIf="story.description">&emsp;{{story.description}}</span>
+      <span *ngIf="!story.description">&emsp;No description</span>
+      <br><br>
+      <h5>Tasks</h5>
+      <table *ngIf="story.tasks?.length; else noTasks" class="table table-hover table-condensed">
+        <tr *ngFor="let task of story.tasks">
+          <td><aw-task [task]="task" [story]="story" [board]="board"></aw-task></td>
+        </tr>
+      </table>
+      <ng-template #noTasks>
+        <div>
+          &emsp;No tasks yet
+        </div>
+      </ng-template>
+      <div class="form-group input-group col-sm-offset-1 col-sm-8">
+        <input class="form-control" [(ngModel)]="newTask.name" type="text" required/>
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="button" (click)="createTask(newTask)">
+                Add Task
+            </button>
+        </span>
       </div>
     </ng-template>
-
-    <form>
-      &emsp; <input [(ngModel)]="newTask.name" name="taskName" type="text"  required />
-      <button class="btn btn-default" (click)="createTask(newTask)">Add Task</button>
-    </form>
   </div>
   <div class="app-modal-footer">
 
-    <div class="row">
-      <div class="col">
-        <div ngbDropdown class="d-inline-block">
-          <button class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle>Move to...</button>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-              <li *ngFor="let otherSwimlane of otherSwimlanes">
-                  <a (click)="moveTo(otherSwimlane.id, otherSwimlane.stories.length, otherSwimlane.order)">{{otherSwimlane.name}}</a>
-              </li>
-          </div>
-        </div>
-      </div>
-    </div>
+    
     <!-- Where the check story completion is located at-->
     
     <!-- <button type="button" class="btn btn-default" data-ng-hide="story.dateStoryCompleted" data-ng-click="markAsFinished()">
       <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
     </button> -->
-    
-    
-    <button type="button" class="btn btn-default" (click)="updateStory()">
-      <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-    </button>
-    <button type="button" class="btn btn-danger" (click)="deleteStory(story)">
-      <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-    </button>
+    <div *ngIf="editing; else noEditButtons">
+        <button type="button" class="btn btn-success" (click)="updateStory(); editing = !editing">
+          Save Changes
+        </button>
+        <button type="button" class="btn btn-danger" (click)="editing = !editing">
+          Cancel
+        </button>
+    </div>
+    <ng-template #noEditButtons>
+      <div ngbDropdown>
+        <button type="button" class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle>
+          Move to... <span class="caret"></span>
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <li *ngFor="let otherSwimlane of loadOtherSwimlanes()">
+                <a (click)="moveTo(otherSwimlane.id, otherSwimlane.stories.length, otherSwimlane.order)">{{otherSwimlane.name}}</a>
+            </li>
+        </div>
+        <div class="btn-group">
+          <button type="button" class="btn btn-default" (click)="editing = !editing">
+            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+          </button>
+          <button type="button" class="btn btn-danger" (click)="deleteStoryModal.show()">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+    </ng-template>
   </div>
 </app-modal>
 
@@ -176,21 +190,19 @@
   </div>
 </div> -->
 
-<!-- Delete Story Modal -->
-<!-- <div class="modal fade" data-ng-attr-id="{{ 'deleteStory' + story.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Delete Story</h4>
-      </div>
-      <div class="modal-body">
-        <span>Are you sure that you wish to delete {{story.title}}?</span>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-ng-click="delete()" data-dismiss="modal">Delete</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div> -->
+<app-modal #deleteStoryModal>
+		<div class="app-modal-header">
+			<h4 class="modal-title" id="myModalLabel">
+				Delete Story "{{story.title}}"
+			</h4>
+			<button type="button" class="close"  (click)="deleteStoryModal.hide()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			
+		</div>
+		<div class="app-modal-body">
+			<span>Are you sure that you wish to delete {{story.title}}?</span>
+		</div>
+		<div class="app-modal-footer">
+			  <button type="button" class="btn btn-danger" (click)="deleteStory(story); deleteStoryModal.hide(); storyModal.hide()">Delete</button>
+			  <button type="button" class="btn btn-default" (click)="deleteStoryModal.hide()">Close</button>
+		</div>
+	</app-modal>

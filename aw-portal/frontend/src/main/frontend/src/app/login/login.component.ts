@@ -27,7 +27,9 @@ export class LoginComponent implements OnInit {
   }
 
   login(bu: AwUser): void {
-    this.service.authenticate(bu);
+    this.service.authenticate(bu, function(errmsg: string) {
+      this.errorMessage = errmsg;
+    });
   }
 
   // register(newUser: AwUser): void {

@@ -56,11 +56,6 @@ export class StoryComponent implements OnInit {
   }
 
   updateStory() {
-    console.log("UPDATE STORY");
-    console.log(this.newTitle);
-    console.log(this.newDesc);
-    console.log(this.newPoints);
-    console.log(this.isCompleted);
     var oldTitle = this.story.title;
     var oldDesc = this.story.description;
     var oldPoints = this.story.points;
@@ -81,7 +76,6 @@ export class StoryComponent implements OnInit {
     else {
       this.story.timeCompleted = null;
     }
-    console.log(this.story);
     this.sts.updateStory(this.story).subscribe(st => {
       this.historyService.createHistory(" has updated a story from (" + oldTitle + ", " + oldDesc + ", " + oldPoints + ", " + oldStatus
     + ") to (" + this.story.title + ", " + this.story.description + ", " + this.story.points + ", " + this.isCompleted + ")").subscribe(hist => {
@@ -91,7 +85,6 @@ export class StoryComponent implements OnInit {
   }
 
   moveUp() {
-    console.log(this.swimlane);
     var ogOrder = this.story.order;
     this.story.order = ogOrder - 1;
     this.st2 = this.swimlane.stories[this.story.order];
@@ -99,7 +92,7 @@ export class StoryComponent implements OnInit {
     this.swimlane.stories[ogOrder] = this.st2;
     this.swimlane.stories[ogOrder-1] = this.story;
     this.sts.updateStory(this.story).subscribe(st => {
-      this.historyService.createHistory(" has moved story [" + st.title + "] up and [" + this.st2 + "] down").subscribe(hist => {
+      this.historyService.createHistory(" has moved story [" + st.title + "] up and [" + this.st2.title + "] down").subscribe(hist => {
         this.board.history.unshift(hist);
       });
     });
@@ -107,7 +100,6 @@ export class StoryComponent implements OnInit {
   }
   
   moveDown() {
-    console.log(this.swimlane);
     var ogOrder = this.story.order;
     this.story.order = ogOrder + 1;
     this.st2 = this.swimlane.stories[this.story.order];
@@ -115,7 +107,7 @@ export class StoryComponent implements OnInit {
     this.swimlane.stories[ogOrder] = this.st2;
     this.swimlane.stories[ogOrder+1] = this.story;
     this.sts.updateStory(this.story).subscribe(st => {
-      this.historyService.createHistory(" has moved story [" + st.title + "] down and [" + this.st2 + "] up").subscribe(hist => {
+      this.historyService.createHistory(" has moved story [" + st.title + "] down and [" + this.st2.title + "] up").subscribe(hist => {
         this.board.history.unshift(hist);
       });
     });
@@ -139,27 +131,16 @@ export class StoryComponent implements OnInit {
     })
   }
 
-  loadOtherSwimlanes(swimlaneId: AwSwimlane) {
-    console.log(this.board);
-    this.sts.getOtherSwimlanes(this.swimlane.id).subscribe((swimlanes: AwSwimlane[]) => {
-      this.otherSwimlanes = swimlanes;
-      this.otherSwimlanes.forEach(sl => {
-        this.sts.getStories(sl.id).subscribe((stories: AwStory[]) => {
-          sl.stories = stories;
-        })
-      })
-    })
-    
-    console.log(this.otherSwimlanes);
+  loadOtherSwimlanes(): AwSwimlane[] {
+    return this.board.swimlanes.filter(obj => {
+      return obj.id !== this.swimlane.id;
+    });
   }
 
   createTask(task: AwTask) {
-    console.log("CREATE TASK");
-    
     task.order = (this.story.tasks) ? this.story.tasks.length : 0;
     task.storyId = this.story.id;
 
-    console.log(task);
     this.ts.createTask(task).subscribe((result: AwTask) => {
       this.story.tasks.push(result);
       this.newTask = new AwTask();
@@ -173,23 +154,14 @@ export class StoryComponent implements OnInit {
   
   //takes in id of new swimlane, new order aka last in the new swimlane, and the place of the swimlane
   moveTo(swimlaneId: number, newOrder: number, slOrder: number) {
-    console.log("MOVE TO: " + swimlaneId);
-    
     var oldSwimlane = this.swimlane.name;
     var newSwimlane = this.board.swimlanes[slOrder].name;
     
     this.board.swimlanes[this.swimlane.order].stories = this.board.swimlanes[this.swimlane.order].stories.filter(obj => {
       return obj.id !== this.story.id;
     })
-    console.log(this.board.swimlanes[this.swimlane.order].stories);
-    console.log("REDUCING");
-    console.log("BASE STORY");
-    console.log(this.story);
     this.board.swimlanes[this.swimlane.order].stories.forEach(obj => {
-      console.log("CURRENT STORY");
-      console.log(obj);
       if(obj.order > this.story.order) {
-        console.log("REDUCE");
         obj.order -= 1;
         this.sts.updateStory(obj).subscribe();
       }

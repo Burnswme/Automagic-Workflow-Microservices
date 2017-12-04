@@ -65,7 +65,6 @@ export class SwimlaneComponent implements OnInit {
   }
 
   moveLeft() {
-    console.log("MOVE LEFT");
     var ogOrder = this.swimlane.order;
     this.swimlane.order = ogOrder-1;
     this.sl2 = this.board.swimlanes[this.swimlane.order];
@@ -82,7 +81,6 @@ export class SwimlaneComponent implements OnInit {
   }
 
   moveRight() {
-    console.log("MOVE RIGHT");
     var ogOrder = this.swimlane.order;
     this.swimlane.order = ogOrder+1;
     this.sl2 = this.board.swimlanes[this.swimlane.order];

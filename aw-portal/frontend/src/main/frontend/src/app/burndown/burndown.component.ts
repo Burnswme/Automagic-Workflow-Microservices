@@ -29,6 +29,11 @@ export class BurndownComponent {
         }
       }],
       yAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Points to Go',
+          fontStyle: 'bold'
+        },
         ticks: {
             beginAtZero: true
         }
@@ -62,11 +67,9 @@ export class BurndownComponent {
 
   // events
   public chartClicked(e:any):void {
-    console.log(e);
   }
 
   public chartHovered(e:any):void {
-    console.log(e);
   }
 
   updateData(): void {
