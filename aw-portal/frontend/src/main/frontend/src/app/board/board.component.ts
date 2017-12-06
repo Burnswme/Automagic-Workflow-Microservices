@@ -19,12 +19,15 @@ import { AwUser } from '../domain/aw-user';
     styleUrls: ['./board.component.css']
 })
 
+
 export class BoardComponent implements OnInit{
     user: AwUser = new AwUser("", "");
     board: AwBoard = new AwBoard();
     editor: AwBoard = new AwBoard();
     sl: AwSwimlane = new AwSwimlane();
+    newSlName: string;
     history: AwHistory[];
+
     errorMessage: string = "";
     updatedName: string;
     display: boolean = false;
@@ -39,16 +42,20 @@ export class BoardComponent implements OnInit{
                 private router: Router) {}
     
     ngOnInit(){
+
         this.setAwUserListener();
     }
     
     setAwUserListener(): void {
         this.backend.user.subscribe(result => {
             this.user = result;
-            if (this.user.username != "")
+            if (this.user.username != "") {
                 this.getBoard();
+            }
+            
         });
     }
+
 
     getBoard(): void {
         let id;
@@ -61,16 +68,15 @@ export class BoardComponent implements OnInit{
                     this.board = board;
                     this.sl.boardId = board.id;
                     this.display = true;
-                    console.log("GETTING SWIMLANES");
-                    console.log(board.id);
                     this.sls.getSwimlanes(board.id)
                     .subscribe((swimlanes: AwSwimlane[]) => {
-                        board.swimlanes = swimlanes;
-                        console.log("SWIMLANES GOTTEN?");
-                        console.log(board.swimlanes);
+                        this.board.swimlanes = swimlanes;
                     }, (error) => {
                         this.router.navigateByUrl('/boardNotFound');
-                    })
+                    });
+                    this.historyService.getHistory(this.board.id).subscribe((histList: AwHistory[]) => {
+                        this.board.history = histList;
+                    }); 
                 });
             } else {
                 this.router.navigateByUrl('/notAuthorized');
@@ -103,7 +109,6 @@ export class BoardComponent implements OnInit{
 
     createSwimlane(sl: AwSwimlane) {
         sl.order = (this.board.swimlanes) ? this.board.swimlanes.length : 0;
-        console.log(sl);
         this.sls.createSwimlane(sl).subscribe((result: AwSwimlane) => {
             this.board.swimlanes.push(result);
             this.sl = {
@@ -113,15 +118,9 @@ export class BoardComponent implements OnInit{
                 order: 0,
                 stories: []
             };
-            this.historyService.createHistory(" has created a swimlane with the name " + sl.name).subscribe(hist => {
-                //push to history
+            this.historyService.createHistory(" has created a swimlane with the name [" + sl.name + "]").subscribe(hist => {
+                this.board.history.unshift(hist);
             });
         });
-    }
-
-    loadHistory() {
-        this.bds.getHistory(this.board.id).subscribe((histList: AwHistory[]) => {
-            this.history = histList;
-        })
     }
 };

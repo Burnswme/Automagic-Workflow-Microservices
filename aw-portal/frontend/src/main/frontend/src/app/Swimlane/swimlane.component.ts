@@ -58,14 +58,13 @@ export class SwimlaneComponent implements OnInit {
     this.swimlane.name = this.updateName;
     // this.board.swimlanes[this.swimlane.order] = this.swimlane;
     this.sls.updateSwimlane(this.swimlane).subscribe(sl => {
-      this.historyService.createHistory("User has changed a swimlan's name from " + oldName + " to " + sl.name).subscribe(hist => {
-        //push to history
+      this.historyService.createHistory(" has changed a swimlan's name from [" + oldName + "] to [" + sl.name + "]").subscribe(hist => {
+        this.board.history.unshift(hist);
       });
     });
   }
 
   moveLeft() {
-    console.log("MOVE LEFT");
     var ogOrder = this.swimlane.order;
     this.swimlane.order = ogOrder-1;
     this.sl2 = this.board.swimlanes[this.swimlane.order];
@@ -73,16 +72,15 @@ export class SwimlaneComponent implements OnInit {
     this.board.swimlanes[ogOrder] = this.sl2;
     this.board.swimlanes[ogOrder-1] = this.swimlane;
     this.sls.updateSwimlane(this.swimlane).subscribe(sl => {
-      this.historyService.createHistory("User has moved swimlane with the name " + sl.name + "to the left"
-      + " and " + this.sl2.name + " to the right").subscribe(hist => {
-        //push to history
+      this.historyService.createHistory(" has moved swimlane [" + sl.name + "] to the left "
+      + " and [" + this.sl2.name + "] to the right").subscribe(hist => {
+        this.board.history.unshift(hist);
       });
     });
     this.sls.updateSwimlane(this.sl2).subscribe();
   }
 
   moveRight() {
-    console.log("MOVE RIGHT");
     var ogOrder = this.swimlane.order;
     this.swimlane.order = ogOrder+1;
     this.sl2 = this.board.swimlanes[this.swimlane.order];
@@ -90,9 +88,9 @@ export class SwimlaneComponent implements OnInit {
     this.board.swimlanes[ogOrder] = this.sl2;
     this.board.swimlanes[ogOrder+1] = this.swimlane;
     this.sls.updateSwimlane(this.swimlane).subscribe(sl => {
-      this.historyService.createHistory("User has moved swimlane with the name " + sl.name + "to the right"
-      + " and " + this.sl2.name + " to the left").subscribe(hist => {
-        //push to history
+      this.historyService.createHistory(" has moved swimlane [" + sl.name + "] to the right "
+      + " and [" + this.sl2.name + "] to the left").subscribe(hist => {
+        this.board.history.unshift(hist);
       });
       
     });
@@ -112,8 +110,8 @@ export class SwimlaneComponent implements OnInit {
           this.sls.updateSwimlane(obj).subscribe();
         }
       });
-      this.historyService.createHistory(" has deleted swimlane " + sl.name).subscribe(hist => {
-        //push to history
+      this.historyService.createHistory(" has deleted swimlane [" + sl.name + "]").subscribe(hist => {
+        this.board.history.unshift(hist);
       });
     });
   }
@@ -135,8 +133,8 @@ export class SwimlaneComponent implements OnInit {
         tasks: [],
       };
 
-      this.historyService.createHistory(" has created a story with the name " + st.title).subscribe(hist => {
-        //push to history
+      this.historyService.createHistory(" has created a story with the name [" + st.title + "]").subscribe(hist => {
+        this.board.history.unshift(hist);
       })
     })
   }

@@ -40,14 +40,12 @@ public class AwTasksApplicationTests {
 	
 	@Test
 	public void getTask() {
-		System.out.println("In getTask: " + task);
 		task = ts.getTaskById(task.getId());
 		assertNotNull(task);
 	}
 	
 	@Test
 	public void getTasksById() {
-		System.out.println("In getTasks: " + task);
 		ArrayList<Task> tl1 = new ArrayList<>();
 		tl1.add(task);
 		ArrayList<Task> tl2 = (ArrayList<Task>) ts.getTasksByStoryId(999);
@@ -56,7 +54,6 @@ public class AwTasksApplicationTests {
 	
 	@Test
 	public void updateTask() {
-		System.out.println("In updateTask: " + task);
 		Task t = task;
 		t.setName("A different name");
 		task = ts.saveTask(t);
@@ -66,7 +63,6 @@ public class AwTasksApplicationTests {
 	
 	@Test
 	public void deleteTask() {
-		System.out.println("In deleteTask: " + task);
 		ts.deleteTask(task);
 		task = ts.getTaskById(task.getId());
 		assertNull(task);

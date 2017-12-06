@@ -14,7 +14,7 @@
 		<button class="btn btn-default" (click)="swimlaneModal.show()">
 			<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 		</button>
-		<button class="btn btn-danger" (click)="delete(swimlane)">
+		<button class="btn btn-danger" (click)="deleteSwimlaneModal.show()">
 			<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 		</button>
 	</div>
@@ -25,126 +25,84 @@
 		<button type="button" class="close" (click)="swimlaneModal.hide()" aria-label="Close">
       <span aria-hidden="true">&times;</span>
 		</button>
-		<h4 class="modal-title" id="myModalLabel">{{swimlane.name}}</h4>
+		<h4 class="modal-title" id="myModalLabel">Edit Swimlane "{{swimlane.name}}"</h4>
 	</div>
 	<div class="app-modal-body">
-		<input [(ngModel)]="updateName" id="swimlaneName" type="text" placeholder="{{swimlane.name}}"/>
-		<button class="button button-primary" (click)="updateSwimlane(updateName)">Save</button>
+		<div class="form-horizontal">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Name</label>
+				<div class="col-sm-10">
+					<input [(ngModel)]="updateName" type="text" class="form-control" placeholder="{{swimlane.name}}">
+				</div>
+			</div>
+		</div>
 	</div>
 	<div class="app-modal-footer">
+		<button class="btn btn-success" (click)="updateSwimlane(updateName); swimlaneModal.hide()">Submit</button>
+		<button type="button" class="btn btn-default" (click)="swimlaneModal.hide()">Close</button>
+	</div>
+</app-modal>
+	
+<table class="table">
+	<tr><th><h4>{{swimlane.name}}</h4></th></tr>
+	<tr *ngFor="let story of swimlane.stories">
+		<td><aw-story [story]="story" [swimlane]="swimlane" [board]="board"></aw-story></td>
+	</tr>
+</table>
 
+<!-- New Story button, with modal attachment -->
+<button class="btn btn-default btn-block" (click)="newStoryModal.show()">
+    Create New Story
+</button><br>
+
+<app-modal #newStoryModal>
+	<div class="app-modal-header">
+		<button type="button" class="close" (click)="newStoryModal.hide()" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<h4 class="modal-title" id="myModalLabel">New Story Details</h4>
+	</div>
+	<div class="app-modal-body" style="text-align:center">
+		<div class="form-horizontal">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Title</label>
+				<div class="col-sm-10">
+					<input [(ngModel)]="newStory.title" type="text" class="form-control">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Description</label>
+				<div class="col-sm-10">
+					<input [(ngModel)]="newStory.description" type="text" class="form-control">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"># of Point</label>
+				<div class="col-sm-4">
+					<input [(ngModel)]="newStory.points" type="number" class="form-control" min=1 max=10 >
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="app-modal-footer">
+		<button type="button" class="btn btn-success" (click)="createStory(newStory); newStoryModal.hide()">Create Story</button>
+		<button type="button" class="btn btn-danger" (click)="newStoryModal.hide()">Cancel</button>
 	</div>
 </app-modal>
 
-	<!-- <div class="modal fade"
-		data-ng-attr-id="{{ 'swimLane' + swimLane.id }}"
-		tabindex="-1" role="dialog" aria-labeledby="myModallabel">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-body">
-					{{swimLane.name}} <input data-ng-model="updatedName" type="text" /><br>
-					<button class="button button-primary" data-dismiss="modal"
-						data-ng-click="editSwimLane(updatedName)">Save</button>
-				</div>
-			</div>
-		</div>
-	</div> -->
-
-	
-	<table class="table">
-	  <tr><th><h4>{{swimlane.name}}</h4></th></tr>
-    <tr *ngFor="let story of swimlane.stories">
-      <td><aw-story [story]="story" [swimlane]="swimlane" [board]="board"></aw-story></td>
-    </tr>
-	</table>
-	<!-- stories -->
-
-	<!-- New Story button, with modal attachment -->
-	<button class="btn btn-default btn-block" (click)="newStoryModal.show()">
-    Create New Story
-  </button>
-	<br>
-
-	<app-modal #newStoryModal>
+<app-modal #deleteSwimlaneModal>
 		<div class="app-modal-header">
-			<button type="button" class="close" (click)="newStoryModal.hide()" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-			<h4 class="modal-title" id="myModalLabel">New Story Details</h4>
+			<button type="button" class="close"  (click)="deleteSwimlaneModal.hide()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title" id="myModalLabel">
+				Delete Swimlane "{{swimlane.name}}"
+			</h4>
+			
 		</div>
-		<div class="app-modal-body" style="text-align:center">
-			<input [(ngModel)]="newStory.title" type="text" placeholder="title"/> <br>
-			<input [(ngModel)]="newStory.description" type="text" placeholder="description"/> <br>
-			<input [(ngModel)]="newStory.points" id="points" type="number" class="form-control" min=1 max=10 style="width:20%; margin:auto" placeholder="points">
+		<div class="app-modal-body">
+			<span>Are you sure that you wish to delete "{{swimlane.name}}"?</span>
 		</div>
 		<div class="app-modal-footer">
-			<button type="button" class="btn btn-default" (click)="createStory(newStory)" data-dismiss="modal">Create Story</button>
+			  <button type="button" class="btn btn-danger" (click)="delete(swimlane); deleteSwimlaneModal.hide()">Delete</button>
+			  <button type="button" class="btn btn-default" (click)="deleteSwimlaneModal.hide()">Close</button>
 		</div>
 	</app-modal>
-	<!-- Modal -->
-	<!-- <div class="modal fade"
-		data-ng-attr-id="{{ 'newstory' + swimLane.id }}" tabindex="-1"
-		role="dialog" aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						data-ng-click="resetNewStory()" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h4 class="modal-title" id="myModalLabel">Create New Story</h4>
-				</div>
-				<div class="modal-body">
-					<form>
-						<div class="form-group">
-							<label for="title" class="col-sm-2 control-label">Title</label>
-							<div class="col-sm-10">
-								<input id="title" type="text" class="form-control"
-									data-ng-model="newStory.title">
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="u_name" class="col-sm-2 control-label">Points</label>
-							<div class="col-sm-10">
-								<input id="points" type="number" class="form-control" min=1
-									max=10 data-ng-model="newStory.points">
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="desc" class="col-sm-2 control-label">Description</label>
-							<div class="col-sm-10">
-								<textarea id="desc" class="form-control"
-									data-ng-model="newStory.description"></textarea>
-							</div>
-						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default"
-						data-ng-click="createStory()" data-dismiss="modal">Create
-						Story</button>
-				</div>
-			</div>
-		</div>
-	</div> -->
-	<!-- modal -->
-	
-	
-	<!-- Delete SwimLane Modal -->
-	<!-- <div class="modal fade" data-ng-attr-id="{{ 'deleteSwimLane' + swimLane.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-	  <div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title" id="myModalLabel">Delete SwimLane</h4>
-	      </div>
-	      <div class="modal-body">
-	      	<span>Are you sure that you wish to delete {{swimLane.name}}?</span>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-danger" data-ng-click="deleteSwimLane()" data-dismiss="modal">Delete</button>
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	      </div>
-	    </div>
-	  </div>
-	</div> -->

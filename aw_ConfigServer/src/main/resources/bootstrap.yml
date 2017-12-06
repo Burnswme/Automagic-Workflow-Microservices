@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: aw_ConfigServer
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/Burnswme/aw_configs
+server:
+  port: 9000

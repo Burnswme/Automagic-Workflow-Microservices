@@ -12,13 +12,15 @@ export class HistoryService {
     createHistory(action: string): Observable<AwHistory> {
         this.activity.boardId = parseInt(localStorage.getItem("currentBoardId"));
         this.activity.userId = parseInt(localStorage.getItem("currentUserId"));
-        this.activity.action = localStorage.getItem("userUsername") + action;
-        this.activity.timestamp = Date.now();
+
+        this.activity.action = localStorage.getItem("currentUserUsername") + action;
+        this.activity.timestamp = new Date();
+
         return this.backend.post("/aw_history/createHistory", this.activity);
     }
 
     getHistory(boardId: number): Observable<AwHistory[]> {
-        return this.backend.get("/getHistoryByBoardId/" + boardId);
+        return this.backend.get("/aw_history/getHistoryByBoardId/" + boardId);
     }
 
     

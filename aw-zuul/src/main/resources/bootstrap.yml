@@ -1,8 +1,8 @@
 #aw-zuul
 
-spring: 
+spring:
   application:
     name: aw-zuul
   cloud:
     config:
-      uri: ${SPRING_CONFIG_URI:http://18.217.188.44:9000}  
+      uri: ${SPRING_CONFIG_URI:http://localhost:9000}

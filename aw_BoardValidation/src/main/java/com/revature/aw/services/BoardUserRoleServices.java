@@ -1,6 +1,5 @@
 package com.revature.aw.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.aw.dao.Dao;
 import com.revature.aw.domain.BoardUserRole;
-import com.revature.aw.domain.CompositeKey;
 
 @Component("BoardUserRoleServices")
 @Transactional
@@ -39,7 +37,6 @@ public class BoardUserRoleServices
 		BoardUserRole bur = new BoardUserRole(0,0,0);
 		
 		bur = dao.findByUserIdAndBoardId(userId,boardId);
-		System.out.println(bur);
 		if(bur != null && bur.getRoleId() != 0)
 			canView = true;
 		return canView;
