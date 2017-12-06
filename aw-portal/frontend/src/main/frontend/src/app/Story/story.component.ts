@@ -23,9 +23,7 @@ export class StoryComponent implements OnInit {
   otherSwimlanes: AwSwimlane[];
   //variables used for updating
   //only ones that can be edited will be used(i.e. not all fields will be listed)
-  newTitle: string;
-  newDesc: string;
-  newPoints: number;
+  editor: AwStory;
   isCompleted: boolean;
 
   st2: AwStory; //story that is displaced(i.e. not the one being moved) when you move a story
@@ -44,9 +42,6 @@ export class StoryComponent implements OnInit {
       this.story.tasks = tasks;
     });
     //set them to the actual values by default so they'll show up with 'default' values in the edit screen
-    this.newTitle = this.story.title;
-    this.newDesc = this.story.description;
-    this.newPoints = this.story.points;
     if(this.story.timeCompleted != null) {
       this.isCompleted = true;
     }
@@ -55,31 +50,17 @@ export class StoryComponent implements OnInit {
     }
   }
 
-  updateStory() {
-    var oldTitle = this.story.title;
-    var oldDesc = this.story.description;
-    var oldPoints = this.story.points;
-    var oldStatus;
-    if(this.story.timeCompleted !== null) {
-      oldStatus = true;
-    } 
-    else {
-      oldStatus = false;
-    }
+  setEditor() {
+    this.editor = {...this.story};
+  }
 
-    this.story.title = this.newTitle;
-    this.story.description = this.newDesc;
-    this.story.points = this.newPoints;
-    if(this.isCompleted == true) {
-      this.story.timeCompleted = Date.now();
-    }
-    else {
-      this.story.timeCompleted = null;
-    }
-    this.sts.updateStory(this.story).subscribe(st => {
-      this.historyService.createHistory(" has updated a story from (" + oldTitle + ", " + oldDesc + ", " + oldPoints + ", " + oldStatus
-    + ") to (" + this.story.title + ", " + this.story.description + ", " + this.story.points + ", " + this.isCompleted + ")").subscribe(hist => {
+  updateStory() {
+    this.editor.timeCompleted = (this.isCompleted) ? Date.now() : null;
+    this.sts.updateStory(this.editor).subscribe(st => {
+      this.historyService.createHistory(" has updated a story from (" + this.story.title + ", " + this.story.description + ", " + this.story.points + ", " + (this.story.timeCompleted != null)
+    + ") to (" + this.editor.title + ", " + this.editor.description + ", " + this.editor.points + ", " + this.isCompleted + ")").subscribe(hist => {
         this.board.history.unshift(hist);
+        this.story = {...this.editor};
       });
     });
   }
