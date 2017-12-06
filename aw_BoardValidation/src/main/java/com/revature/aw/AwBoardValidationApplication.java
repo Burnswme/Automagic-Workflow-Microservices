@@ -25,7 +25,6 @@ public class AwBoardValidationApplication {
 	
 	@StreamListener(target=Sink.INPUT)
 	public void handleDelete(int boardId) {
-		System.out.println("id = " + boardId);
 		service.deleteByBoardId(boardId);
 	}
 }

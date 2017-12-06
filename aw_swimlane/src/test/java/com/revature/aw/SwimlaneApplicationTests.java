@@ -89,9 +89,6 @@ public class SwimlaneApplicationTests {
 		
 		//twice so it will create TWO
 		List<Swimlane> swimlanes = service.findSwimlanesByBoardId(testId);
-		for(Swimlane sl : swimlanes) {
-			System.out.println(sl);
-		}
 		assertEquals(2, swimlanes.size());
 	}
 }

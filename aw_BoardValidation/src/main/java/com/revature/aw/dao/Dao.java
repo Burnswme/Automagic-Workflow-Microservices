@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
 import com.revature.aw.domain.BoardUserRole;
-import com.revature.aw.domain.CompositeKey;
 
 public interface Dao extends CrudRepository<BoardUserRole,Integer>
 {

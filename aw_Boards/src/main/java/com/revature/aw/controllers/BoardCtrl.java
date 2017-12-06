@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.support.MessageBuilder;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.aw.domain.Board;
-
 import com.revature.aw.message.BoardSource;
 import com.revature.aw.services.BoardServices;
 
@@ -33,7 +31,6 @@ public class BoardCtrl {
 	@ResponseBody
 	public ResponseEntity<List<Board>> getBoards(@RequestBody int[] ids) {
 		List<Board> userBoards = services.getBoardsByBoardIds(ids);
-		System.out.println(userBoards);
 		return new ResponseEntity<>(userBoards, HttpStatus.OK);
 	}
 	

@@ -68,9 +68,7 @@ public class AwBoardsApplicationTests
 		//Create a new board to test against the database
 		Board test = new Board();
 		int id = bd2.getId();
-		System.out.println("Id number: " + id);
 		test = dao.findOne(id);
-		System.out.println("Test value: " + test);
 		assertEquals(bd.getName(), test.getName());
 	}
 	
@@ -103,7 +101,6 @@ public class AwBoardsApplicationTests
 		
 		ArrayList<Board> result = new ArrayList<>();
 		result = (ArrayList<Board>) service.getBoardsByBoardIds(boards);
-		System.out.println("List size:" + list.size() + " " + "Result size: " + result.size());
 		assertEquals(list.size(),result.size());
 	}
 	@Test
