@@ -63,7 +63,6 @@ public class StoryCtrl
 			return new ResponseEntity<>(st, HttpStatus.OK);
 		}
 		else {
-			System.out.println("Null Session -StoryCtrl -GET /createStory");
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 	}
@@ -77,7 +76,6 @@ public class StoryCtrl
 			return new ResponseEntity<>(st, HttpStatus.OK);
 		}
 		else {
-			System.out.println("Null Session -StoryCtrl -GET /createStory");
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 	}
@@ -94,7 +92,6 @@ public class StoryCtrl
 			return new ResponseEntity<>(true,HttpStatus.OK);
 		}
 		else {
-			System.out.println("Null Session -StoryCtrl -GET /deleteStory");
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 	}

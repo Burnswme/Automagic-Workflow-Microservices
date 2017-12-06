@@ -30,7 +30,6 @@ public class SwimlaneApplication {
 	
 	@StreamListener(target=Sink.INPUT)
 	public void handleDelete(int boardId) {
-		System.out.println("id = " + boardId);
 		for (Swimlane sl: service.removeByBoardId(boardId)) {
 			source.storyChannel().send(
 					MessageBuilder.withPayload(sl.getId()).build()

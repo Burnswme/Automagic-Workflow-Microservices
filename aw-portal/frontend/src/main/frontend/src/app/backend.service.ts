@@ -30,7 +30,7 @@ export class BackendService {
   creds: String;
   updatedUser: string;
 
-  authenticate(user: AwUser, callback) {
+  authenticate(user: AwUser) {
     this.url = this.zuul + "/users/auth/oauth/token";
     this.headers = new Headers({
       "Content-Type": "application/x-www-form-urlencoded",
@@ -44,7 +44,6 @@ export class BackendService {
       .retryWhen(attempts => attempts
         .mergeMap((error) => {
           if (error.status === 400) {
-            callback(error.error_description);
             return Observable.throw(error);
           } else return of(error);})
         .take(5))

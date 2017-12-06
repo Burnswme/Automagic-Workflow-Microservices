@@ -35,7 +35,6 @@ public class SwimlaneCtrl {
 			return (sl2 == null) ? new ResponseEntity<>(service.save(sl), HttpStatus.OK)
 					: new ResponseEntity<>(sl2, HttpStatus.OK);
 		}
-		System.out.println("CONFLICT?");
 		return new ResponseEntity<>(HttpStatus.CONFLICT);
 	}
 	
@@ -49,7 +48,6 @@ public class SwimlaneCtrl {
 				);
 			return new ResponseEntity<>(true, HttpStatus.OK);
 		} else if (service.findSwimlaneById(sl) == null) {
-			System.out.println("Not here, so good?");
 			return new ResponseEntity<>(true, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
