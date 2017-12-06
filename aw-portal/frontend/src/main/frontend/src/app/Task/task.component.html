@@ -49,11 +49,10 @@
 
 <app-modal #deleteTaskModal>
 		<div class="app-modal-header">
+			<button type="button" class="close"  (click)="deleteTaskModal.hide()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			<h4 class="modal-title" id="myModalLabel">
 				Delete Task "{{task.name}}"
 			</h4>
-			<button type="button" class="close"  (click)="deleteTaskModal.hide()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			
 		</div>
 		<div class="app-modal-body">
 			<span>Are you sure that you wish to delete "{{task.name}}"?</span>

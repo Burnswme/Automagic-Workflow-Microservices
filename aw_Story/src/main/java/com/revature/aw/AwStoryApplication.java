@@ -30,7 +30,6 @@ public class AwStoryApplication {
 	
 	@StreamListener(target=Sink.INPUT)
 	public void handleDelete(int swimlaneId) {
-		System.out.println("id = " + swimlaneId);
 		for (Story story: service.removeBySwimlaneId(swimlaneId)) {
 			source.taskChannel().send(
 					MessageBuilder.withPayload(story.getId()).build()

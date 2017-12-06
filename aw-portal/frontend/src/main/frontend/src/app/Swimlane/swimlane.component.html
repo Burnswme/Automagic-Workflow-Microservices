@@ -42,21 +42,6 @@
 		<button type="button" class="btn btn-default" (click)="swimlaneModal.hide()">Close</button>
 	</div>
 </app-modal>
-
-	<!-- <div class="modal fade"
-		data-ng-attr-id="{{ 'swimLane' + swimLane.id }}"
-		tabindex="-1" role="dialog" aria-labeledby="myModallabel">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-body">
-					{{swimLane.name}} <input data-ng-model="updatedName" type="text" /><br>
-					<button class="button button-primary" data-dismiss="modal"
-						data-ng-click="editSwimLane(updatedName)">Save</button>
-				</div>
-			</div>
-		</div>
-	</div> -->
-
 	
 <table class="table">
 	<tr><th><h4>{{swimlane.name}}</h4></th></tr>
@@ -64,9 +49,8 @@
 		<td><aw-story [story]="story" [swimlane]="swimlane" [board]="board"></aw-story></td>
 	</tr>
 </table>
-	<!-- stories -->
 
-	<!-- New Story button, with modal attachment -->
+<!-- New Story button, with modal attachment -->
 <button class="btn btn-default btn-block" (click)="newStoryModal.show()">
     Create New Story
 </button><br>
@@ -79,21 +63,39 @@
 		<h4 class="modal-title" id="myModalLabel">New Story Details</h4>
 	</div>
 	<div class="app-modal-body" style="text-align:center">
-		<input [(ngModel)]="newStory.title" type="text" placeholder="title"/> <br>
-		<input [(ngModel)]="newStory.description" type="text" placeholder="description"/> <br>
-		<input [(ngModel)]="newStory.points" id="points" type="number" class="form-control" min=1 max=10 style="width:20%; margin:auto" placeholder="points">
+		<div class="form-horizontal">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Title</label>
+				<div class="col-sm-10">
+					<input [(ngModel)]="newStory.title" type="text" class="form-control">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Description</label>
+				<div class="col-sm-10">
+					<input [(ngModel)]="newStory.description" type="text" class="form-control">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label"># of Point</label>
+				<div class="col-sm-4">
+					<input [(ngModel)]="newStory.points" type="number" class="form-control" min=1 max=10 >
+				</div>
+			</div>
+		</div>
 	</div>
 	<div class="app-modal-footer">
-		<button type="button" class="btn btn-default" (click)="createStory(newStory)" data-dismiss="modal">Create Story</button>
+		<button type="button" class="btn btn-success" (click)="createStory(newStory); newStoryModal.hide()">Create Story</button>
+		<button type="button" class="btn btn-danger" (click)="newStoryModal.hide()">Cancel</button>
 	</div>
 </app-modal>
 
 <app-modal #deleteSwimlaneModal>
 		<div class="app-modal-header">
+			<button type="button" class="close"  (click)="deleteSwimlaneModal.hide()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			<h4 class="modal-title" id="myModalLabel">
 				Delete Swimlane "{{swimlane.name}}"
 			</h4>
-			<button type="button" class="close"  (click)="deleteSwimlaneModal.hide()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			
 		</div>
 		<div class="app-modal-body">
