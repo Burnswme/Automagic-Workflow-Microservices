@@ -25,7 +25,6 @@ public class AwTasksApplication {
 	
 	@StreamListener(target=Sink.INPUT)
 	public void handleDelete(int storyId) {
-		System.out.println("id = " + storyId);
 		service.deleteByStoryId(storyId);
 	}
 }

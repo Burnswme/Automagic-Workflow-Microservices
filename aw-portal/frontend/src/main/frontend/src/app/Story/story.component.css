@@ -11,3 +11,8 @@
 .glyphicon {
     margin-left: -0.1em;
 }
+
+.table-condensed>tbody>tr>td {
+    border-top: 0px;
+    line-height: 0.5;
+}

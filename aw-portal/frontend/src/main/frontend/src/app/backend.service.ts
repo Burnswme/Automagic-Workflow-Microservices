@@ -41,7 +41,12 @@ export class BackendService {
     this.creds += '&username=' + user.username;
     this.creds += '&password=' + user.password;
     this.http.post(this.url, this.creds, this.options)
-      .retry(5)
+      .retryWhen(attempts => attempts
+        .mergeMap((error) => {
+          if (error.status === 400) {
+            return Observable.throw(error);
+          } else return of(error);})
+        .take(5))
       .map(res => res.json())
       .subscribe(response => {
         localStorage.setItem('currentUser',
@@ -53,8 +58,6 @@ export class BackendService {
 
         this.updateUserRef();
         this.router.navigateByUrl("/home");
-      }, (error) => {
-        console.log('error in', error);
       });
   }
 

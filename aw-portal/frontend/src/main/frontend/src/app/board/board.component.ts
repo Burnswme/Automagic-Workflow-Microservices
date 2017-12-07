@@ -51,7 +51,6 @@ export class BoardComponent implements OnInit{
             this.user = result;
             if (this.user.username != "") {
                 this.getBoard();
-                console.log("NO SWIMLANES?");
             }
             
         });
@@ -77,8 +76,6 @@ export class BoardComponent implements OnInit{
                     });
                     this.historyService.getHistory(this.board.id).subscribe((histList: AwHistory[]) => {
                         this.board.history = histList;
-                        console.log("HISTORY");
-                        console.log(this.board.history);
                     }); 
                 });
             } else {
@@ -112,11 +109,6 @@ export class BoardComponent implements OnInit{
 
     createSwimlane(sl: AwSwimlane) {
         sl.order = (this.board.swimlanes) ? this.board.swimlanes.length : 0;
-        console.log(sl);
-        console.log(sl.name);
-        console.log("THE BOARD: ");
-        
-        console.log(this.board);
         this.sls.createSwimlane(sl).subscribe((result: AwSwimlane) => {
             this.board.swimlanes.push(result);
             this.sl = {

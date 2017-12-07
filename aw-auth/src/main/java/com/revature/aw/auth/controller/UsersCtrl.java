@@ -1,17 +1,13 @@
 package com.revature.aw.auth.controller;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.revature.aw.auth.dao.BoardUserDao;
 import com.revature.aw.auth.domain.BoardUser;
 import com.revature.aw.auth.service.BoardUserService;
 
@@ -29,7 +25,6 @@ public class UsersCtrl {
 
 	@PostMapping(value = "/saveUser")
 	public ResponseEntity<BoardUser> saveUser(@RequestBody BoardUser user) {
-		System.out.println(user);
 		user = service.saveUser(user);
 		return (user != null) ? new ResponseEntity<>(user, HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.CONFLICT);
