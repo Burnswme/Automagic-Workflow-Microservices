@@ -26,10 +26,19 @@ public class BoardServices
 		return boards;
 	}
 	
+	/**
+	 * Service method that calls the Crud Repository to retrieve all boards.
+	 * @return A List of all boards in the database.
+	 */
 	public List<Board> getAllBoards() {
 		return dao.findAll();
 	}
 	
+	/**
+	 * Service method that calls the Crud Repository to retrieve a specific board by its id.
+	 * @param id The id of the board you want to retrieve.
+	 * @return A Board with the given id, or null if it doesn't exist.
+	 */
 	public Board getBoardByBoardId(int id)
 	{
 		Board board = new Board();
@@ -37,6 +46,11 @@ public class BoardServices
 		return board;
 	}
 	
+	/**
+	 * Service method that calls the Crud Repository to create/update a board.
+	 * @param board A board that is to be created/updated.
+	 * @return The Board that was created/updated.
+	 */
 	public Board updateBoard(Board board)
 	{
 		Board updatedBoard = new Board();
@@ -48,6 +62,11 @@ public class BoardServices
 		else
 			return null;
 	}
+	
+	/**
+	 * Service method that calls the Crud Repository to delete a board.
+	 * @param board A board that is to be deleted, should have a valid/existing id.
+	 */
 	public void deleteBoard(Board board)
 	{
 		dao.delete(board);
