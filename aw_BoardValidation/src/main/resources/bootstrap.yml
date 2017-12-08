@@ -1,0 +1,8 @@
+#aw_BoardValidation
+
+spring:
+  application:
+    name: aw_BoardValidation
+  cloud:
+    config:
+      uri:  ${SPRING_CONFIG_URI:http://localhost:9000} 
