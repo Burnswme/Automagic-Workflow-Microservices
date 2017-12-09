@@ -1,3 +1,4 @@
+import { AwLogin } from './../domain/aw-login';
 import { AwUser } from './../domain/aw-user';
 import { Http } from '@angular/http';
 import { BackendService } from './../backend.service';
@@ -11,28 +12,21 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  bu: AwUser;
-  newUser: AwUser = new AwUser("","");
+  user: AwLogin;
   errorMessage: string = "";
   submitted: boolean = false;
 
-
   constructor(private http: Http,
-    private router: Router,
-    private service: BackendService) { }
+              private router: Router,
+              private service: BackendService) { }
 
   ngOnInit() {
     localStorage.removeItem('currentUser');
-    this.bu = new AwUser("", "");
+    this.user = new AwLogin();
   }
 
-  login(bu: AwUser): void {
-    this.service.authenticate(bu);
+  login(user: AwLogin): void {
+    this.service.authenticate(user);
   }
-
-  // register(newUser: AwUser): void {
-  //   this.service.createUser(newUser);
-  //   this.newUser = new AwUser("", "");
-  // }
 
 }

@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
   constructor(private backend: BackendService) { }
 
   ngOnInit() {
-    this.user = new AwUser("", "");
+    this.user = new AwUser("");
     this.setAwUserListener();
   }
 

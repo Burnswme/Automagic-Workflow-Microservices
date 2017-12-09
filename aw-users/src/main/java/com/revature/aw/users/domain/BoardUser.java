@@ -1,4 +1,4 @@
-package com.revature.aw.auth.domain;
+package com.revature.aw.users.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,9 +22,6 @@ public class BoardUser {
 	@Column(name="BU_USERNAME")
 	private String username;
 	
-	@Column(name="BU_PASSWORD")
-	private String password;
-	
 	@Column(name="BU_FN")
 	private String firstName;
 	
@@ -43,7 +40,6 @@ public class BoardUser {
 	public BoardUser(BoardUser bu) {
 		this.id = bu.id;
 		this.username = bu.username;
-		this.password = bu.password;
 		this.firstName = bu.firstName;
 		this.lastName = bu.lastName;
 		this.email = bu.email;
@@ -64,14 +60,6 @@ public class BoardUser {
 
 	public void setUsername(String username) {
 		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public String getFirstName() {
@@ -110,10 +98,8 @@ public class BoardUser {
 
 	@Override
 	public String toString() {
-		return "BoardUser [id=" + id + ", username=" + username + ", password=" + password + ", firstName=" + firstName
+		return "BoardUser [id=" + id + ", username=" + username + ", firstName=" + firstName
 				+ ", lastName=" + lastName + ", email=" + email + ", isAdmin=" + isAdmin + "]";
 	}
 
-	
-	
 }
