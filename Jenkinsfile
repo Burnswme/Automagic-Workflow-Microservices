@@ -1,6 +1,5 @@
-node("docker") {
+pipeline {
     checkout scm
-    docker.withRegistry('burnswme', 'zdccmNvR4Lt') {
         stages {
           stage('Auth') {
               steps {
@@ -9,7 +8,6 @@ node("docker") {
                   sh 'docker build -t burnswme/auth .'
                   sh 'cd ..'
               }
-          }
+           }
         }
-    }
 }
