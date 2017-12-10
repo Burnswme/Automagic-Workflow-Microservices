@@ -1,10 +1,12 @@
 package com.revature.aw.controllers;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.support.MessageBuilder;
@@ -14,12 +16,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.revature.aw.domain.Board;
 import com.revature.aw.message.BoardSource;
 import com.revature.aw.services.BoardServices;
 
 @RestController
+@EnableCircuitBreaker
 public class BoardCtrl {
 	@Autowired
 	private BoardServices services;
@@ -117,6 +121,18 @@ public class BoardCtrl {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 		
+	}
+	
+	/**
+	 * Sample Endpoint to 'add' RestTemplate and Circuit Breaking to the project. Less efficient and doesn't make anything really better, but more a proof of concept than
+	 * anything.
+	 * @param boardId
+	 * @param req
+	 * @return
+	 */
+	@GetMapping("/getHistory/{boardId}")
+	public ResponseEntity<Object> getHistory(@PathVariable("boardId")int boardId, HttpServletRequest req) {
+		return new ResponseEntity<>(services.getHistory(boardId, req.getParameter("access_token")), HttpStatus.OK);
 	}
 	
 }

@@ -12,7 +12,11 @@ public class HistoryAspect {
 	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger("history-times");
 
 	
-	//REST Controller Advice
+	/**
+	 * An Advice to be injected Around any of the REST Endpoints. Logs time it takes to execute.
+	 * @param pjp A JoinPoint to access any needed variables at runtime.
+	 * @return
+	 */
 	@Around("execution(* com.revature.aw.controllers.HistoryController.*(..))")
 	public Object aroundCreate(ProceedingJoinPoint pjp) {
 		long before = System.currentTimeMillis();
@@ -33,7 +37,11 @@ public class HistoryAspect {
 		return ret;
 	}
 	
-	//Service class advice
+	/**
+	 * An Advice to be injected Around any of the Service methods. Logs time it takes to execute.
+	 * @param pjp A JoinPoint to access any needed variables at runtime.
+	 * @return
+	 */
 	@Around("execution(* com.revature.aw.service.HistoryService.*(..))")
 	public Object aroundServiceSave(ProceedingJoinPoint pjp) {
 		long before = System.currentTimeMillis();

@@ -1,12 +1,15 @@
 package com.revature.aw.services;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.revature.aw.dao.Dao;
 import com.revature.aw.domain.Board;
 
@@ -70,5 +73,28 @@ public class BoardServices
 	public void deleteBoard(Board board)
 	{
 		dao.delete(board);
+	}
+	
+	/**
+	 * A RestTemplate proof of concept for accessing a different microservice.
+	 * @param boardId
+	 * @param accessToken
+	 * @return
+	 */
+	@HystrixCommand(fallbackMethod = "defaultHistory")
+	public String getHistory(int boardId, String accessToken) {
+		RestTemplate restTemplate = new RestTemplate();
+		URI uri = URI.create("http://localhost:8004/getHistoryByBoardId/"+boardId + "?access_token=" + accessToken);
+		String test = restTemplate.getForObject(uri, String.class);
+		System.out.println(test);
+		return test;
+	}
+	
+	/**
+	 * Sample CircuitBreaker default history
+	 * @return
+	 */
+	public String defaultHistory() {
+		return "";
 	}
 }
