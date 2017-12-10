@@ -14,18 +14,18 @@ export class SwimlaneService {
   constructor(private http: HttpClient, private backend: BackendService) {}
 
   getSwimlanes(boardId: number): Observable<AwSwimlane[]> {
-    return this.backend.get<AwSwimlane[]>("/swimlane-service/getSwimlanesByBoardId/" + boardId);
+    return this.backend.get<AwSwimlane[]>("/swimlanes/getSwimlanesByBoardId/" + boardId);
   }
 
   createSwimlane(sl: AwSwimlane): Observable<AwSwimlane> {
-    return this.backend.post<AwSwimlane>("/swimlane-service/create", sl);
+    return this.backend.post<AwSwimlane>("/swimlanes/create", sl);
   }
   
   updateSwimlane(sl: AwSwimlane): Observable<AwSwimlane> {
-    return this.backend.post<AwSwimlane>("/swimlane-service/update", sl);
+    return this.backend.post<AwSwimlane>("/swimlanes/update", sl);
   }
     
   deleteSwimlane(sl: AwSwimlane): Observable<Boolean> {
-    return this.backend.post<Boolean>("/swimlane-service/delete", sl);
+    return this.backend.post<Boolean>("/swimlanes/delete", sl);
   }
 }

@@ -1,4 +1,4 @@
-package com.revature.aw.auth.controller;
+package com.revature.aw.users.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.revature.aw.auth.domain.BoardUser;
-import com.revature.aw.auth.service.BoardUserService;
+import com.revature.aw.users.domain.BoardUser;
+import com.revature.aw.users.service.BoardUserService;
 
 @RestController
 public class UsersCtrl {
