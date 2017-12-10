@@ -10,11 +10,8 @@ node {
     stage('Build image') {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
-        app.inside {
-            sh 'cd aw-auth'
-            sh 'ls'
-        }
-        app = docker.build("burnswme/auth")
+        
+        app = docker.build("burnswme/auth", "-f aw-auth/Dockerfile .")
     }
 
     stage('Test image') {
