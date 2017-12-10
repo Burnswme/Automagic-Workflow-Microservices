@@ -22,11 +22,15 @@ public class BoardUserService implements UserDetailsService {
 		optUser.orElseThrow(() -> new UsernameNotFoundException("Username not found"));
 		return optUser.get();
 	}
-	
+	/**
+	 * Service method used to save a new User.
+	 * @param user User to be saved.
+	 * @return BoardUser that was saved/updated.
+	 */
 	public BoardUser saveUser(BoardUser user) {
 		return dao.save(user);
 	}
-
+	
 	@Override
 	public BoardUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Optional<BoardUser> optUser = dao.findByUsername(username);
