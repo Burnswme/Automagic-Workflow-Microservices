@@ -1,8 +1,40 @@
 #aw-zuul
-
 spring:
   application:
     name: aw-zuul
-  cloud:
-    config:
-      uri: ${SPRING_CONFIG_URI:http://localhost:9000}
+
+server:
+  port: 8765
+  
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://${DOCKER_HOST_IP:localhost}:8761/eureka/
+  instance:
+    hostname: ${DOCKER_HOST_IP:localhost}
+    instance-id: ${spring.application.name}:${server.port}
+    preferIpAddress: false
+    
+zuul:
+  routes:
+    auth:
+      path: /auth/**
+      sensitiveHeaders:
+      serviceId: auth
+    users:
+      path: /users/**
+      sensitiveHeaders:
+      serviceId: users    
+    swimlanes:
+      path: /swimlanes/**
+      sensitiveHeaders:
+      serviceId: swimlane-service   
+
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false
