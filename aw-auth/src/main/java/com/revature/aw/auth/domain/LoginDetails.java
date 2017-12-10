@@ -8,10 +8,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class BoardUserDetails extends BoardUser implements UserDetails {
+public class LoginDetails extends Login implements UserDetails {
 	
-	public BoardUserDetails(final BoardUser bu) {
-		super(bu);
+	public LoginDetails(final Login lg) {
+		super(lg);
 	}
 	
 	@Override

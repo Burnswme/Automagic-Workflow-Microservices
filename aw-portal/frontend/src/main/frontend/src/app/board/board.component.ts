@@ -21,7 +21,7 @@ import { AwUser } from '../domain/aw-user';
 
 
 export class BoardComponent implements OnInit{
-    user: AwUser = new AwUser("", "");
+    user: AwUser = new AwUser("");
     board: AwBoard = new AwBoard();
     editor: AwBoard = new AwBoard();
     sl: AwSwimlane = new AwSwimlane();

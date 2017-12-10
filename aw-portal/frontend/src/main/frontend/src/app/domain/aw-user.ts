@@ -1,13 +1,11 @@
 export class AwUser {
     id: number;
-    email: string;
+    username: string;
     firstName: string;
     lastName: string;
-    username: string;
-    password: string;
+    email: string;
     admin: boolean;
-    constructor(usrn: string, pswd: string) { 
+    constructor(usrn: string) {
         this.username = usrn;
-        this.password = pswd;
     }
 }
