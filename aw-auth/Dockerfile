@@ -1,6 +1,6 @@
 FROM java:8
-WORKDIR /user
-ADD aw-auth-0.0.1-SNAPSHOT.jar user.jar
+WORKDIR /aw-auth
+ADD target/aw-auth-0.0.1-SNAPSHOT.jar auth.jar
 
-CMD ["java", "-jar", "./user.jar"]
+CMD ["java", "-jar", "./auth.jar"]
 EXPOSE 8007
