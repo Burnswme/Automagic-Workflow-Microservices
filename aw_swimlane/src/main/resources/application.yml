@@ -1,0 +1,8 @@
+#swimlane-service
+
+spring:
+  application:
+    name: swimlane-service
+  cloud:
+    config:
+      uri: ${SPRING_CONFIG_URI:http://localhost:9000}
