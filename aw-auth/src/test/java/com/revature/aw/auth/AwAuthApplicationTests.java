@@ -11,15 +11,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.revature.aw.auth.dao.BoardUserDao;
-import com.revature.aw.auth.domain.BoardUser;
+import com.revature.aw.auth.dao.LoginDao;
+import com.revature.aw.auth.domain.Login;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class AwAuthApplicationTests {
 	
 	@Autowired
-	private BoardUserDao dao;
+	private LoginDao dao;
 
 	@Test
 	public void contextLoads() {
@@ -27,21 +27,13 @@ public class AwAuthApplicationTests {
 	
 	@Test
 	public void getUserTest() {
-		Optional<BoardUser> optUser = dao.findByUsername("u");
+		Optional<Login> optUser = dao.findByUsername("u");
 		optUser.orElseThrow(() -> new UsernameNotFoundException("Username not found"));
-		BoardUser testUser = new BoardUser();
-		testUser.setId(10000);
+		Login testUser = new Login();
 		testUser.setUsername("u");
-		testUser.setPassword("p");
-		testUser.setFirstName("Test");
-		testUser.setLastName("Tester");
-		testUser.setEmail("u@p.net");
-		assertTrue(testUser.getId() == optUser.get().getId());
+		testUser.setPassword("cA==");
 		assertTrue(testUser.getUsername().equals(optUser.get().getUsername()));
 		assertTrue(testUser.getPassword().equals(optUser.get().getPassword()));
-		assertTrue(testUser.getFirstName().equals(optUser.get().getFirstName()));
-		assertTrue(testUser.getLastName().equals(optUser.get().getLastName()));
-		assertTrue(testUser.getEmail().equals(optUser.get().getEmail()));
 	}
 
 }

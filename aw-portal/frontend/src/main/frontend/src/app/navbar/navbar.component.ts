@@ -19,8 +19,8 @@ export class NavbarComponent implements OnInit {
 
   boards: AwBoard[] = [];
   newBoard: AwBoard = new AwBoard();
-  user: AwUser = new AwUser("", "");
-  newUser: AwUser = new AwUser("", "");
+  user: AwUser = new AwUser("");
+  newUser: AwUser = new AwUser("");
   loggedUser: BehaviorSubject<AwUserToken>;
 
   constructor(private backend: BackendService, 
@@ -88,7 +88,7 @@ export class NavbarComponent implements OnInit {
 
   register(): void {
     this.backend.createUser(this.newUser).subscribe(result => {
-      this.newUser = new AwUser("", "");
+      this.newUser = new AwUser("");
     })
   }
 
