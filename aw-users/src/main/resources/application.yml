@@ -2,8 +2,6 @@
 spring:
   application:
     name: users
-  mvc:
-    dispatchOptionsRequest: true
   datasource:
     tomcat:
       initial-size: 1
