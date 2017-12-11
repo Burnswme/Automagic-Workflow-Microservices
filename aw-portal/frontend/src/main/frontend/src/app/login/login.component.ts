@@ -39,11 +39,8 @@ export class LoginComponent implements OnInit {
     else if(!this.user.password) {
       this.errorMessage = "Password is required";
     }
-    else if(!localStorage.getItem('currentUser')) {
-      this.errorMessage = "Incorrect username and/or password";
-    }
     else {
-      this.errorMessage = "";
+      this.errorMessage = "Username or password is incorrect";
     }
   }
 

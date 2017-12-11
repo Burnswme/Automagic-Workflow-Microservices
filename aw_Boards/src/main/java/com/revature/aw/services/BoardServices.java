@@ -2,9 +2,16 @@ package com.revature.aw.services;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 
+import javax.json.Json;
+import javax.json.JsonValue;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -75,27 +82,43 @@ public class BoardServices
 		dao.delete(board);
 	}
 	
+//	@Bean
+//	public RestTemplate restTemplate(RestTemplateBuilder builder) {
+//		return builder.build();
+//	}
+	
 	/**
-	 * A RestTemplate proof of concept for accessing a different microservice.
+	 * A RestTemplate test for accessing a different microservice. Mostly for a proof of concept. Very roundabout way of accessing history when you can just directly
+	 * access the history microservice.
 	 * @param boardId
 	 * @param accessToken
 	 * @return
 	 */
 	@HystrixCommand(fallbackMethod = "defaultHistory")
-	public String getHistory(int boardId, String accessToken) {
+	public ResponseEntity<List> getHistory(int boardId, String accessToken) {
 		RestTemplate restTemplate = new RestTemplate();
-		URI uri = URI.create("http://localhost:8004/getHistoryByBoardId/"+boardId + "?access_token=" + accessToken);
-		String test = restTemplate.getForObject(uri, String.class);
-		System.out.println("REST TEMPLATE GET:");
-		System.out.println(test);
-		return test;
+		URI uri = URI.create("http://localhost:8004/getHistoryByBoardId/" + boardId + "?access_token=" + accessToken);
+		ResponseEntity<List> test3 = restTemplate.getForEntity(uri, List.class);
+		
+		return test3;
 	}
 	
 	/**
-	 * Sample CircuitBreaker default history
+	 * Sample CircuitBreaker default history that returns a default 'history' if the history microservice is down.
 	 * @return
 	 */
-	public String defaultHistory() {
-		return "";
+	public ResponseEntity<List> defaultHistory(int boardId, String accessToken) {
+		List defaultList = new ArrayList();
+		LinkedHashMap<String, Object> defaultHistory = new LinkedHashMap<>();
+		defaultHistory.put("id", (Integer)0);
+		defaultHistory.put("userId", (Integer)0);
+		defaultHistory.put("boardId", boardId);
+		defaultHistory.put("action","There is no history service available at the moment. No History will be recorded.");
+		defaultHistory.put("timestamp", null);
+		System.out.println(defaultHistory);
+		
+		defaultList.add(defaultHistory);
+		ResponseEntity<List> test = new ResponseEntity<>(defaultList, HttpStatus.OK);
+		return test;
 	}
 }

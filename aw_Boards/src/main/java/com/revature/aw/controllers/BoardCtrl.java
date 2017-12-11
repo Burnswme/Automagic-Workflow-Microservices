@@ -1,6 +1,6 @@
 package com.revature.aw.controllers;
 
-import java.net.URI;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import com.revature.aw.domain.Board;
+import com.revature.aw.domain.History;
 import com.revature.aw.message.BoardSource;
 import com.revature.aw.services.BoardServices;
 
@@ -131,11 +131,11 @@ public class BoardCtrl {
 	 * @return
 	 */
 	@GetMapping("/getHistory/{boardId}")
-	public ResponseEntity<Object> getHistory(@PathVariable("boardId")int boardId, HttpServletRequest req) {
-		String test = services.getHistory(boardId, req.getParameter("access_token"));
-		System.out.println("CONTROLLER HISTORY: ");
-		System.out.println(test);
-		return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<List> getHistory(@PathVariable("boardId")int boardId, HttpServletRequest req) {
+		String accessToken = req.getHeader("authorization");
+		accessToken = accessToken.substring(7);
+		ResponseEntity<List> test = services.getHistory(boardId, accessToken);
+		return test;
 	}
 	
 }
