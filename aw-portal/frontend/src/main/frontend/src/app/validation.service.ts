@@ -12,6 +12,7 @@ export class ValidationService {
   constructor(private backend: BackendService) {}
 
   getRoles(id: number): Observable<AwRole[]> {
+    console.log(localStorage.getItem('currentUser'));
     return this.backend.get<AwRole[]>("/aw_boardvalidation/getUserBoards/" + id);
   }
   

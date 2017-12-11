@@ -20,7 +20,7 @@ export class HistoryService {
     }
 
     getHistory(boardId: number): Observable<AwHistory[]> {
-        return this.backend.get("/aw_Boards/getHistory/" + boardId);
+        return this.backend.get("/aw_boards/getHistory/" + boardId);
     }
 
     

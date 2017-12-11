@@ -132,7 +132,10 @@ public class BoardCtrl {
 	 */
 	@GetMapping("/getHistory/{boardId}")
 	public ResponseEntity<Object> getHistory(@PathVariable("boardId")int boardId, HttpServletRequest req) {
-		return new ResponseEntity<>(services.getHistory(boardId, req.getParameter("access_token")), HttpStatus.OK);
+		String test = services.getHistory(boardId, req.getParameter("access_token"));
+		System.out.println("CONTROLLER HISTORY: ");
+		System.out.println(test);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 }

@@ -61,9 +61,10 @@ export class BackendService {
         this.router.navigateByUrl("/home");
       });
   }
-
+  //CURRENTLY ONLY ADDING ACCESS TOKEN TO URL BECAUSE HEADERS ARE CURRENTLY NOT WORKING FOR ME
+  //REMOVE ACCESS TOKEN PARAMETER WHEN IT WORKS WITH HEADERS
   get<T>(endpoint: string): Observable<T> {
-    this.url = this.zuul + endpoint;
+    this.url = this.zuul + endpoint + "?access_token="+JSON.parse(localStorage.getItem('currentUser')).token;
     this.headers = new Headers({ 
       "Content-Type": "application/json",
       "Authorization": "Bearer " + + JSON.parse(localStorage.getItem('currentUser')).token
@@ -80,7 +81,7 @@ export class BackendService {
   }
 
   post<T>(endpoint: string, body: Object): Observable<T> {
-    this.url = this.zuul + endpoint; 
+    this.url = this.zuul + endpoint + "?access_token="+JSON.parse(localStorage.getItem('currentUser')).token; 
       this.headers = new Headers({ 
         "Content-Type": "application/json",
         "Authorization": "Bearer " + JSON.parse(localStorage.getItem('currentUser')).token
@@ -112,7 +113,6 @@ export class BackendService {
   //       this.user.next(result);
   //     });
   // }
-
   setBoards(boards: AwBoard[]): void {
     this.boards.next(boards);
   }

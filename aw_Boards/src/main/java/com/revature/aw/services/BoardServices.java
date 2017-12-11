@@ -86,6 +86,7 @@ public class BoardServices
 		RestTemplate restTemplate = new RestTemplate();
 		URI uri = URI.create("http://localhost:8004/getHistoryByBoardId/"+boardId + "?access_token=" + accessToken);
 		String test = restTemplate.getForObject(uri, String.class);
+		System.out.println("REST TEMPLATE GET:");
 		System.out.println(test);
 		return test;
 	}
