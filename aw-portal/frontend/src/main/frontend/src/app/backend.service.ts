@@ -66,10 +66,10 @@ export class BackendService {
   get<T>(endpoint: string): Observable<T> {
     this.url = this.zuul + endpoint + "?access_token="+JSON.parse(localStorage.getItem('currentUser')).token;
     this.headers = new Headers({ 
-      "Content-Type": "application/json",
-      "Authorization": "Bearer " + + JSON.parse(localStorage.getItem('currentUser')).token
+      "Authorization": "Bearer " + JSON.parse(localStorage.getItem('currentUser')).token
     });
-    return this.http.get(this.url)
+    this.options = new RequestOptions({ headers: this.headers });
+    return this.http.get(this.url, this.options)
       .retryWhen(attempts => attempts
         .mergeMap((error) => {
           if (error.status === 401) {

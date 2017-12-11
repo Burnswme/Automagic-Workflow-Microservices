@@ -36,7 +36,7 @@ eureka:
     serviceUrl:
       defaultZone: http://${DOCKER_HOST_IP:localhost}:8761/eureka/
   instance:
-    hostname: ${DOCKER_HOST_IP:localhost}:${server.port}
+    hostname: ${DOCKER_HOST_IP:localhost}
     instance-id: ${spring.application.name}:${random.int}
 security:
   oauth2:

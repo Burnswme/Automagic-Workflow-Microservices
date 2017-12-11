@@ -19,6 +19,10 @@ eureka:
     
 zuul:
   routes:
+    eureka:
+      path: /eureka/**
+      sensitiveHeaders:
+      serviceId: aw-eureka
     auth:
       path: /auth/**
       sensitiveHeaders:
@@ -26,15 +30,31 @@ zuul:
     users:
       path: /users/**
       sensitiveHeaders:
-      serviceId: users    
-    swimlanes:
-      path: /swimlanes/**
-      sensitiveHeaders:
-      serviceId: swimlane-service   
+      serviceId: users
     validation:
       path: /aw_boardvalidation/**
       sensitiveHeaders:
       serviceId: aw_BoardValidation
+    boards:
+      path: /aw_boards/**
+      sensitiveHeaders:
+      serviceId: aw_Boards
+    swimlanes:
+      path: /swimlanes/**
+      sensitiveHeaders:
+      serviceId: swimlane-service
+    stories:
+      path: /aw_story/**
+      sensitiveHeaders:
+      serviceId: aw_Story
+    tasks:
+      path: /tasks/**
+      sensitiveHeaders:
+      serviceId: tasks
+    history:
+      path: /aw_history/**
+      sensitiveHeaders:
+      serviceId: aw_history
 
 hystrix:
   command:
