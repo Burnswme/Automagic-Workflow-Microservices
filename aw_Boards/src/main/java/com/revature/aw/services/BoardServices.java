@@ -2,12 +2,8 @@ package com.revature.aw.services;
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
-
-import javax.json.Json;
-import javax.json.JsonValue;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

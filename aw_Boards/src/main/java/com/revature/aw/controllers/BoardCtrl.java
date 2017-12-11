@@ -1,6 +1,5 @@
 package com.revature.aw.controllers;
 
-import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.aw.domain.Board;
-import com.revature.aw.domain.History;
 import com.revature.aw.message.BoardSource;
 import com.revature.aw.services.BoardServices;
 
