@@ -15,6 +15,7 @@ import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/retryWhen';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
+import { environment } from '../environments/environment';
 
 @Injectable()
 export class BackendService {
@@ -23,7 +24,9 @@ export class BackendService {
 
   constructor(private http: Http, private router: Router) {}
 
-  zuul: string = "http://localhost:8765";
+  zuulUri: string = "http://" + environment.host_ip + ":8765";
+  authPath: string = environment.authPath;
+  usersPath: string = environment.usersPath;
 
   url: string;
   headers: Headers;
@@ -32,7 +35,7 @@ export class BackendService {
   updatedUser: string;
 
   authenticate(user: AwLogin) {
-    this.url = this.zuul + "/auth/oauth/token";
+    this.url = this.zuulUri + this.authPath + "/oauth/token";
     this.headers = new Headers({
       "Content-Type": "application/x-www-form-urlencoded",
       "Authorization": "Basic " + Base64.encode('automagic:firaga')
@@ -63,7 +66,7 @@ export class BackendService {
   }
 
   get<T>(endpoint: string): Observable<T> {
-    this.url = this.zuul + endpoint;
+    this.url = this.zuulUri + endpoint;
     this.headers = new Headers({ 
       "Authorization": "Bearer " + JSON.parse(localStorage.getItem('currentUser')).token
     });
@@ -80,7 +83,7 @@ export class BackendService {
   }
 
   post<T>(endpoint: string, body: Object): Observable<T> {
-    this.url = this.zuul + endpoint; 
+    this.url = this.zuulUri + endpoint; 
       this.headers = new Headers({ 
         "Content-Type": "application/json",
         "Authorization": "Bearer " + JSON.parse(localStorage.getItem('currentUser')).token
@@ -99,19 +102,11 @@ export class BackendService {
 
   updateUserRef(): void {
     let body = new AwUser(JSON.parse(localStorage.getItem('currentUser')).userName);
-    this.post<AwUser>("/users/getUser", body)
+    this.post<AwUser>(this.usersPath + "/getUser", body)
       .subscribe(result => {
         this.user.next(result);
       });
   }
-
-  // updateBoardsRef(): void {
-  //   let body = new AwUser(JSON.parse(localStorage.getItem('currentUser')).userName, "");
-  //   this.post<AwUser>("/users/getUser", body)
-  //     .subscribe(result => {
-  //       this.user.next(result);
-  //     });
-  // }
 
   setBoards(boards: AwBoard[]): void {
     this.boards.next(boards);
@@ -128,6 +123,10 @@ export class BackendService {
   }
 
   createUser(user: AwUser): Observable<AwUser> {
-    return this.post<AwUser>("/users/saveUser", user);
+    return this.post<AwUser>(this.usersPath + "/saveUser", user);
+  }
+
+  createLogin(user: AwLogin): Observable<Boolean> {
+    return this.post<Boolean>(this.authPath + "/saveLogin", user);
   }
 }

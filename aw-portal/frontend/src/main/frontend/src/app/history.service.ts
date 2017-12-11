@@ -2,10 +2,12 @@ import { Injectable } from "@angular/core";
 import { AwHistory } from './domain/aw-history';
 import { Observable } from 'rxjs/Observable';
 import { BackendService } from './backend.service';
+import { environment } from "../environments/environment";
 
 
 @Injectable()
 export class HistoryService {
+    historyPath: string = environment.historyPath;
     activity: AwHistory = new AwHistory();
     constructor(private backend: BackendService) {}
 
@@ -16,11 +18,11 @@ export class HistoryService {
         this.activity.action = localStorage.getItem("currentUserUsername") + action;
         this.activity.timestamp = new Date();
 
-        return this.backend.post("/aw_history/createHistory", this.activity);
+        return this.backend.post(this.historyPath + "/createHistory", this.activity);
     }
 
     getHistory(boardId: number): Observable<AwHistory[]> {
-        return this.backend.get("/aw_history/getHistoryByBoardId/" + boardId);
+        return this.backend.get(this.historyPath + "/getHistoryByBoardId/" + boardId);
     }
 
     

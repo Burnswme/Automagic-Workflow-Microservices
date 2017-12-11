@@ -1,3 +1,4 @@
+import { AwLogin } from './../domain/aw-login';
 import { AwRole } from './../domain/aw-role';
 import { ValidationService } from './../validation.service';
 import { BoardService } from './../board/board.service';
@@ -21,6 +22,7 @@ export class NavbarComponent implements OnInit {
   newBoard: AwBoard = new AwBoard();
   user: AwUser = new AwUser("");
   newUser: AwUser = new AwUser("");
+  newLogin: AwLogin = new AwLogin();
   loggedUser: BehaviorSubject<AwUserToken>;
 
   constructor(private backend: BackendService, 
@@ -88,7 +90,11 @@ export class NavbarComponent implements OnInit {
 
   register(): void {
     this.backend.createUser(this.newUser).subscribe(result => {
-      this.newUser = new AwUser("");
+      this.newLogin.username = this.newUser.username;
+      this.backend.createLogin(this.newLogin).subscribe(result => {
+        this.newUser = new AwUser("");
+        this.newLogin = new AwLogin();
+      })
     })
   }
 
