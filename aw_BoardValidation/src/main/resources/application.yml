@@ -41,8 +41,7 @@ eureka:
 security:
   oauth2:
     resource:
-      accessTokenUri: http://${DOCKER_HOST_IP:localhost}:8765/users/auth/oauth/check_token
-      userAuthorizationUri: http://${DOCKER_HOST_IP:localhost}:8765/users/auth/oauth/authorize
-      userInfoUri: http://${DOCKER_HOST_IP:localhost}:8765/users/auth/user
+      accessTokenUri: http://${DOCKER_HOST_IP:localhost}:8765/auth/oauth/check_token
+      userAuthorizationUri: http://${DOCKER_HOST_IP:localhost}:8765/auth/oauth/authorize
       jwt:
-        keyUri: http://${DOCKER_HOST_IP:localhost}:8765/users/auth/oauth/token_key  
+        keyUri: http://${DOCKER_HOST_IP:localhost}:8765/auth/oauth/token_key  
