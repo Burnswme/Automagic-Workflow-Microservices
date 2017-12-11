@@ -132,6 +132,7 @@ public class BoardCtrl {
 	public ResponseEntity<List> getHistory(@PathVariable("boardId")int boardId, HttpServletRequest req) {
 		String accessToken = req.getHeader("authorization");
 		accessToken = accessToken.substring(7);
+		services = null;
 		ResponseEntity<List> test = services.getHistory(boardId, accessToken);
 		return test;
 	}

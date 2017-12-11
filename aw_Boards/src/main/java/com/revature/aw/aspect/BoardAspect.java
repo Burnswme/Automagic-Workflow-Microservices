@@ -13,7 +13,7 @@ import com.revature.aw.services.BoardServices;
 @Component("aspect")
 public class BoardAspect {
 	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger("board-times");
-	
+	private static final org.slf4j.Logger ERROR = LoggerFactory.getLogger("board-errors");
 	/**
 	 * An Advice to be injected Around any of the REST Endpoints. Logs time it takes to execute.
 	 * @param pjp A JoinPoint to access any needed variables at runtime.
@@ -28,7 +28,7 @@ public class BoardAspect {
 			ret = pjp.proceed();
 		} catch (Throwable e) {
 			logMsg += " threw error: " + e.toString();
-			LOGGER.error(logMsg);
+			ERROR.error(logMsg);
 			return ret;
 		}
 		long after = System.currentTimeMillis();
@@ -53,7 +53,7 @@ public class BoardAspect {
 			ret = pjp.proceed();
 		} catch(Throwable e) {
 			logMsg += " threw error: " + e.toString();
-			LOGGER.error(logMsg);
+			ERROR.error(logMsg);
 			return ret;
 		}
 		long after = System.currentTimeMillis();

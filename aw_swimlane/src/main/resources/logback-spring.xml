@@ -8,6 +8,13 @@
     </encoder>
   </appender>
 
+  <appender name="SWIMLANEERRORS" class="ch.qos.logback.core.FileAppender">
+    <file>./logs/swimlaneErrors.log</file>
+    <encoder>
+      <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+    </encoder>
+  </appender>
+
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
       <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
@@ -16,6 +23,10 @@
 
   <logger name="swimlane-times" level="INFO">
     <appender-ref ref="SWIMLANETIMES" />
+  </logger>
+
+  <logger name="swimlane-errors" level="INFO">
+    <appender-ref ref="SWIMLANEERRORS" />
   </logger>
 
   <root level="info">

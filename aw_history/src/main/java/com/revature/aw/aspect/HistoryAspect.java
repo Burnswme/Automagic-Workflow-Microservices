@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component("Aspect")
 public class HistoryAspect {
 	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger("history-times");
-
+	private static final org.slf4j.Logger ERROR = LoggerFactory.getLogger("history-errors");
 	
 	/**
 	 * An Advice to be injected Around any of the REST Endpoints. Logs time it takes to execute.
@@ -26,7 +26,7 @@ public class HistoryAspect {
 			ret = pjp.proceed();
 		} catch (Throwable e) {
 			logMsg += " threw error: " + e.toString();
-			LOGGER.error(logMsg);
+			ERROR.error(logMsg);
 			return ret;
 		}
 		long after = System.currentTimeMillis();
@@ -51,7 +51,7 @@ public class HistoryAspect {
 			ret = pjp.proceed();
 		} catch(Throwable e) {
 			logMsg += " threw error: " + e.toString();
-			LOGGER.error(logMsg);
+			ERROR.error(logMsg);
 			return ret;
 		}
 		long after = System.currentTimeMillis();

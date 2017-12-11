@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class StoryAspect {
 	
 	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger("story-times");
-	
+	private static final org.slf4j.Logger ERROR = LoggerFactory.getLogger("story-errors");
 	/**
 	 * An Advice to be injected Around any of the REST Endpoints. Logs time it takes to execute.
 	 * @param pjp A JoinPoint to access any needed variables at runtime.
@@ -26,7 +26,7 @@ public class StoryAspect {
 			ret = pjp.proceed();
 		} catch (Throwable e) {
 			logMsg += " threw error: " + e.toString();
-			LOGGER.error(logMsg);
+			ERROR.error(logMsg);
 			return ret;
 		}
 		long after = System.currentTimeMillis();
@@ -51,7 +51,7 @@ public class StoryAspect {
 			ret = pjp.proceed();
 		} catch(Throwable e) {
 			logMsg += " threw error: " + e.toString();
-			LOGGER.error(logMsg);
+			ERROR.error(logMsg);
 			return ret;
 		}
 		long after = System.currentTimeMillis();

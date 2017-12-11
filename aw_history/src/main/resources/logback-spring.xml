@@ -7,6 +7,13 @@
       <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
     </encoder>
   </appender>
+  
+  <appender name="HISTORYERRORS" class="ch.qos.logback.core.FileAppender">
+    <file>./logs/historyErrors.log</file>
+    <encoder>
+      <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+    </encoder>
+  </appender>
 
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
@@ -16,6 +23,10 @@
 
   <logger name="history-times" level="INFO">
     <appender-ref ref="HISTORYTIMES" />
+  </logger>
+  
+  <logger name="history-errors" level="INFO">
+    <appender-ref ref="HISTORYERRORS" />
   </logger>
 
   <root level="info">

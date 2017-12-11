@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @Component("aspect")
 public class TaskAspect {
 	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger("task-times");
+	private static final org.slf4j.Logger ERROR = LoggerFactory.getLogger("task-errors");
 	
 	/**
 	 * An Advice to be injected Around any of the REST Endpoints. Logs time it takes to execute.
@@ -25,7 +26,7 @@ public class TaskAspect {
 			ret = pjp.proceed();
 		} catch (Throwable e) {
 			logMsg += " threw error: " + e.toString();
-			LOGGER.error(logMsg);
+			ERROR.error(logMsg);
 			return ret;
 		}
 		long after = System.currentTimeMillis();
@@ -50,7 +51,7 @@ public class TaskAspect {
 			ret = pjp.proceed();
 		} catch(Throwable e) {
 			logMsg += " threw error: " + e.toString();
-			LOGGER.error(logMsg);
+			ERROR.error(logMsg);
 			return ret;
 		}
 		long after = System.currentTimeMillis();
