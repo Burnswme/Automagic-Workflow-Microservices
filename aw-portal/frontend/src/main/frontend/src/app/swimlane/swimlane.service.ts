@@ -18,7 +18,6 @@ export class SwimlaneService {
   }
 
   createSwimlane(sl: AwSwimlane): Observable<AwSwimlane> {
-    console.log(sl);
     return this.backend.post<AwSwimlane>("/swimlanes/create", sl);
   }
   

@@ -45,6 +45,5 @@ security:
     resource:
       accessTokenUri: http://${DOCKER_HOST_IP:localhost}:8765/auth/oauth/check_token
       userAuthorizationUri: http://${DOCKER_HOST_IP:localhost}:8765/auth/oauth/authorize
-      userInfoUri: http://${DOCKER_HOST_IP:localhost}:8765/auth/user
       jwt:
         keyUri: http://${DOCKER_HOST_IP:localhost}:8765/auth/oauth/token_key  
