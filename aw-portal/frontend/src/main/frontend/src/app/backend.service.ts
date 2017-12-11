@@ -48,8 +48,7 @@ export class BackendService {
             return Observable.throw(error);
           } else return of(error);})
         .take(5))
-      .map(res => res.json())
-      .subscribe(response => {
+      .map(res => res.json()).subscribe(response => {
         localStorage.setItem('currentUser',
           JSON.stringify({userName:user.username, token: response.access_token }));
 
@@ -59,11 +58,11 @@ export class BackendService {
 
         this.updateUserRef();
         this.router.navigateByUrl("/home");
-      });
+      });;
   }
-
+  
   get<T>(endpoint: string): Observable<T> {
-    this.url = this.zuul + endpoint;
+    this.url = this.zuul + endpoint; //+ "?access_token="+JSON.parse(localStorage.getItem('currentUser')).token;
     this.headers = new Headers({ 
       "Authorization": "Bearer " + JSON.parse(localStorage.getItem('currentUser')).token
     });
@@ -80,7 +79,7 @@ export class BackendService {
   }
 
   post<T>(endpoint: string, body: Object): Observable<T> {
-    this.url = this.zuul + endpoint; 
+    this.url = this.zuul + endpoint;// + "?access_token="+JSON.parse(localStorage.getItem('currentUser')).token; 
       this.headers = new Headers({ 
         "Content-Type": "application/json",
         "Authorization": "Bearer " + JSON.parse(localStorage.getItem('currentUser')).token
@@ -112,7 +111,6 @@ export class BackendService {
   //       this.user.next(result);
   //     });
   // }
-
   setBoards(boards: AwBoard[]): void {
     this.boards.next(boards);
   }

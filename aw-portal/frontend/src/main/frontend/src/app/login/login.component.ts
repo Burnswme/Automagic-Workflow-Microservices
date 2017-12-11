@@ -23,10 +23,27 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     localStorage.removeItem('currentUser');
     this.user = new AwLogin();
+    this.errorMessage = "";
   }
 
   login(user: AwLogin): void {
-    this.service.authenticate(user);
+    if(this.user.username && this.user.password) {
+      this.service.authenticate(user);
+    }
+    else if(!this.user.username && !this.user.password) {
+      this.errorMessage = "Username&Password is required";
+    }
+    else if(!this.user.username) {
+      this.errorMessage = "Username is required";
+    }
+    else if(!this.user.password) {
+      this.errorMessage = "Password is required";
+    }
+    else {
+      this.errorMessage = "Username or password is incorrect";
+    }
   }
+
+
 
 }
