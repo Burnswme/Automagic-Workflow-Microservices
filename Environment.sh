@@ -1,0 +1,13 @@
+echo 'export DOCKER_HOST_IP=18.220.95.96' >> /etc/environment
+echo 'export SPRING_CONFIG_URI=http://18.220.95.96:9000' >> /etc/environment
+echo 'export DATABASE_1=jdbc:oracle:thin:@meanbean.cz7bznkyn7di.us-east-2.rds.amazonaws.com:1521:ORCL' >> /etc/environment
+echo 'export USER_DATABASE_1=meanbean_user' >> /etc/environment
+echo 'export PW_DATABASE_1=p4ssw0rd' >> /etc/environment
+echo 'export DATABASE_2=jdbc:oracle:thin:@automagic.cf65nkvvhk0p.us-east-2.rds.amazonaws.com:1521/ORCL' >> /etc/environment
+echo 'export USER_DATABASE_2=automagic' >> /etc/environment
+echo 'export PW_DATABASE_2=password' >> /etc/environment
+echo 'export DATABASE_3=jdbc:oracle:thin:@macguffin.cfs7tvzcxdyw.us-east-2.rds.amazonaws.com:1521:ORCL' >> /etc/environment
+echo 'export USER_DATABASE_3=macguffin_user' >> /etc/environment
+echo 'export PW_DATABASE_3=p4ssw0rd' >> /etc/environment
+echo 'export REPO_URI=https://github.com/Burnswme/aw_configs' >> /etc/environment
+echo 'export PW_KEYSTORE=automagic' >> /etc/environment

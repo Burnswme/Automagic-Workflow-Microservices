@@ -62,10 +62,6 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-config</artifactId>
-		</dependency>
-		<dependency>
 		    <groupId>com.oracle</groupId>
 		    <artifactId>ojdbc7</artifactId>
 		    <version>12.1.0.1</version>
@@ -92,6 +88,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
 
 </project>

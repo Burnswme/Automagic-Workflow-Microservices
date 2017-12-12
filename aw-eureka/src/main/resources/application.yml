@@ -1,0 +1,16 @@
+#aw-eureka
+spring:
+  application:
+    name: aw-eureka
+
+server:
+  port: 8761
+
+eureka:
+  instance:
+    hostname: ${DOCKER_HOST_IP:localhost}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+  datacenter: Tampa
+  environment: Automagic

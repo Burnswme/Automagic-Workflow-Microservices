@@ -1,53 +1,63 @@
 package com.revature.aw.aspect;
 
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.revature.aw.domain.Story;
-import com.revature.aw.services.StoryServices;
 
 @Aspect
 @Component("aspect")
 public class StoryAspect {
 	
-	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(StoryAspect.class);
-	
-	@Autowired
-	private StoryServices service;
-	
-	
-	@AfterReturning("execution(* com.revature.aw.controllers.StoryCtrl.createStory(..))")
-	public void afterGoodCreate(JoinPoint jp) {
-		LOGGER.info("Good Create Story: " + (Story)jp.getArgs()[0]);
+	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger("story-times");
+	private static final org.slf4j.Logger ERROR = LoggerFactory.getLogger("story-errors");
+	/**
+	 * An Advice to be injected Around any of the REST Endpoints. Logs time it takes to execute.
+	 * @param pjp A JoinPoint to access any needed variables at runtime.
+	 * @return
+	 */
+	@Around("execution(* com.revature.aw.controllers.StoryCtrl.*(..))")
+	public Object aroundControllers(ProceedingJoinPoint pjp) {
+		long before = System.currentTimeMillis();
+		Object ret = null;
+		String logMsg = pjp.getTarget().getClass().getName() + "." + pjp.getSignature().getName();
+		try {
+			ret = pjp.proceed();
+		} catch (Throwable e) {
+			logMsg += " threw error: " + e.toString();
+			ERROR.error(logMsg);
+			return ret;
+		}
+		long after = System.currentTimeMillis();
+		long time = after - before;
+		logMsg += " took " + time + " ms long to execute.";
+		
+		LOGGER.info(logMsg);
+		return ret;
 	}
 	
-	@AfterThrowing("execution(* com.revature.aw.controllers.StoryCtrl.createStory(..))")
-	public void afterBadCreate(JoinPoint jp) {
-		LOGGER.info("Good Create Story: " + (Story)jp.getArgs()[0]);
-	}
-	
-	@AfterReturning("execution(* com.revature.aw.controllers.StoryCtrl.updateStory(..))")
-	public void afterGoodUpdate(JoinPoint jp) {
-		LOGGER.info("Good Update Story: " + (Story)jp.getArgs()[0]);
-	}
-	
-	@AfterThrowing("execution(* com.revature.aw.controllers.StoryCtrl.updateStory(..))")
-	public void afterBadUpdate(JoinPoint jp) {
-		LOGGER.info("Bad Update Story: " + (Story)jp.getArgs()[0]);
-	}
-	
-	@AfterReturning("execution(* com.revature.aw.controllers.StoryCtrl.deleteStory(..))")
-	public void afterGoodDelete(JoinPoint jp) {
-		LOGGER.info("Good Delete Story: " + (Story)jp.getArgs()[0]);
-	}
-	
-	@AfterThrowing("execution(* com.revature.aw.controllers.StoryCtrl.deleteStory(..))")
-	public void afterBadDelete(JoinPoint jp) {
-		LOGGER.info("Bad Delete Story: " + (Story)jp.getArgs()[0]);
+	/**
+	 * An Advice to be injected Around any of the Service methods. Logs time it takes to execute.
+	 * @param pjp A JoinPoint to access any needed variables at runtime.
+	 * @return
+	 */
+	@Around("execution(* com.revature.aw.services.StoryServices.*(..))")
+	public Object aroundServices(ProceedingJoinPoint pjp) {
+		long before = System.currentTimeMillis();
+		Object ret = null;
+		String logMsg = pjp.getTarget().getClass().getName() + "." + pjp.getSignature().getName();
+		try {
+			ret = pjp.proceed();
+		} catch(Throwable e) {
+			logMsg += " threw error: " + e.toString();
+			ERROR.error(logMsg);
+			return ret;
+		}
+		long after = System.currentTimeMillis();
+		long time = after - before;
+		logMsg += " took " + time + " ms long to execute.";
+		LOGGER.info(logMsg);
+		return ret;
 	}
 }

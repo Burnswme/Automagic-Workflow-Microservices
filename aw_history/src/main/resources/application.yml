@@ -1,0 +1,37 @@
+#aw_history
+server:
+  port: 8004
+spring:
+  application:
+    name: aw_history
+  datasource:
+    tomcat:
+      initial-size: 1
+    max-active: 3  
+    url: ${DATABASE_2:jdbc:oracle:thin:@automagic.cf65nkvvhk0p.us-east-2.rds.amazonaws.com:1521/ORCL}
+    username: ${USER_DATABASE_2:automagic}
+    password: ${PW_DATABASE_2:password}
+    driver-class-name: oracle.jdbc.OracleDriver 
+
+  jpa:
+    hibernate: 
+      ddl-auto: update
+    database: ORACLE
+    show-sql: false  
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true 
+    serviceUrl:
+      defaultZone: http://${DOCKER_HOST_IP:localhost}:8761/eureka/
+  instance:
+    hostname: ${DOCKER_HOST_IP:localhost}:${server.port}
+    instance-id: ${spring.application.name}:${random.int}      
+security:
+  oauth2:
+    resource:
+      accessTokenUri: http://${DOCKER_HOST_IP:localhost}:8765/auth/oauth/check_token
+      userAuthorizationUri: http://${DOCKER_HOST_IP:localhost}:8765/auth/oauth/authorize
+      userInfoUri: http://${DOCKER_HOST_IP:localhost}:8765/auth/user
+      jwt:
+        keyUri: http://${DOCKER_HOST_IP:localhost}:8765/auth/oauth/token_key 

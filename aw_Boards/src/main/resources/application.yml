@@ -1,0 +1,55 @@
+#aw_Boards
+  
+spring:
+  application:
+    name: aw_Boards
+    
+  rabbitmq:
+    host: ${DOCKER_HOST_IP:localhost}
+    password: guest
+    username: guest
+    port: 5672
+
+  cloud:
+    stream:
+      bindings:
+        BoardUserRole:
+          destination: bur-rabbit
+        Swimlane:
+          destination: swimlane-rabbit
+   
+  mvc:
+    dispatchOptionsRequest: true
+  datasource:
+    tomcat:
+      initial-size: 1
+    max-active: 3  
+    url: ${DATABASE_1:jdbc:oracle:thin:@meanbean.cz7bznkyn7di.us-east-2.rds.amazonaws.com:1521:ORCL}
+    username: ${USER_DATABASE_1:meanbean_user}
+    password: ${PW_DATABASE_1:p4ssw0rd}
+    driver-class-name: oracle.jdbc.OracleDriver
+    platform: oracle
+  jpa:
+    database: ORACLE
+    show-sql: false
+    
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://${DOCKER_HOST_IP:localhost}:8761/eureka/
+  instance:
+    hostname: ${DOCKER_HOST_IP:localhost}:${server.port}
+    instance-id: ${spring.application.name}:${random.int}
+
+security:
+  oauth2:
+    resource:
+      accessTokenUri: http://${DOCKER_HOST_IP:localhost}:8765/auth/oauth/check_token
+      userAuthorizationUri: http://${DOCKER_HOST_IP:localhost}:8765/auth/oauth/authorize
+      jwt:
+        keyUri: http://${DOCKER_HOST_IP:localhost}:8765/auth/oauth/token_key
+
+server:
+  port: 8002

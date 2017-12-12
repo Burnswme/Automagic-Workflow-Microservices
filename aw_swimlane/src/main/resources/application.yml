@@ -1,0 +1,51 @@
+#swimlane-service
+server:
+  port: 8005
+spring:
+  application:
+    name: swimlane-service
+    
+  rabbitmq:
+    host: ${DOCKER_HOST_IP:localhost}
+    password: guest
+    username: guest
+    port: 5672
+
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: swimlane-rabbit
+        Story:
+          destination: story-rabbit
+  
+  datasource:
+    tomcat:
+      initial-size: 1
+    max-active: 3  
+    url: ${DATABASE_3:jdbc:oracle:thin:@macguffin.cfs7tvzcxdyw.us-east-2.rds.amazonaws.com:1521:ORCL}
+    username: ${USER_DATABASE_3:macguffin_user}
+    password: ${PW_DATABASE_3:p4ssw0rd}
+    driver-class-name: oracle.jdbc.OracleDriver 
+
+  jpa:
+    hibernate: 
+      ddl-auto: update
+    database: ORACLE
+    show-sql: false
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true 
+    serviceUrl:
+      defaultZone: http://${DOCKER_HOST_IP:localhost}:8761/eureka/
+  instance:
+    hostname: ${DOCKER_HOST_IP:localhost}:${server.port}
+    instance-id: ${spring.application.name}:${random.int}      
+security:
+  oauth2:
+    resource:
+      accessTokenUri: http://${DOCKER_HOST_IP:localhost}:8765/auth/oauth/check_token
+      userAuthorizationUri: http://${DOCKER_HOST_IP:localhost}:8765/auth/oauth/authorize
+      jwt:
+        keyUri: http://${DOCKER_HOST_IP:localhost}:8765/auth/oauth/token_key  

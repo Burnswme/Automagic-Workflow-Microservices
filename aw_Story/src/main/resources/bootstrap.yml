@@ -1,6 +1,6 @@
 #aw_Story
 
-spring:
+spring: 
   application:
     name: aw_Story
   cloud:

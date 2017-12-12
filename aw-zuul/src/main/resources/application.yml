@@ -1,0 +1,64 @@
+#aw-zuul
+spring:
+  application:
+    name: aw-zuul
+
+server:
+  port: 8765
+  
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://${DOCKER_HOST_IP:localhost}:8761/eureka/
+  instance:
+    hostname: ${DOCKER_HOST_IP:localhost}
+    instance-id: ${spring.application.name}:${server.port}
+    preferIpAddress: false
+    
+zuul:
+  routes:
+    eureka:
+      path: /eureka/**
+      sensitiveHeaders:
+      serviceId: aw-eureka
+    auth:
+      path: /auth/**
+      sensitiveHeaders:
+      serviceId: auth
+    users:
+      path: /users/**
+      sensitiveHeaders:
+      serviceId: users
+    validation:
+      path: /aw_boardvalidation/**
+      sensitiveHeaders:
+      serviceId: aw_BoardValidation
+    boards:
+      path: /aw_boards/**
+      sensitiveHeaders:
+      serviceId: aw_Boards
+    swimlanes:
+      path: /swimlanes/**
+      sensitiveHeaders:
+      serviceId: swimlane-service
+    stories:
+      path: /aw_story/**
+      sensitiveHeaders:
+      serviceId: aw_Story
+    tasks:
+      path: /tasks/**
+      sensitiveHeaders:
+      serviceId: tasks
+    history:
+      path: /aw_history/**
+      sensitiveHeaders:
+      serviceId: aw_history
+
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false
