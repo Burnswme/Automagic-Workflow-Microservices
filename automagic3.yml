@@ -1,0 +1,64 @@
+version: '3'
+
+services:
+  validation:
+    image: burnswme/validation
+    environment:
+    - DOCKER_HOST_IP=${DOCKER_HOST_IP}
+    - SPRING_CONFIG_URI=${SPRING_CONFIG_URI}
+    - DATABASE_1=${DATABASE_1}
+    - USER_DATABASE_1=${USER_DATABASE_1}
+    - PW_DATABASE_1=${PW_DATABASE_1}
+    deploy:
+      replicas: 1
+    ports:
+      - 8001:8001
+    networks:
+      - automagic
+
+  boards:
+    image: burnswme/boards
+    environment:
+    - DOCKER_HOST_IP=${DOCKER_HOST_IP}
+    - SPRING_CONFIG_URI=${SPRING_CONFIG_URI}
+    - DATABASE_1=${DATABASE_1}
+    - USER_DATABASE_1=${USER_DATABASE_1}
+    - PW_DATABASE_1=${PW_DATABASE_1}
+    deploy:
+      replicas: 1
+    ports:
+      - 8002:8002
+    networks:
+      - automagic
+
+  users:
+    image: burnswme/users
+    environment:
+    - DOCKER_HOST_IP=${DOCKER_HOST_IP}
+    - SPRING_CONFIG_URI=${SPRING_CONFIG_URI}
+    - DATABASE_1=${DATABASE_1}
+    - USER_DATABASE_1=${USER_DATABASE_1}
+    - PW_DATABASE_1=${PW_DATABASE_1}
+    deploy:
+      replicas: 1
+    ports:
+      - 8008:8008
+    networks:
+      - automagic
+
+  portal:
+    image: burnswme/portal
+    deploy:
+      replicas: 1
+    ports:
+      - 80:80
+    networks:
+      - automagic               
+
+networks:
+  automagic:
+    external: true
+    
+
+
+   
