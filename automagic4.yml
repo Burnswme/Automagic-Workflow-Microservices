@@ -1,0 +1,70 @@
+version: '3'
+
+services:
+  stories:
+    image: burnswme/story 
+    environment:
+    - DOCKER_HOST_IP=${DOCKER_HOST_IP}
+    - SPRING_CONFIG_URI=${SPRING_CONFIG_URI}
+    - DATABASE_3=${DATABASE_3}
+    - USER_DATABASE_3=${USER_DATABASE_3}
+    - PW_DATABASE_3=${PW_DATABASE_3}
+    deploy:
+      replicas: 1
+    ports:
+      - 8003:8003
+    networks:
+      - automagic 
+
+  history:
+    image: burnswme/history 
+    environment:
+    - DOCKER_HOST_IP=${DOCKER_HOST_IP}
+    - SPRING_CONFIG_URI=${SPRING_CONFIG_URI}
+    - DATABASE_2=${DATABASE_2}
+    - USER_DATABASE_2=${USER_DATABASE_2}
+    - PW_DATABASE_2=${PW_DATABASE_2}
+    deploy:
+      replicas: 1
+    ports:
+      - 8004:8004
+    networks:
+      - automagic 
+
+  swimlanes:
+    image: burnswme/swimlane
+    environment:
+    - DOCKER_HOST_IP=${DOCKER_HOST_IP}
+    - SPRING_CONFIG_URI=${SPRING_CONFIG_URI}
+    - DATABASE_3=${DATABASE_3}
+    - USER_DATABASE_3=${USER_DATABASE_3}
+    - PW_DATABASE_3=${PW_DATABASE_3}
+    deploy:
+      replicas: 1
+    ports:
+      - 8005:8005
+    networks:
+      - automagic
+
+  tasks:
+    image: burnswme/tasks
+    environment:
+    - DOCKER_HOST_IP=${DOCKER_HOST_IP}
+    - SPRING_CONFIG_URI=${SPRING_CONFIG_URI}
+    - DATABASE_1=${DATABASE_1}
+    - USER_DATABASE_1=${USER_DATABASE_1}
+    - PW_DATABASE_1=${PW_DATABASE_1}
+    deploy:
+      replicas: 1
+    ports:
+      - 8006:8006
+    networks:
+      - automagic
+
+networks:
+  automagic:
+    external: true
+    
+
+
+   

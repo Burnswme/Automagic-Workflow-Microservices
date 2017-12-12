@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+  eureka:
+    image: burnswme/eureka
+    environment:
+    - DOCKER_HOST_IP=${DOCKER_HOST_IP}
+    - SPRING_CONFIG_URI=${SPRING_CONFIG_URI}
+    deploy:
+      replicas: 1
+    ports:
+      - 8761:8761
+    networks:
+      - automagic
+
+  zuul:
+    image: burnswme/zuul
+    environment:
+    - DOCKER_HOST_IP=${DOCKER_HOST_IP}
+    - SPRING_CONFIG_URI=${SPRING_CONFIG_URI}
+    deploy:
+      replicas: 1
+    ports:
+      - 8765:8765
+    networks:
+      - automagic
+
+  auth: 
+    image: burnswme/auth
+    environment:
+    - DOCKER_HOST_IP=${DOCKER_HOST_IP}
+    - SPRING_CONFIG_URI=${SPRING_CONFIG_URI}
+    - DATABASE_3=${DATABASE_3}
+    - USER_DATABASE_3=${USER_DATABASE_3}
+    - PW_DATABASE_3=${PW_DATABASE_3}
+    - PW_KEYSTORE=${PW_KEYSTORE}
+    deploy:
+      replicas: 1
+    ports:
+      - 8007:8007
+    networks:
+      - automagic
+
+  rabbitmq: 
+    image: rabbitmq:3
+    deploy:
+      replicas: 1
+    ports:
+      - 5672:5672
+    networks:
+      - automagic
+                                                
+networks:
+  automagic:
+    external: true
+    
+
+
+   
